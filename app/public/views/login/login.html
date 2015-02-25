@@ -1,0 +1,12 @@
+<div id="login">
+	<img src="img/logo.png">
+	<form ng-submit="sendForm()">
+		<fieldset>
+		<!-- 	<input autofocus ng-model="userData.firma" placeholder="Firma" value="{{userData.firma}}" type="text" required> -->
+			<input ng-model="userData.email" placeholder="Email" value="{{userData.email}}" type="text" required>
+			<input ng-model="userData.password" placeholder="Passwort" value="{{userData.password}}" type="password" required>
+			<p><a href="">Passwort vergessen? </a></p>
+			<input  type="submit" value="Login"></input>
+		</fieldset>
+	</form>
+</div>

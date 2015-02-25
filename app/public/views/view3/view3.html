@@ -1,0 +1,254 @@
+<div class="angebote">
+    <button ng-show="isSchwarzesBrett" ng-click="showForm()" class="brettbutton">Eigene Anzeige aufgeben</button>
+    <h1>Angebote {{heading}}</h1>
+    <div class="row">
+        <ul>
+            <li>
+                <div class="overview">
+                    <h2>Angebot 1</h2>    
+                    <p><span class="icon-calendar"></span> 19/12/2014</p>
+                    <p><span class="icon-heart"></span> 1.725</p>
+                </div>
+            </li>
+
+            <li>
+                <div class="overview">
+                    <h2>Angebot 2</h2>    
+                    <p><span class="icon-calendar"></span> 22/11/2014</p>
+                    <p><span class="icon-heart"></span> 5.345</p>
+                </div>
+            </li>
+
+            <li>
+                <div class="overview">
+                    <h2>Angebot 3</h2>    
+                    <p><span class="icon-calendar"></span> 03/05/2014</p>
+                    <p><span class="icon-heart"></span> 623</p>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<div class="angebot_loader">
+    <div class="icon-cross closeangebot"></div>
+    <!-- <div class="icon-resize-enlarge large active"></div>
+    <div class="icon-resize-shrink small"></div> -->
+    <div class="content active">
+        <div class="row">
+            <div class="column large-12 top_">
+                <img src="img/cat/1.jpg">
+                <h2>Angebot Beispiel</h2>
+                <p><span class="icon-calendar"></span> 19/12/2014</p>
+                <p><span class="icon-heart"></span> 1.725</p>
+                <p>Die Nutzung während der Arbeit ist <span class="erlaubt">{{enabled[0]}}</span>!</p>
+                <p>
+                    <input type="radio" name="b" ng-model="showOwnDate" value="1">&nbsp;&nbsp; Der Anbieter soll sich mit mir in Verbindung setzen<br>
+                    <input type="radio" name="b" ng-model="showOwnDate" value="0">&nbsp;&nbsp; Ich möchte selbst einen Terminvorschlag machen<br>
+
+                </p>
+
+                <button ng-click="sendRequest()">Buchen</button>
+                <div class="kostengesamt">
+                    <p>Arbeitgeberanteil: <strong>{{anteil}}%</strong></p>
+                    <p>Gesamtkosten: <strong>{{package_ - ((package_/100)*anteil) | currency : ""}} €</strong></p>
+                </div>
+            </div>
+
+
+            <div ng-show="showOwnDate == 0" class="column large-12">
+                <div class="eigenesDatum">
+                    <h1>Bitte Wählen sie ihren Wunschtermin aus</h1>
+                    <form class="simpleform">
+                        <input class="datepicker" placeholder="Datum">
+                        <input class="timepicker" placeholder="Uhrzeit">
+                    </form>
+                </div>    
+            </div>
+            
+
+            <div class="column large-12 description">
+                <ul class="switch_des">
+                    <li class="active" typ="besch">Beschreibung</li>
+                    <li typ="pers">Zur Person</li>
+                    <li typ="kos">Kosten / Pakete</li>
+
+                    <li typ="rez">Re­zen­si­onen</li>
+                    <li typ="bild">Bilder / Videos</li>
+                </ul>
+
+                <div class="content_ active" typ="besch">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </div>
+
+
+                <div class="content_" typ="pers" style="margin-top: 40px;">
+                    <img style="width:130px" class="floatleft" src="img/persona.gif">
+                    <p style="margin-top:0">Das vorliegende Bild zeigt den im südholländischen Leiden geborenen Maler Rembrand Harmenszoon van Rijn. Zum Zeitpunkt des Selbstportraits ist er ca. 54 Jahre alt.</p>
+
+                    <p>Sein allgemeines äußeres Erscheinungsbild wirkt leicht untersetzt. Bei einer ungefähren Größe von 1,75 m wiegt er zwischen 85-90 kg. Als Kleidung trägt er einen schwarzen Mantel, den er vorne geöffnet hat. Unter dem Mantel trägt Rembrandt ein rotes Unterhemd, dass am Saum mit einem weißen Stoff abschließt. In der rechten Hand trägt er eine braune Farbpalette mit einigen Holzpinseln.</p>
+
+                    <p>Das blasse Gesicht weißt eine eher rundlich bis ovale Form auf. Auf seinem Kopf trägt Rembrandt einen weißen, leicht zur rechten Seite geneigten, Künstlerhut. Der Hut verdeckt zu großen Teilen sein Haupthaar. Nur links und rechts kommt sein weißes, leicht gelocktes Haare hervor, dass sich um seine spitzgeformten Ohren legt. Durch die tief gezogenen Mundwinkel erscheint die Mimik gleichgültig bis genervt. Auf der vom Hut fast verdeckten Stirn lässt sich eine markante Falte feststellen.
+                    </p>
+                </div>
+
+                <div class="content_" typ="kos">
+                    <h1 style="text-align:center;">Bitte wählen sie ein Paket</h1>
+                    <div class="pricing-table group">
+                        <div class="block">
+                            <h2 class="title">Paket 1</h2>
+                            <div class="content__">
+                                <p class="price">
+                                    <sup>€</sup>
+                                    <span>29</span>
+                                </p>
+                                <ul>
+                                    <li>30 Minuten</li>
+                                    <li>Nacken + Kopf</li>
+                                    <li>Zusatz 1</li>
+                                </ul>
+                            </div>
+                            <input type="radio" name="p" ng-model="package_" value="29">
+                        </div>
+                        <div class="block">
+                            <h2 class="title">Paket 2</h2>
+                             <div class="content__">
+                                <p class="price">
+                                    <sup>€</sup>
+                                    <span>60</span>
+                                </p>
+                                <ul>
+                                    <li>90 Minuten</li>
+                                    <li>Oberkörper</li>
+                                    <li>Zusatz 2</li>
+                                </ul>
+                            </div>
+                            <input type="radio" name="p" ng-model="package_" value="60">
+                        </div>
+                        <div class="block">
+                            <h2 class="title">Paket 3</h2>
+                            <div class="content__">
+                                <p class="price">
+                                    <sup>€</sup>
+                                    <span>100</span>
+                                </p>
+                                <ul>
+                                    <li>120 Minuten</li>
+                                    <li>Ganzkörper</li>
+                                    <li>Zusatz 3</li>
+                                </ul>
+                            </div>
+                            <input type="radio" name="p" ng-model="package_" value="100">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="content_ rezesionen" typ="rez">
+                    <ul>
+                        <li>
+                            <p class="user"><span class="icon-user">&nbsp;</span> Oliver Bock</p>
+                            <p>Ich finde dieses Produkt spitzenklasse!!!</p>
+                        </li>
+
+                        <li>
+                            <p class="user"><span class="icon-user">&nbsp;</span> Patrick Fieger</p>
+                            <p>Ich auch!!!</p>
+                        </li>
+
+                        <li>
+                            <p class="user"><span class="icon-user">&nbsp;</span> Fr. Bock</p>
+                            <p>Und ich erst recht!!!</p>
+                        </li>
+
+                        <li>
+                            <p class="user"><span class="icon-user">&nbsp;</span> Fr. Fieger</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                        </li>
+                    </ul>
+
+                    <button>Re­zen­si­on Schreiben</button>
+                </div>
+
+                <div class="content_" typ="bild">
+                    <div class="fanywrapper">
+                        <a class="fancybox" rel="gallery1" href="img/spa/big/1.jpg">
+                            <img src="img/spa/small/1.jpg" alt="" />
+                        </a>
+                        <a class="fancybox" rel="gallery1" href="img/spa/big/2.jpg">
+                            <img src="img/spa/small/2.jpg" alt="" />
+                        </a>
+                        <a class="fancybox" rel="gallery1" href="img/spa/big/3.jpg">
+                            <img src="img/spa/small/3.jpg" alt="" />
+                        </a>
+                        <a class="fancybox" rel="gallery1" href="img/spa/big/4.jpg">
+                            <img src="img/spa/small/4.jpg" alt="" />
+                        </a>
+                        <a class="fancybox" rel="gallery1" href="img/spa/big/5.jpg">
+                            <img src="img/spa/small/5.jpg" alt="" />
+                        </a>
+                        <a class="fancybox" rel="gallery1" href="img/spa/big/6.jpg">
+                            <img src="img/spa/small/6.jpg" alt="" />
+                        </a>
+                        <a class="fancybox" rel="gallery1" href="img/spa/big/7.jpg">
+                            <img src="img/spa/small/7.jpg" alt="" />
+                        </a>
+                        <a class="fancybox" rel="gallery1" href="img/spa/big/8.jpg">
+                            <img src="img/spa/small/8.jpg" alt="" />
+                        </a>
+                        <a class="fancybox" rel="gallery1" href="img/spa/big/9.jpg">
+                            <img src="img/spa/small/9.jpg" alt="" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="meetingform">
+    <form class="simpleform" ng-submit="sendAnzeige()">
+        <input type="text" placeholder="Titel"/>     
+        <input type="text" ng-model="pricefromuser" ng-currency currency-symbol="€" />
+        <input multiple type="file"/>
+        <textarea require placeholder="Beschreibung"></textarea><br>
+        <button type="submit">Anzeige aufgeben</button>
+    </form>
+</div>
+
+
+
+
+
+
+
+
+
+
