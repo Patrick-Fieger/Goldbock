@@ -1,5 +1,7 @@
 passport = require('passport')
 , LocalStrategy = require('passport-local').Strategy
+, local = require('../config/passport')
+, email = require('./emailtemplates/sender')
 
 
 module.exports = function(app){
@@ -28,3 +30,7 @@ function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
   console.log('isnt auth')
 }
+
+
+var randomstring = require("randomstring");
+email.sendEmail({email: 'patrickfieger90@gmail.com',name: {  first: 'Hans',  last: 'Müller', password : randomstring.generate(7)}},'welcomeuser');

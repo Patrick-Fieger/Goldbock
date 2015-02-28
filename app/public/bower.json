@@ -1,9 +1,9 @@
 {
-  "name": "Steinbock",
-  "description": "Portal",
+  "name": "Goldbock-App",
   "version": "0.0.0",
-  "license": "MIT",
-  "private": true,
+  "description": "Goldbock-Platform-App",
+  "main": "index.html",
+  "author": "Patrick Fieger patrick.fieger@steinbock.info",
   "dependencies": {
     "angular": "1.3.x",
     "angular-route": "1.3.x",

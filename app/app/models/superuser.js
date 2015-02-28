@@ -19,14 +19,16 @@ superUserSchema.pre('save', function(next) {
     });
 });
 
+var SuperUser = mongoose.model('superadmins', superUserSchema);
+
+module.exports = SuperUser;
 
 // Seed a Superadmin
-// var User = mongoose.model('superadmins', userSchema);
-// var user = new User({email: 'admin@goldbock.de', password: '123'});
-// user.save(function(err) {
+// var superuser_ = new SuperUser({email: 'admin@goldbock.de', password: '123'});
+// superuser_.save(function(err) {
 //   if(err) {
 //     console.log(err);
 //   } else {
-//     console.log('user: ' + user.email + " saved.");
+//     console.log('user: ' + superuser_.email + " saved.");
 //   }
 // });
