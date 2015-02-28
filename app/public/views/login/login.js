@@ -17,8 +17,16 @@ angular.module('app.login', ['ngRoute','ngAnimate','app.userService'])
 	}
 
 	$scope.sendForm = function(){
-		//UserService.login($scope.userData);
-		$('#login,.spinner').addClass('active');
-		$location.path('/kategorien')
+		UserService.login($scope.userData).success(checklogin).error(faillogin);
+		// $('#login,.spinner').addClass('active');
 	}
+
+
+	function checklogin(data, status, headers, config) {
+        console.log('yaaay!');
+    }
+
+    function faillogin(data, status, headers, config) {
+    	console.log('nooooo!');
+    }
 }]);

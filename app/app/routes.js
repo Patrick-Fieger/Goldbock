@@ -1,18 +1,30 @@
-var Todo = require('./models/todo');
+passport = require('passport')
+, LocalStrategy = require('passport-local').Strategy
 
-function getTodos(res){
-	Todo.find(function(err, todos) {
 
-			// if there is an error retrieving, send the error. nothing after res.send(err) will execute
-			if (err)
-				res.send(err)
-
-			res.json(todos); // return all todos in JSON format
-		});
-};
-
-module.exports = function(app) {
-	app.post('/login', function(req, res) {
-		console.log(req.body)
+module.exports = function(app){
+	app.post('/login', function(req, res, next) {
+	  passport.authenticate('local', function(err, user, info) {
+	    if (err) { return next(err); }
+	    if (!user) { return res.status(401).end() }
+	    req.logIn(user, { session: true }, function (err) {
+	      if (err) { return next(err); }
+	      return res.status(200).end();
+	    });
+	  })(req, res, next);
 	});
-};
+
+	app.get('/authenticated',ensureAuthenticated, function(req, res){
+	  console.log('is auth!!!!!!!!')
+	})
+	
+	app.get('/logout', function(req, res){
+	  req.logout();
+	  res.redirect('/');
+	});
+}
+
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+  console.log('isnt auth')
+}
