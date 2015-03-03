@@ -1,30 +1,27 @@
 var mongoose = require('mongoose')
-, bcrypt = require('bcrypt')
-, SALT_WORK_FACTOR = 10;
+, salt = require('../../config/salt')
+, Login = require('./onlylogin')
 
 // User Schema
 var superUserSchema = mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true},
+  role: { type: String, required: true}
 });
 
 // Bcrypt middleware
-superUserSchema.pre('save', function(next) {
-    var user = this;
-    if(!user.isModified('password')) return next();
-    bcrypt.hash(user.password, SALT_WORK_FACTOR, function(err, hash) {
-        if(err) return next(err);
-        user.password = hash;
-        next();
-    });
-});
+superUserSchema.pre('save', salt.salt);
 
 var SuperUser = mongoose.model('superadmins', superUserSchema);
 
-module.exports = SuperUser;
+var data = {
+  email: 'admin@goldbock.de',
+  password: '123',
+  role:'admin'
+}
 
 // Seed a Superadmin
-// var superuser_ = new SuperUser({email: 'admin@goldbock.de', password: '123'});
+// var superuser_ = new SuperUser(data);
 // superuser_.save(function(err) {
 //   if(err) {
 //     console.log(err);
@@ -32,3 +29,16 @@ module.exports = SuperUser;
 //     console.log('user: ' + superuser_.email + " saved.");
 //   }
 // });
+
+
+// var login_ = new Login(data);
+// login_.save(function(err) {
+//   if(err) {
+//     console.log(err);
+//   } else {
+//     console.log('loginuser: ' + login_.email + " saved.");
+//   }
+// });
+
+
+module.exports = SuperUser;

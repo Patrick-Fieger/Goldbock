@@ -1,4 +1,3 @@
-var url = '/';
 angular.module('app.userService', [])
 
 /**
@@ -7,10 +6,10 @@ angular.module('app.userService', [])
  */
 .service('UserService', function($http){
 	var login = function(data){
-		return $http.post(url + 'login', data)
+		return $http.post('/login', data)
 	};
 	var register = function(data){
-		return $http.post(url + 'create', data)
+		return $http.post('/create', data)
 	};
 	var logout = function(user){
 
