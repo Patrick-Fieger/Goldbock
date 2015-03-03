@@ -20,12 +20,11 @@ angular.module('app.login', ['ngRoute','ngAnimate','app.userService'])
 		UserService.login($scope.userData).success(checklogin).error(faillogin);
 	}
 
-
 	function checklogin(data, status, headers, config) {
-        $location.path(data);
-    }
+    $location.path(data);
+  }
 
-    function faillogin(data, status, headers, config) {
-    	console.log('nooooo!');
-    }
+  function faillogin(data, status, headers, config) {
+  	console.log(status)
+  }
 }]);

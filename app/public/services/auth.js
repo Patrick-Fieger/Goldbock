@@ -1,13 +1,13 @@
 angular.module('app.authService', [])
 .service('AuthService', function($http,$location){
-	var checkAuth = function(){
-		$http.get('/authenticated',{params: { path: $location.path()}}).error(function(){
-			$location.path('/');
-		});
-
+	var isAuth = function(){
+		$http.get('/authenticated',{params: { path: $location.path()}})
+    	.error(function (data, status, headers, config) {
+    		$location.path('/');
+    	});	
 	}
 
-	return{
-		checkAuth : checkAuth
+	return {
+		isAuth : isAuth
 	}
 });

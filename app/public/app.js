@@ -16,11 +16,15 @@ angular.module('myApp', [
 config(['$locationProvider','$routeProvider','$animateProvider', function($locationProvider,$routeProvider,$animateProvider) {
   $routeProvider.otherwise({redirectTo: '/'});
 }])
-.run(function($rootScope,$http) {
+.run(function($rootScope,$http,AuthService) {
     $rootScope.$on('$routeChangeSuccess', function(ev, to, toParams, from, fromParams) {
         $('body').scrollTop(0);
         $('.spinner').removeClass('active');
+        if(to.$$route.originalPath !== '/'){
+            AuthService.isAuth();
+        }
     });
+
     var u = '#/angebote/'
 
     $rootScope.kat = [{
