@@ -12,8 +12,8 @@ angular.module('app.login', ['ngRoute','ngAnimate','app.userService'])
 
 .controller('LoginCtrl', ['$scope','$location','$timeout','UserService',function($scope,$location,$timeout,UserService) {
 	$scope.userData = {
-		"email":"",
-		"password":""
+		"email":"admin@goldbock.de",
+		"password":"123"
 	}
 
 	$scope.sendForm = function(){

@@ -13,8 +13,10 @@
   <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="bower_components/html5-boilerplate/css/normalize.css">
   <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">
-  <link rel="stylesheet" href="fonts.css">
-  <link rel="stylesheet" href="app.css">
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/flat.css">
+  <link rel="stylesheet" href="css/admin.css">
 
   <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
 </head>
@@ -26,9 +28,9 @@
   <div class="noti">
     <p>Die Buchung ist in Bearbeitung.</p>
   </div>
-
-  <div ng-view></div>
-
+  <div class="container">
+    <div ng-view></div>
+  </div>
   <div class="spinner">
     <div class="bounce1"></div>
     <div class="bounce2"></div>
@@ -55,6 +57,7 @@
   <!-- VIEWS CONTROLLER -->
   <script src="views/login/login.js"></script>
   <script src="views/admin/admin.js"></script>
+  <script src="views/admin_create_provider/admin_create_provider.js"></script>
   <script src="views/view2/view2.js"></script>
   <script src="views/view3/view3.js"></script>
   <!-- SERVICES -->

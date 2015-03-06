@@ -1,0 +1,16 @@
+.button_wrapper{
+	width: 400px;
+	height: 316px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -158px 0 0 -200px;
+}
+
+.button_wrapper .btn{
+	margin-bottom: 10px;
+}
+
+.button_wrapper .btn:last-child{
+	margin-bottom: 0;
+}

@@ -5,13 +5,14 @@ angular.module('myApp', [
   'ngRoute',
   'ngAnimate',
   'app.login',
-  'app.userService',
-  'app.authService',
+  'app.admin',
+  'app.admin_provider',
   'myApp.view2',
   'myApp.view3',
+  'app.userService',
+  'app.authService',
   'ngSanitize',
-  'ng-currency',
-  'app.admin'
+  'ng-currency'
 ]).
 config(['$locationProvider','$routeProvider','$animateProvider', function($locationProvider,$routeProvider,$animateProvider) {
   $routeProvider.otherwise({redirectTo: '/'});
