@@ -11,6 +11,7 @@ angular.module('myApp', [
   'myApp.view3',
   'app.userService',
   'app.authService',
+  'app.providerService',
   'ngSanitize',
   'ng-currency'
 ]).

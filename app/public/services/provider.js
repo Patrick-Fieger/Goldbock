@@ -1,8 +1,9 @@
-angular.module('app.userService', [])
-.service('UserService', function($http){
+angular.module('app.providerService', [])
+.service('ProviderService', function($http){
 	var register = function(data){
-		return $http.post('/create', data)
+		return $http.post('/createprovider', data)
 	};
+
 	var updatePassword = function(oldpassword, newpassword){
 
 	};

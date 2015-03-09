@@ -67,7 +67,7 @@ var isAuthenticatedToSeeContent = function (req, res, next) {
 }
 
 var isAuthenticatedToMakeRequest = function (req, res, next) {
-  if (req.isAuthenticated() && allowedrequest[req.route.path].indexOf(req.query.path) > -1)
+  if (req.isAuthenticated() && allowedrequest[req.user.role].indexOf(req._parsedOriginalUrl.path) > -1)
     return next();
   else
     res.status(401).end();

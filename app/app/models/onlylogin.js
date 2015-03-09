@@ -11,3 +11,11 @@ var LoginSchema = mongoose.Schema({
 LoginSchema.pre('save', salt.salt);
 var Login = mongoose.model('Login', LoginSchema);
 module.exports = Login;
+
+
+// SuperuserLogin
+// var data = {
+//   email: 'admin@goldbock.de',
+//   password: '123',
+//   role:'admin'
+// }

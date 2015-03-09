@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app.login', ['ngRoute','ngAnimate','app.userService'])
+angular.module('app.login', ['ngRoute','ngAnimate'])
 
 .config(['$routeProvider','$animateProvider', function($routeProvider,$animateProvider) {
   $routeProvider.when('/', {
@@ -10,14 +10,14 @@ angular.module('app.login', ['ngRoute','ngAnimate','app.userService'])
 
 }])
 
-.controller('LoginCtrl', ['$scope','$location','$timeout','UserService',function($scope,$location,$timeout,UserService) {
+.controller('LoginCtrl', ['$scope','$location','$timeout','AuthService',function($scope,$location,$timeout,AuthService) {
 	$scope.userData = {
 		"email":"admin@goldbock.de",
 		"password":"123"
 	}
 
-	$scope.sendForm = function(){
-		UserService.login($scope.userData).success(checklogin).error(faillogin);
+	$scope.sendLogin = function(){
+		AuthService.login($scope.userData).success(checklogin).error(faillogin);
 	}
 
 	function checklogin(data, status, headers, config) {

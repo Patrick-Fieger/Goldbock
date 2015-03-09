@@ -7,7 +7,17 @@ angular.module('app.authService', [])
     	});	
 	}
 
+	var login = function(data){
+		return $http.post('/login', data)
+	};
+
+	var logout = function(user){
+
+	};
+
 	return {
+		login : login,
+		logout : logout,
 		isAuth : isAuth
 	}
 });
