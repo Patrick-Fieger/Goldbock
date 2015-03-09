@@ -7,6 +7,7 @@ angular.module('myApp', [
   'app.login',
   'app.admin',
   'app.admin_provider',
+  'app.provider',
   'myApp.view2',
   'myApp.view3',
   'app.userService',

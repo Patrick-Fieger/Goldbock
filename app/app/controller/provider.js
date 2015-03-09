@@ -9,7 +9,7 @@ function create(req, res, next){
 	var provider_ = req.body;
 	var randomPassword = random.generate(7);
 	provider_.role = "provider";
-	provider_.password = randomPassword;
+	//provider_.password = randomPassword;
     
     var loginData = {
     	email : provider_.email,
@@ -27,24 +27,22 @@ function create(req, res, next){
 	}
 
 	var provider = new Provider(provider_);
+	var login_ = new Login(loginData);
 	provider.save(function(err) {
 	  if(err) {
-	    console.log(err);
+	    res.status(500).end();
 	  } else {
-	  	email.sendEmail(emailData,'welcomeuser')
+	  	login_.save(function(err) {
+		  if(err) {
+		    res.status(500).end();
+		  } else {
+		  	email.sendEmail(emailData,'welcomeuser')
+		    console.log('loginuser: ' + login_.email + " saved.");
+		  }
+		});
 	    console.log('user: ' + provider.email + " saved.");
 	  }
 	});
-
-
-	// var login_ = new Login(loginData);
-	// login_.save(function(err) {
-	//   if(err) {
-	//     console.log(err);
-	//   } else {
-	//     console.log('loginuser: ' + login_.email + " saved.");
-	//   }
-	// });
 }
 
 

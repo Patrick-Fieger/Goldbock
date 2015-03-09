@@ -4,8 +4,14 @@ var salt = require('../../config/salt')
 // User Schema
 var ProviderSchema = mongoose.Schema({
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true},
-  role: { type: String, required: true}
+  role: { type: String, required: true},
+  company : { type: String, required: true},
+  lastname : { type: String, required: true},
+  firstname : { type: String, required: true},
+  street : { type: String, required: true},
+  city : { type: String, required: true},
+  zip : { type: Number, required: true},
+  tel : { type: String, required: true}
 });
 
 ProviderSchema.pre('save', salt.salt);
