@@ -1,3 +1,4 @@
 /app/node_modules/
-/public/bower_components/
+/app/public/bower_components/
+/app/public/uploads/
 npm-debug.log

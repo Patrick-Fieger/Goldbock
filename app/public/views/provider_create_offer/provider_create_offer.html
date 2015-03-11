@@ -1,0 +1,24 @@
+<!-- <file-upload class="btn btn-success btn-rad btn-trans file-upload" name="userFile" multiple="true" uri="/provider/upload/offer/images" accept="image/*">
+    <i class="fa fa-upload"></i>
+    <span>Upload Files</span>
+    <ul>
+        <li ng-repeat="p in __userFiles" ng-hide="p.percent == 100">
+            <small>{{p.name}}</small>
+            <div class="progress">
+                <div class="progress-bar" style="width: {{ p.percent }}%;"></div>
+            </div>
+        </li>
+    </ul>
+</file-upload> -->
+
+
+<div class="bigform">
+    <h1 class="tac mb30">Angebot anlegen</h1>
+    <form ng-submit="uploadForm();watchProgress();" class="form-group">
+        <input class="form-control mb10" id="images" placeholder="Bilder auswählen" multiple="true" type="file" required accept="image/*">
+
+        <input class="form-control mb10" id="video" placeholder="Video auswählen" type="file" required accept="video/mp4">
+
+        <input class="btn btn-primary" type="submit" value="Benutzer anlegen"></input>
+    </form>
+</div>

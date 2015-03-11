@@ -10,8 +10,10 @@ angular.module('myApp', [
   'app.provider',
   'myApp.view2',
   'myApp.view3',
+  'app.provider_create_offer',
   'app.userService',
   'app.authService',
+  'app.uploadService',
   'app.providerService',
   'ngSanitize',
   'ng-currency'

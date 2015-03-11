@@ -1,6 +1,6 @@
 module.exports = {
 	admin: ['/admin','/admin/create/provider'],
-	provider: ['/provider'],
-	company: [''],
+	provider: ['/provider','/provider/create/offer'],
+	company: [],
 	user: []
 }
