@@ -186,7 +186,7 @@ fieldset[disabled] .btn-info.active {
   background-color: #fff;
   }
 .btn-danger {
-  color: #fff;
+  color: #fff !important;
   background-color: #e74c3c;
   }
 .btn-danger:hover,

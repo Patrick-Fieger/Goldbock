@@ -14,6 +14,7 @@
     "express-session": "^1.10.3",
     "formidable": "^1.0.17",
     "fs-extra": "^0.16.5",
+    "gm": "^1.17.0",
     "is_js": "^0.7.1",
     "mongoose": "~3.8.13",
     "morgan": "~1.1.1",

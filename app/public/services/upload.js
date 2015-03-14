@@ -27,9 +27,24 @@ angular.module('app.uploadService', [])
 		return $http.get('/upload/progress')
 	}
 
+	var avatar = function(file){
+		return singleFileUpload(file,'/update/avatar')
+	}
+
+	function singleFileUpload(file,path){
+		var formData = new FormData();
+		formData.append('files', file);
+
+		return $http.post(path, formData, {
+            transformRequest: angular.identity,
+            headers: {'Content-Type': undefined}
+        });	
+	}
+
 	return{
 		uploadOfferPhotos : uploadOfferPhotos,
 		uploadOfferVideo : uploadOfferVideo,
+		avatar : avatar,
 		progress : progress
 	}
 })

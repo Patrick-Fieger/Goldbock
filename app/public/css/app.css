@@ -13,6 +13,13 @@ body{
 *{font: 100%/1.5em 'Lato', sans-serif;}
 
 
+hr{
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border: 0;
+  border-top: 1px solid #dce0e0;
+}
+
 #login,
 .spinner,
 .grid figure,
@@ -31,7 +38,8 @@ body{
 .overlay,
 .meetingform,
 .morekrit,
-.firstnoti{
+.firstnoti,
+.changeavatar{
   -webkit-transition: all 0.3s;
   -moz-transition: all 0.3s;
   -o-transition: all 0.3s;
@@ -98,31 +106,31 @@ a:active{
 }
 
 input{
-  width: 100%;
+  width: 100% !important;
 }
 
 .mb10{
-  margin-bottom: 10px;
+  margin-bottom: 10px !important;
 }
 
 .mb20{
-  margin-bottom: 20px;
+  margin-bottom: 20px !important;
 }
 
 .mb30{
-  margin-bottom: 30px;
+  margin-bottom: 30px !important;
 }
 
 .fl{
-  float: left;
+  float: left !important;
 }
 
 .cb{
-  clear: both;
+  clear: both !important;
 }
 
 .wd100{
-  width: 100%
+  width: 100% !important;
 }
 
 .btn,
@@ -161,6 +169,69 @@ input{
   padding-right: 15px;
 }
 
+/*Dashboard*/
+
+.userinfo img,
+.userinfo p{
+  float: left;
+  clear: both;
+}
+
+.userinfo img{
+  width: 200px;
+  border-radius: 2px;
+}
+
+.userinfo p{
+  margin: 0;
+}
+
+.avatar_wrapper{
+  float: left;
+  position: relative;
+  overflow: hidden;
+  height: 200px;
+  width: 200px;
+}
+
+.avatar_wrapper:hover .changeavatar{
+  opacity: 1;
+}
+
+.changeavatar{
+  width: 100%;
+  font-size: 14px;
+  padding: 5px 0;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  text-align: center;
+  opacity: 0;
+}
+
+.changeavatar:hover{
+  background: rgba(0,0,0,1);
+  cursor: pointer !important;
+}
+
+.changeavatar input{
+  appearance: none;
+  position: absolute;
+  opacity: 1;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 1;
+  padding-top: 100px;
+  outline: 0;
+}
+
+.changeavatar input:hover{
+  cursor: pointer;
+}
 
 /*KATEGORIEN*/
 

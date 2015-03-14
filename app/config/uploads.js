@@ -10,6 +10,11 @@ module.exports = {
 		encoding : 'utf-8',
 		maxFieldsSize : toMB(70),
 		keepExtensions : true
+	},
+	avatar : {
+		encoding : 'utf-8',
+		maxFieldsSize : toMB(5),
+		keepExtensions : true
 	}
 }
 

@@ -1,0 +1,36 @@
+<div class="row dashboard">
+	<h1 class="tac mb30">Dashboard</h1>
+	<div class="large-3 columns userinfo">
+		<div class="avatar_wrapper mb20">
+			<img ng-src="{{user.avatar.big}}">
+			<span class="changeavatar">
+				Profilbild ändern
+				<input onchange="angular.element(this).scope().checkAvatar()" type="file" id="avatar">
+			</span>
+		</div>
+		<p><strong>{{user.company}}</strong></p>
+		<p class="mb10"><strong>{{user.firstname}} {{user.lastname}}</strong></p>
+		<p>{{user.email}}</p>
+		<p>{{user.street}}</p>
+		<p>{{user.zip}}</p>
+		<p>{{user.city}}</p>
+		<p class="mb30">{{user.tel}}</p>
+
+		<a class="btn btn-primary wd100 fl mb10" href="" ng-click="edit()">Profil bearbeiten</a>
+
+		<a class="btn btn-danger wd100 fl" href="" ng-click="logout()">Logout</a>
+	</div>
+	<div class="large-9 columns">
+		<h2>Über mich</h2>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+		consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+		cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+		proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+		<hr>
+
+		<h2>Meine Angebote</h2>
+	</div>
+</div>

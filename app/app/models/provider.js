@@ -13,7 +13,7 @@ var ProviderSchema = mongoose.Schema({
   zip : { type: Number, required: true},
   tel : { type: String, required: true},
   about : { type: String},
-  avatar : { type: String},
+  avatar : { type: Object},
   offers : { type: Array},
 });
 

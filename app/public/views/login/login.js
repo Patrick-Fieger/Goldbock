@@ -10,10 +10,10 @@ angular.module('app.login', ['ngRoute','ngAnimate'])
 
 }])
 
-.controller('LoginCtrl', ['$scope','$location','$timeout','AuthService',function($scope,$location,$timeout,AuthService) {
+.controller('LoginCtrl', ['$scope','$location','$timeout','AuthService','AllService',function($scope,$location,$timeout,AuthService,AllService) {
 	$scope.userData = {
 		"email":"patrickfieger90@gmail.com",
-		"password":"iWNFPWM"
+		"password":"SuzLMOi"
 	}
 
 	$scope.sendLogin = function(){
@@ -22,7 +22,7 @@ angular.module('app.login', ['ngRoute','ngAnimate'])
 
 	function checklogin(data, status, headers, config) {
     $location.path(data);
-    AuthService.checkAvatarInfos();
+    AllService.checkAvatarInfos();
   }
 
   function faillogin(data, status, headers, config) {

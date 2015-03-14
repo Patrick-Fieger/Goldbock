@@ -9,6 +9,7 @@ function createProvider(req, res, next){
 	var provider_ = req.body;
 	var randomPassword = random.generate(7);
 	provider_.role = "provider";
+	provider_.avatar = {};
     
     var loginData = {
     	email : provider_.email,

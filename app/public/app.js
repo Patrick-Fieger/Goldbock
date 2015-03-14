@@ -11,8 +11,10 @@ angular.module('myApp', [
   'myApp.view2',
   'myApp.view3',
   'app.provider_create_offer',
+  'app.provider_dashboard',
   'app.userService',
   'app.authService',
+  'app.allService',
   'app.uploadService',
   'app.providerService',
   'ngSanitize',
@@ -21,8 +23,8 @@ angular.module('myApp', [
 config(['$locationProvider','$routeProvider','$animateProvider', function($locationProvider,$routeProvider,$animateProvider) {
   $routeProvider.otherwise({redirectTo: '/'});
 }])
-.run(function($rootScope,$http,AuthService,$timeout) {
-    AuthService.checkAvatarInfos();
+.run(function($rootScope,$http,AuthService,AllService,$timeout) {
+    AllService.checkAvatarInfos();
 
     $rootScope.$on('$routeChangeSuccess', function(ev, to, toParams, from, fromParams) {
         $('body').scrollTop(0);

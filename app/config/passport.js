@@ -53,6 +53,11 @@ var login = function(req, res, next){
   })(req, res, next);
 }
 
+var logout = function(req, res, next){
+  req.logout();
+  res.status(200).end();
+}
+
 
 function getLoginRedirect(role){
   return allowedpath[role][0]
@@ -83,6 +88,7 @@ var isAuthenticatedToMakeRequest = function (req, res, next) {
 
 module.exports = {
   login : login,
+  logout : logout,
   isAuthenticatedToSeeContent: isAuthenticatedToSeeContent,
   isAuthenticatedToMakeRequest: isAuthenticatedToMakeRequest,
   isLoggedIn : isLoggedIn
