@@ -58,6 +58,13 @@ function getLoginRedirect(role){
   return allowedpath[role][0]
 }
 
+function isLoggedIn(req, res, next){
+  if (req.user) {
+      res.status(200).end();
+  } else {
+      res.status(401).end();
+  }
+}
 
 var isAuthenticatedToSeeContent = function (req, res, next) {
   if (req.isAuthenticated() && allowedpath[req.user.role].indexOf(req.query.path) > -1)
@@ -77,5 +84,6 @@ var isAuthenticatedToMakeRequest = function (req, res, next) {
 module.exports = {
   login : login,
   isAuthenticatedToSeeContent: isAuthenticatedToSeeContent,
-  isAuthenticatedToMakeRequest: isAuthenticatedToMakeRequest
+  isAuthenticatedToMakeRequest: isAuthenticatedToMakeRequest,
+  isLoggedIn : isLoggedIn
 }

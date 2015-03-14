@@ -11,7 +11,10 @@ var ProviderSchema = mongoose.Schema({
   street : { type: String, required: true},
   city : { type: String, required: true},
   zip : { type: Number, required: true},
-  tel : { type: String, required: true}
+  tel : { type: String, required: true},
+  about : { type: String},
+  avatar : { type: String},
+  offers : { type: Array},
 });
 
 ProviderSchema.pre('save', salt.salt);

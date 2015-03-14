@@ -21,7 +21,9 @@ angular.module('myApp', [
 config(['$locationProvider','$routeProvider','$animateProvider', function($locationProvider,$routeProvider,$animateProvider) {
   $routeProvider.otherwise({redirectTo: '/'});
 }])
-.run(function($rootScope,$http,AuthService) {
+.run(function($rootScope,$http,AuthService,$timeout) {
+    AuthService.checkAvatarInfos();
+
     $rootScope.$on('$routeChangeSuccess', function(ev, to, toParams, from, fromParams) {
         $('body').scrollTop(0);
         $('.spinner').removeClass('active');
@@ -179,7 +181,6 @@ config(['$locationProvider','$routeProvider','$animateProvider', function($locat
                 }
             ]
         }];
-
 }).directive('onFinishRender', function ($timeout) {
     return {
         restrict: 'A',

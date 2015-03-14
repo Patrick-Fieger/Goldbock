@@ -137,6 +137,31 @@ input{
   margin: 0 auto; 
 }
 
+/*AVATAR*/
+
+.avatar{
+  position: fixed;
+  right: 20px;
+  top:20px;
+}
+
+.avatar img,
+.avatar p{
+  float: right;
+}
+.avatar img{
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+}
+
+.avatar p{
+  margin-top: 22px;
+  padding-right: 15px;
+}
+
+
 /*KATEGORIEN*/
 
 .logo{
