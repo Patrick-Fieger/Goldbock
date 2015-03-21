@@ -77,19 +77,25 @@ function uploadOfferVideo(req, res, next){
 function progress(req, res, next){
 	var user = emailToFolder(req.user.email)
 	if(progress_[user] !== undefined){
-		res.send(calculatePercentage(user)).status(200).end();
+		var pro_ = calculatePercentage(user);
+		res.send(pro_).status(200).end();
 	}else{
 		res.status(404).end();
 	}
 }
 
 function calculatePercentage(user){
-	var percentage;
+	var percentage = {
+		progress : 0,
+		message : ""
+	};
 
 	if(progress_[user].type == 'images'){
-		percentage = toPercentage(progress_[user].bytesReceived,progress_[user].bytesExpected);
+		percentage.progress = toPercentage(progress_[user].bytesReceived,progress_[user].bytesExpected);
+		percentage.message = "Lade Bilder hoch";
 	} else if(progress_[user].type == 'video'){
-		percentage = toPercentage(progress_[user].bytesReceived,progress_[user].bytesExpected) + 33.3;
+		percentage.progress = toPercentage(progress_[user].bytesReceived,progress_[user].bytesExpected) + 33.3;
+		percentage.message = "Lade Video hoch";
 	}
 
 	return percentage

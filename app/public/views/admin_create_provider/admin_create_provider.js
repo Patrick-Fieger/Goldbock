@@ -11,11 +11,11 @@ angular.module('app.admin_provider', ['ngRoute','ngAnimate'])
 
 .controller('AdminCreateProviderCtrl', ['$scope','$location','$timeout','ProviderService',function($scope,$location,$timeout,ProviderService) {
 	$scope.provider = {
-		company : "Thai Massage Sushi GmbH",
-		lastname : "Kao",
-		firstname : "Lak",
-		email : "patrickfieger90@gmail.com",
-		street : "Massage-Straße 56",
+		company : "Programierung GmbH",
+		lastname : "Fieger",
+		firstname : "Patrick",
+		email : "patrick@patrick-fieger.com",
+		street : "K.-Adenauer-Straße 55",
 		city : "Weinheim",
 		zip : 69469,
 		tel : "0176/78883900"

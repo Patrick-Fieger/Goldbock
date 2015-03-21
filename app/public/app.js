@@ -34,6 +34,10 @@ config(['$locationProvider','$routeProvider','$animateProvider', function($locat
         }
     });
 
+    $(document).on('click', '.disabled input', function(event) {
+        event.preventDefault();
+    });
+
     var u = '#/angebote/'
 
     $rootScope.kat = [{
