@@ -4,6 +4,17 @@ angular.module('app.providerService', [])
 		return $http.post('/createprovider', data)
 	};
 
+	var updateProfile = function(data){
+		var data_ = data;
+		delete data_.role;
+		delete data_.email;
+		delete data_.__v;
+		delete data_._id;
+		delete data_.avatar;
+		delete data_.offers;
+		return $http.post('/update/provider', data_)
+	}
+
 	var updatePassword = function(oldpassword, newpassword){
 
 	};
@@ -14,6 +25,7 @@ angular.module('app.providerService', [])
 	return{
 		register : register,
 		updatePassword : updatePassword,
-		deleteAccount : deleteAccount
+		deleteAccount : deleteAccount,
+		updateProfile : updateProfile
 	}
 })

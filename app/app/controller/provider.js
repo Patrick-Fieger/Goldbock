@@ -3,6 +3,8 @@ var uuid = require('uuid'),
     fs = require('fs-extra'),
     newLocation = 'public/uploads/',
     options = require('../../config/uploads.js'),
+    observableDiff = require('deep-diff').observableDiff,
+    Provider = require('../models/provider')
     progress_ = {};
 
 function uploadOfferImages(req, res, next){
@@ -110,8 +112,36 @@ function emailToFolder(email){
 }
 
 
+function update(req, res, next){
+	Provider.findOne({ email: req.user.email }, function(err, user) {
+      if (err) { console.log(err) }
+      if (!user) {
+        res.status(404).end();
+      }else {
+      	var body = req.body
+      	for (var key in body) {
+		   if(body[key] !== user[key]){
+		   		user[key] = body[key]
+		   }
+		}
+
+		user.save(function(err) {
+            if(err) {
+                console.log("Error");
+            }
+            else {
+        		res.status(200).end();        
+            }
+        });
+      }
+    });
+}
+
+
+
 module.exports = {
 	uploadOfferImages : uploadOfferImages,
 	uploadOfferVideo : uploadOfferVideo,
-	progress : progress
+	progress : progress,
+	update : update
 }

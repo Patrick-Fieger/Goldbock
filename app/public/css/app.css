@@ -121,6 +121,10 @@ input{
   margin-bottom: 30px !important;
 }
 
+.mt0{
+  margin-top: 0px !important;
+}
+
 .mt10{
   margin-top: 10px !important;
 }
@@ -138,6 +142,11 @@ input{
   float: left !important;
 }
 
+
+.fr{
+  float: right !important;
+}
+
 .cb{
   clear: both !important;
 }
@@ -149,6 +158,30 @@ input{
 .btn,
 .tac{
   text-align: center;
+}
+
+.posr{
+  position: relative !important;
+}
+
+.posa{
+  position: absolute !important;
+}
+
+.r0{
+  right: 0 !important;
+}
+
+.l0{
+  left: 0 !important;
+}
+
+.t0{
+  top: 0 !important;
+}
+
+.b0{
+  bottom: 0 !important;
 }
 
 /*FORMS*/
@@ -243,7 +276,7 @@ input{
 }
 
 .userinfo img{
-  width: 200px;
+  width: 100%;
   border-radius: 2px;
 }
 
@@ -251,12 +284,16 @@ input{
   margin: 0;
 }
 
+.showforms p{
+  display: none !important;
+}
+
 .avatar_wrapper{
   float: left;
   position: relative;
   overflow: hidden;
-  height: 200px;
-  width: 200px;
+  height: 100%;
+  width: 100%;
 }
 
 .avatar_wrapper:hover .changeavatar{
@@ -296,6 +333,10 @@ input{
 
 .changeavatar input:hover{
   cursor: pointer;
+}
+
+.createoffer_link{
+  font-size: 34px;
 }
 
 /*KATEGORIEN*/
