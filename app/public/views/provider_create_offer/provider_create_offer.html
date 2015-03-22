@@ -15,11 +15,13 @@
 <div class="bigform">
     <h1 class="tac mb30">Angebot anlegen</h1>
     <form ng-submit="uploadForm();watchProgress();" class="form-group">
-        <input class="form-control mb10" placeholder="Titel des Angebotes" value="" type="text" required>
+        <input class="form-control mb10" ng-model="offer.title" placeholder="Titel des Angebotes" value="" type="text" required>
 
-        <textarea class="form-control mb10 wd100" placeholder="Beschreibung des Angebotes"></textarea>
+        <textarea ng-model="offer.description" class="form-control mb10 wd100" placeholder="Beschreibung des Angebotes"></textarea>
 
-        <input class="form-control mb30" placeholder="Kosten in €" value="" type="number" required>
+        <input class="form-control mb30" ng-model="offer.price" placeholder="Kosten in €" value="{{offer.price}}" type="number" required>
+
+
 
         <span class="btn btn-primary wd100 fl mb10 fileinput_hide">Bilder auswählen <input id="images" onchange="angular.element(this).scope().checkImages()" placeholder="Bilder auswählen" multiple="true" type="file" required accept="image/*"></span>
 

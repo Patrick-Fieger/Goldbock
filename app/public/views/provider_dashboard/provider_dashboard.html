@@ -20,13 +20,13 @@
 		<div ng-show="editstate">
 			<form class="form-group" name="userdata">
 				<fieldset>
-					<input required type="text" class="form-control mb10" ng-model="editData.company" value="editData.company">
-					<input required type="text" class="form-control mb10" ng-model="editData.firstname" value="editData.firstname">
-					<input required type="text" class="form-control mb10" ng-model="editData.lastname" value="editData.lastname">
-					<input required type="text" class="form-control mb10" ng-model="editData.street" value="editData.street">
-					<input required type="text" class="form-control mb10" ng-model="editData.zip" value="editData.zip">
-					<input required type="text" class="form-control mb10" ng-model="editData.city" value="editData.city">
-					<input required type="text" class="form-control" ng-model="editData.tel" value="editData.tel">
+					<input required type="text" class="form-control mb10" ng-model="user.company" value="user.company">
+					<input required type="text" class="form-control mb10" ng-model="user.firstname" value="user.firstname">
+					<input required type="text" class="form-control mb10" ng-model="user.lastname" value="user.lastname">
+					<input required type="text" class="form-control mb10" ng-model="user.street" value="user.street">
+					<input required type="text" class="form-control mb10" ng-model="user.zip" value="user.zip">
+					<input required type="text" class="form-control mb10" ng-model="user.city" value="user.city">
+					<input required type="text" class="form-control" ng-model="user.tel" value="user.tel">
 				</fieldset>
 			</form>
 		</div>
@@ -47,21 +47,28 @@
 		<section ng-class="{'showforms': showAboutTextarea}">
 
 			<h2 class="mt0">Über mich</h2>
-			<p ng-hide="showAboutTextareaText" class="mb30">{{user.about}}</p>
-			<p ng-show="showAboutTextareaText" class="mb30">
+			<p ng-show="showAboutTextareaText" class="mb30" ng-bind-html="about"></p>
+			<p ng-hide="showAboutTextareaText" class="mb30">
 				Schreibe etwas über dich, damit deine Kunden wissen mit wem sie es zu tun haben.
 			</p>
 			<form class="form-group" ng-show="showAboutTextarea" name="userabout">
 				<fieldset>
-					<textarea placeholder="Schreibe etwas über dich" class="wd100 mb10 form-control"></textarea>
+					<textarea ng-change="countText()" ng-model="user.about" name="textareaabout" placeholder="Schreibe etwas über dich in 400 Zeichen." maxlength="400" ng-maxlength="400" ng-trim="5" class="wd100 mb10 form-control"></textarea>
 				</fieldset>
+				<span>{{count}}</span>
 			</form>
 		</section>
-
 		<hr>
 
 		<section class="posr">
 			<h2>Meine Angebote</h2><a href="#/provider/create/offer" class="icon-plus3 fr posa t0 r0 createoffer_link"></a>
+
+			<ul>
+				<li ng-repeat="offer in offers">
+					{{offer.title}}
+				</li>
+
+			</ul>
 		</section>
 
 

@@ -8,12 +8,13 @@ angular.module('app.provider_create_offer', ['ngRoute','ngAnimate'])
     controller: 'ProviderCreateOfferCtrl'
   });
 }])
-.controller('ProviderCreateOfferCtrl', ['$scope','UploadService', function ($scope,UploadService) {
-	var photos, video;
+.controller('ProviderCreateOfferCtrl', ['$scope','UploadService','$location','$timeout', function ($scope,UploadService,$location,$timeout) {
+	var photos;
 	var progressInterval;
 	$scope.images = [];
 	$scope.showProgress = false;
 	$scope.progressMessage = "";
+	$scope.offer = {}
 
 	$scope.uploadForm = function(){
 		UploadService.uploadOfferPhotos($("#images")[0].files).success(pushImageFilenamesAndUploadVideo);
@@ -25,8 +26,22 @@ angular.module('app.provider_create_offer', ['ngRoute','ngAnimate'])
 	}
 
 	function pushVideoFilenameAndUploadOfferData(data, status, headers, config){
-		video = data;
 		watchProgressStop();
+		$scope.offer.video = data;
+		$scope.offer.photos = photos;
+		$timeout(function(){
+			$('.progress-bar').width('75%');
+			$scope.progressMessage = "Daten werden gespeichert";
+			UploadService.uploadOfferData($scope.offer).success(uploadFinish)
+		},1000)
+		
+	}
+
+	function uploadFinish(){
+		$('.progress-bar').width('100%');
+		$timeout(function(){
+			$location.path('/provider/dashboard');
+		},1000);
 	}
 
 	$scope.watchProgress = function() {

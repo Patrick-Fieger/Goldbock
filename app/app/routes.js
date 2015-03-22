@@ -9,6 +9,8 @@ module.exports = function(app){
 	app.post('/createprovider', pass.isAuthenticatedToMakeRequest , admin.createProvider);
 	app.post('/provider/upload/offer/images', pass.isAuthenticatedToMakeRequest , provider.uploadOfferImages);
 	app.post('/provider/upload/offer/video', pass.isAuthenticatedToMakeRequest , provider.uploadOfferVideo);
+	app.post('/provider/upload/offer/data', pass.isAuthenticatedToMakeRequest , provider.uploadOfferData);
+	app.get('/offers', pass.isAuthenticatedToMakeRequest , provider.offers);
 	app.post('/update/provider', pass.isAuthenticatedToMakeRequest , provider.update);
 	app.post('/update/avatar', pass.isAuthenticatedToMakeRequest , all.avatar);
 	app.get('/upload/progress', pass.isAuthenticatedToMakeRequest , provider.progress);

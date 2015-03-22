@@ -23,6 +23,10 @@ angular.module('app.uploadService', [])
         });	
 	}
 
+	var uploadOfferData = function(data){
+		return $http.post('/provider/upload/offer/data',data)
+	}
+
 	var progress = function(){
 		return $http.get('/upload/progress')
 	}
@@ -44,6 +48,7 @@ angular.module('app.uploadService', [])
 	return{
 		uploadOfferPhotos : uploadOfferPhotos,
 		uploadOfferVideo : uploadOfferVideo,
+		uploadOfferData : uploadOfferData,
 		avatar : avatar,
 		progress : progress
 	}

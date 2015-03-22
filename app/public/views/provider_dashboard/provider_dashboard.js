@@ -15,14 +15,18 @@ angular.module('app.provider_dashboard', ['ngRoute','ngAnimate'])
 	$scope.showAboutTextarea = false;
 	$scope.editstate = false;
 	$scope.showAboutTextareaText;
-	$scope.editData;
+	$scope.about;
+	$scope.count = 400;
 
-	AllService.profile().success(updateProfileView)
+	AllService.profile().success(updateProfileView);
+	ProviderService.offers().success(updateOfferList);
+
+	function updateOfferList(data, status, headers, config){
+		$scope.offers = data;
+	}
 
 	function updateProfileView(data, status, headers, config){
 		$scope.user = data;
-		$scope.editData = data;
-
 
 		if (data.avatar !== undefined) {
         	$scope.user.avatar.big = data.avatar.big.replace('public/','')
@@ -31,12 +35,21 @@ angular.module('app.provider_dashboard', ['ngRoute','ngAnimate'])
         	$scope.user.avatar.big = 'img/avatar/avatar.png';
         }
 
-        if(data.about !== undefined || data.about !== ""){
-        	$scope.showAboutTextareaText = false;
+        checkAboutText();
+	}
+
+	function checkAboutText(){
+		if($scope.user.about !== undefined && $scope.user.about !== ""){
+        	nltobr();
         }else{
-        	$scope.editData.about = "";
-        	$scope.showAboutTextareaText = true;
+        	$scope.showAboutTextareaText = false;
         }
+	}
+
+	function nltobr() {
+		$scope.about = $scope.user.about.replace(/(?:\r\n|\r|\n)/g, '<br />');
+		$scope.showAboutTextareaText = true;
+		$scope.countText();
 	}
 
 	$scope.checkAvatar = function($event){
@@ -55,26 +68,22 @@ angular.module('app.provider_dashboard', ['ngRoute','ngAnimate'])
 
 	$scope.save = function(){
 		if($scope.userabout.$valid && $scope.userdata.$valid) {
-			var data = angular.copy($scope.editData);
+			var data = angular.copy($scope.user);
        		ProviderService.updateProfile(data).success(updateProfileSuccess)
      	}else{
      		alert('Bitte füllen sie alle notwendigen Felder aus!')
      	}
 	}
 
-
 	function updateProfileSuccess(){
-		if($scope.editData.about !== ""){
-			$scope.showAboutTextareaText = false;	
-		}
-		$scope.user = $scope.editData;
+		checkAboutText();
 		$scope.cancel();
+		AllService.updateName($scope.user.firstname + ' ' + $scope.user.lastname)
 	}
 
 	function checkSize(input){
 		if (input[0].files[0] !== undefined) {
     	    var reader = new FileReader();
-    	    var isOk = false
 	
     	    reader.onload = function (e) {
     			var image = new Image();
@@ -96,6 +105,9 @@ angular.module('app.provider_dashboard', ['ngRoute','ngAnimate'])
 		$scope.user.avatar.big = data.big.replace('public/','');
 	}
 
+	$scope.countText = function(){
+		$scope.count = 400 - $scope.user.about.length - ($scope.user.about.match(/\n/g)||[]).length;
+	}
 
 	$scope.logout = function(){
 		AuthService.logout();

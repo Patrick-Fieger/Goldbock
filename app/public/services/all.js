@@ -32,6 +32,10 @@ angular.module('app.allService', [])
         }
 	}
 
+	function updateName(name){
+		$rootScope.fullname = name;
+	}
+
 	function hideAvatarInfos(){
 		$rootScope.isLogged = false;
 		$rootScope.fullname = "";
@@ -40,6 +44,7 @@ angular.module('app.allService', [])
 
 	return {
 		checkAvatarInfos: checkAvatarInfos,
-		profile : profile
+		profile : profile,
+		updateName : updateName
 	}
 });

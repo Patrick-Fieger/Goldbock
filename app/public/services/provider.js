@@ -15,6 +15,10 @@ angular.module('app.providerService', [])
 		return $http.post('/update/provider', data_)
 	}
 
+	var offers = function(data){
+		return $http.get('/offers');
+	};
+
 	var updatePassword = function(oldpassword, newpassword){
 
 	};
@@ -26,6 +30,7 @@ angular.module('app.providerService', [])
 		register : register,
 		updatePassword : updatePassword,
 		deleteAccount : deleteAccount,
+		offers : offers,
 		updateProfile : updateProfile
 	}
 })
