@@ -1,17 +1,3 @@
-<!-- <file-upload class="btn btn-success btn-rad btn-trans file-upload" name="userFile" multiple="true" uri="/provider/upload/offer/images" accept="image/*">
-    <i class="fa fa-upload"></i>
-    <span>Upload Files</span>
-    <ul>
-        <li ng-repeat="p in __userFiles" ng-hide="p.percent == 100">
-            <small>{{p.name}}</small>
-            <div class="progress">
-                <div class="progress-bar" style="width: {{ p.percent }}%;"></div>
-            </div>
-        </li>
-    </ul>
-</file-upload> -->
-
-
 <div class="bigform">
     <h1 class="tac mb30">Angebot anlegen</h1>
     <form ng-submit="uploadForm();watchProgress();" class="form-group">
@@ -22,8 +8,13 @@
         <input class="form-control mb30" ng-model="offer.price" placeholder="Kosten in €" value="{{offer.price}}" type="number" required>
 
 
+        <span class="btn btn-primary wd100 fl fileinput_hide">Titelbild auswählen<input id="titleimage" onchange="angular.element(this).scope().checkTitleImage()" placeholder="Bilder auswählen" multiple="false" type="file" required accept="image/*"></span>
 
-        <span class="btn btn-primary wd100 fl mb10 fileinput_hide">Bilder auswählen <input id="images" onchange="angular.element(this).scope().checkImages()" placeholder="Bilder auswählen" multiple="true" type="file" required accept="image/*"></span>
+        <div class="images_preview_big">
+            <img ng-src="{{titleImage}}" ng-class="{mt10: headerImageApplied}">
+        </div>
+
+        <span class="btn btn-primary wd100 fl mt10 mb10 fileinput_hide">Bilder auswählen <input id="images" onchange="angular.element(this).scope().checkImages()" placeholder="Bilder auswählen" multiple="true" type="file" required accept="image/*"></span>
 
         <div class="images_preview">
             <img ng-repeat="image in images" src="{{image}}">

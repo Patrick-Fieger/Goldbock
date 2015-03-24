@@ -7,6 +7,7 @@ module.exports = function(app){
 	app.post('/login', pass.login);
 	app.post('/logout', pass.logout);
 	app.post('/createprovider', pass.isAuthenticatedToMakeRequest , admin.createProvider);
+	app.post('/provider/upload/offer/title', pass.isAuthenticatedToMakeRequest , provider.uploadOfferTitleImage);
 	app.post('/provider/upload/offer/images', pass.isAuthenticatedToMakeRequest , provider.uploadOfferImages);
 	app.post('/provider/upload/offer/video', pass.isAuthenticatedToMakeRequest , provider.uploadOfferVideo);
 	app.post('/provider/upload/offer/data', pass.isAuthenticatedToMakeRequest , provider.uploadOfferData);

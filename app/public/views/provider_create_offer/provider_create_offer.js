@@ -9,15 +9,23 @@ angular.module('app.provider_create_offer', ['ngRoute','ngAnimate'])
   });
 }])
 .controller('ProviderCreateOfferCtrl', ['$scope','UploadService','$location','$timeout', function ($scope,UploadService,$location,$timeout) {
+	var title;
 	var photos;
+
 	var progressInterval;
 	$scope.images = [];
 	
 	$scope.showProgress = false;
+	$scope.headerImageApplied = false;
 	$scope.progressMessage = "";
-	$scope.offer = {}
+	$scope.offer = {};
 
 	$scope.uploadForm = function(){
+		UploadService.uploadOfferTitleImage($("#titleimage")[0].files[0]).success(pushTitleFilenameAndUploadImages);
+	}
+
+	function pushTitleFilenameAndUploadImages(data, status, headers, config){
+		title = data;
 		UploadService.uploadOfferPhotos($("#images")[0].files).success(pushImageFilenamesAndUploadVideo);
 	}
 
@@ -30,12 +38,12 @@ angular.module('app.provider_create_offer', ['ngRoute','ngAnimate'])
 		watchProgressStop();
 		$scope.offer.video = data;
 		$scope.offer.photos = photos;
+		$scope.offer.titleimage = title;
 		$timeout(function(){
 			$('.progress-bar').width('75%');
 			$scope.progressMessage = "Daten werden gespeichert";
 			UploadService.uploadOfferData($scope.offer).success(uploadFinish)
 		},1000)
-		
 	}
 
 	function uploadFinish(){
@@ -71,6 +79,20 @@ angular.module('app.provider_create_offer', ['ngRoute','ngAnimate'])
         		reader.readAsDataURL(images[i]);
     		}
     	};
+	}
+
+	$scope.checkTitleImage = function(){
+		var image = $("#titleimage")[0].files[0];
+		if (image) {
+			var reader = new FileReader();
+			reader.onload = function (e) {
+				$scope.$apply(function() {
+					$scope.titleImage = e.target.result;
+					$scope.headerImageApplied = true;
+				});
+			}
+			reader.readAsDataURL(image);
+		}
 	}
 
 	$scope.checkVideo = function(){

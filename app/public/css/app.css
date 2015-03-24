@@ -231,6 +231,11 @@ input{
   float: left;
 }
 
+.images_preview_big img{
+  width: 100%;
+  float: left;
+}
+
 .form-group textarea{
   min-height: 100px;
 }

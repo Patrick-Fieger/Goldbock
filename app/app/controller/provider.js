@@ -20,6 +20,38 @@ var uuid = require('uuid'),
 		]
   	};
 
+
+function uploadOfferTitleImage(req, res, next){
+	var form = new formidable.IncomingForm(options.video),
+	folderNameByEmail = emailToFolder(req.user.email)
+
+    form.on('end', function() {
+		var newFilename = uuid.v4() + '.' + this.openedFiles[0].name.split('.').pop()
+		, temp_path = this.openedFiles[0].path
+
+		fs.move(temp_path, newLocation + folderNameByEmail + newFilename, function(err) {
+            if (err) {
+                console.error(err);
+            } else {
+                res.send(newFilename).status(200).end();
+            }
+        });
+	});
+
+	form.on('progress', function(bytesReceived, bytesExpected) {
+	  var progress__ = {
+	    type: 'title',
+	    bytesReceived: bytesReceived,
+	    bytesExpected: bytesExpected
+	  };
+	  progress_[folderNameByEmail] = progress__
+	});
+
+	form.parse(req, function(err, fields, files) {
+        if (err) console.log(err);
+    });
+}
+
 function uploadOfferImages(req, res, next){
 	var form = new formidable.IncomingForm(options.images)
 	, imageList = []
@@ -130,11 +162,14 @@ function calculatePercentage(user){
 		message : ""
 	};
 
-	if(progress_[user].type == 'images'){
+	if(progress_[user].type == 'title'){
 		percentage.progress = toPercentage(progress_[user].bytesReceived,progress_[user].bytesExpected);
+		percentage.message = "Lade Titelbild hoch";
+	} else if(progress_[user].type == 'images'){
+		percentage.progress = toPercentage(progress_[user].bytesReceived,progress_[user].bytesExpected) + 25;
 		percentage.message = "Lade Bilder hoch";
 	} else if(progress_[user].type == 'video'){
-		percentage.progress = toPercentage(progress_[user].bytesReceived,progress_[user].bytesExpected) + 33.3;
+		percentage.progress = toPercentage(progress_[user].bytesReceived,progress_[user].bytesExpected) + 25;
 		percentage.message = "Lade Video hoch";
 	}
 
@@ -249,6 +284,7 @@ function offer(req, res, next){
 }
 
 module.exports = {
+	uploadOfferTitleImage : uploadOfferTitleImage,
 	uploadOfferImages : uploadOfferImages,
 	uploadOfferVideo : uploadOfferVideo,
 	uploadOfferData : uploadOfferData,

@@ -1,5 +1,16 @@
 angular.module('app.uploadService', [])
 .service('UploadService', function($http){
+	
+	var uploadOfferTitleImage = function(file){
+		var formData = new FormData();
+		formData.append('files', file);
+
+		return $http.post('/provider/upload/offer/title', formData, {
+            transformRequest: angular.identity,
+            headers: {'Content-Type': undefined}
+        });	
+	}
+
 	var uploadOfferPhotos = function(files){
 		var formData = new FormData();
 
@@ -46,6 +57,7 @@ angular.module('app.uploadService', [])
 	}
 
 	return{
+		uploadOfferTitleImage : uploadOfferTitleImage,
 		uploadOfferPhotos : uploadOfferPhotos,
 		uploadOfferVideo : uploadOfferVideo,
 		uploadOfferData : uploadOfferData,
