@@ -27,6 +27,7 @@ config(['$locationProvider','$routeProvider','$animateProvider', function($locat
     
 
     $rootScope.$on('$routeChangeSuccess', function(ev, to, toParams, from, fromParams) {
+        $(window).unbind("scroll");
         $('body').scrollTop(0);
         $('.spinner').removeClass('active');
         if(to.$$route.originalPath !== '/'){

@@ -13,7 +13,21 @@ angular.module('app.offer', ['ngRoute','ngAnimate'])
 	ProviderService.offer($routeParams.id).success(buildOfferView);
 
 	function buildOfferView(data, status, headers, config){
-		console.log(data)
+		$scope.offer = data;
+		$scope.offer.offer.titleimage.black = $scope.offer.offer.titleimage.black.replace('public/','');
+		$scope.offer.offer.titleimage.normal = $scope.offer.offer.titleimage.normal.replace('public/','');
+	}
+
+	$(window).bind('scroll', calcScroll);
+
+	function calcScroll(event){
+		var top = $(window).scrollTop();
+		var perc = top / 300;
+		if(top <= 300){
+			var op = 1 - perc
+			$('.normal_image').css('opacity',op)
+		}
+		
 	}
 
 }]);

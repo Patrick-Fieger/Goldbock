@@ -5,6 +5,7 @@ var uuid = require('uuid'),
     newLocation = 'public/uploads/',
     options = require('../../config/uploads.js'),
     Provider = require('../models/provider'),
+    gm = require('gm'),
     progress_ = {};
 
     var format = "dddd, d mmmm , yyyy, hh:MM:ss";
@@ -26,14 +27,22 @@ function uploadOfferTitleImage(req, res, next){
 	folderNameByEmail = emailToFolder(req.user.email)
 
     form.on('end', function() {
-		var newFilename = uuid.v4() + '.' + this.openedFiles[0].name.split('.').pop()
+    	var _uuid = uuid.v4();
+		var newFilenameImage = _uuid + '.' + this.openedFiles[0].name.split('.').pop()
+		, newFilenameImageBlurred = _uuid + '_black.' + this.openedFiles[0].name.split('.').pop()
 		, temp_path = this.openedFiles[0].path
-
-		fs.move(temp_path, newLocation + folderNameByEmail + newFilename, function(err) {
+		, newPathImage = newLocation + folderNameByEmail + newFilenameImage
+		, newPathImageBlurred = newLocation + folderNameByEmail + newFilenameImageBlurred
+		fs.move(temp_path, newPathImage , function(err) {
             if (err) {
                 console.error(err);
             } else {
-                res.send(newFilename).status(200).end();
+            	var images = {
+            		normal : newPathImage,
+            		black : newPathImageBlurred
+            	}
+            	createBlackWhiteVersion(newPathImage,newPathImageBlurred);
+                res.send(images).status(200).end();
             }
         });
 	});
@@ -51,6 +60,17 @@ function uploadOfferTitleImage(req, res, next){
         if (err) console.log(err);
     });
 }
+
+function createBlackWhiteVersion (path,blurred) {
+	gm(path).colorspace('GRAY')
+	.write(blurred, function (err) {
+		if (!err){
+			console.log('plured')
+		}
+	})
+}
+
+
 
 function uploadOfferImages(req, res, next){
 	var form = new formidable.IncomingForm(options.images)
@@ -250,6 +270,9 @@ function deleteOffer(req, res, next){
 function deleteOfferFiles(links,email){
 	for (var i = 0; i < links.photos.length; i++) {
 		fs.remove('public/uploads/' + emailToFolder(email) + links.photos[i], function (err) {});
+	};
+	for (var i = 0; i < links.titleimage.length; i++) {
+		fs.remove(links.titleimage[i], function (err) {});
 	};
 	fs.remove('public/uploads/' + emailToFolder(email) + links.video, function (err) {});
 }
