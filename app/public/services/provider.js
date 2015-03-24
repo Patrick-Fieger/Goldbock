@@ -19,6 +19,14 @@ angular.module('app.providerService', [])
 		return $http.get('/offers');
 	};
 
+	var offer = function(id){
+		return $http.get('/offer',{params: { id : id}})
+	}
+
+	var deleteOffer = function(id){
+		return $http.delete('/offer',{params: { id : id}})
+	};
+
 	var updatePassword = function(oldpassword, newpassword){
 
 	};
@@ -31,6 +39,8 @@ angular.module('app.providerService', [])
 		updatePassword : updatePassword,
 		deleteAccount : deleteAccount,
 		offers : offers,
+		offer : offer,
+		deleteOffer : deleteOffer,
 		updateProfile : updateProfile
 	}
 })

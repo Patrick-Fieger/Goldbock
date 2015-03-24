@@ -32,13 +32,16 @@
         <span class="btn btn-primary wd100 fl mb10 fileinput_hide">Video auswählen <input id="video" onchange="angular.element(this).scope().checkVideo()" placeholder="Video auswählen" type="file" required accept="video/mp4"></span>
 
         <input class="btn btn-primary mt30" type="submit" value="Angebot speichern"></input>
-
-        <div class="mt30" ng-show="showProgress">
-            <p class="tac">{{progressMessage}}</p>
-            <div class="progress">
-                <div class="progress-bar" style="width: 0%;"></div>
-            </div>    
-        </div>
         
     </form>
+</div>
+
+
+<div class="progress_wrapper" ng-class="{'active': showProgress}">
+    <div class="progress_wrapper_inner">
+        <p class="tac">{{progressMessage}}</p>
+        <div class="progress">
+            <div class="progress-bar" style="width: 0%;"></div>
+        </div>
+    </div>
 </div>

@@ -63,10 +63,8 @@
 		<section class="posr">
 			<h2>Meine Angebote</h2><a href="#/provider/create/offer" class="icon-plus3 fr posa t0 r0 createoffer_link"></a>
 
-			<ul>
-				<li ng-repeat="offer in offers">
-					{{offer.title}}
-				</li>
+			<ul class="offer-list mt30">
+				<li ng-repeat="offer in user.offers"><a ng-href="#/offer/{{offer.id}}">{{offer.title}}</a><span class="icon-pencil" ng-click="redirectEdit(offer.id)"></span><span ng-click="deleteOffer(offer.id)" class="icon-cup"></span></li>
 
 			</ul>
 		</section>

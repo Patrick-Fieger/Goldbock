@@ -12,6 +12,7 @@ angular.module('app.provider_create_offer', ['ngRoute','ngAnimate'])
 	var photos;
 	var progressInterval;
 	$scope.images = [];
+	
 	$scope.showProgress = false;
 	$scope.progressMessage = "";
 	$scope.offer = {}

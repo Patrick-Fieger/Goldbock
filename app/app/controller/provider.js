@@ -7,6 +7,8 @@ var uuid = require('uuid'),
     Provider = require('../models/provider'),
     progress_ = {};
 
+    var format = "dddd, d mmmm , yyyy, hh:MM:ss";
+
     dateFormat.i18n = {
 		dayNames: [
 		  'So', 'Mon', 'Di', 'Mi', 'Do', 'Fr', 'Sa',
@@ -96,7 +98,6 @@ function uploadOfferData(req, res, next){
 		offer.booked = 0,
 		offer.searched = 0,
 		offer.date = new Date()
-		// offer.date_formatted = dateFormat(now, "dddd, d mmmm , yyyy, hh:MM:ss"),
 		offer.reviews = [];
 
 		Provider.update({email: req.user.email},{$push: {offers:offer}},{upsert:true},function(err){
@@ -177,7 +178,33 @@ function update(req, res, next){
                 console.log("Error");
             }
             else {
-        		res.status(200).end();        
+        		res.status(200).end();
+            }
+        });
+      }
+    });
+}
+
+function deleteOffer(req, res, next){
+	var id = req.query.id;
+	Provider.findOne({ email: req.user.email }, function(err, user) {
+      if (err) { console.log(err) }
+      if (!user) {
+        res.status(404).end();
+      }else {
+      	for(var i = 0; i < user.offers.length; i++) {
+		    var obj = user.offers[i];
+		    if( id == obj.id) {
+				deleteOfferFiles(obj,req.user.email);
+		        user.offers.splice(i, 1);
+		    }
+		}
+		user.save(function(err) {
+            if(err) {
+                console.log("Error");
+            }
+            else {
+        		res.send(id).status(200).end();
             }
         });
       }
@@ -185,12 +212,49 @@ function update(req, res, next){
 }
 
 
+function deleteOfferFiles(links,email){
+	for (var i = 0; i < links.photos.length; i++) {
+		fs.remove('public/uploads/' + emailToFolder(email) + links.photos[i], function (err) {});
+	};
+	fs.remove('public/uploads/' + emailToFolder(email) + links.video, function (err) {});
+}
+
+function offer(req, res, next){
+	var id = req.query.id;
+	Provider.findOne({offers: {$elemMatch: {id : id}}}, function (err, user) {
+        if (err){
+            console.log(err)
+        }
+        if (user) {
+            var offer = {
+            	avatar : user.avatar.small,
+            	name : user.firstname + ' ' + user.lastname,
+            	isown : false,
+            	offer : {}
+            }
+            if(user.email == req.user.email){
+            	offer.isown = true;
+            }
+
+            for(var i = 0; i < user.offers.length; i++) {
+		    	var obj = user.offers[i];
+		    	if( id == obj.id) {
+		    		offer.offer = user.offers[i];
+		    		offer.offer.date = dateFormat(offer.offer.date, format);
+		    		res.send(offer).status(200).end();
+		    	}
+			}
+        }
+    });
+}
 
 module.exports = {
 	uploadOfferImages : uploadOfferImages,
 	uploadOfferVideo : uploadOfferVideo,
 	uploadOfferData : uploadOfferData,
 	offers : offers,
+	offer : offer,
+	deleteOffer : deleteOffer,
 	progress : progress,
 	update : update
 }

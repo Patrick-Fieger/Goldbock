@@ -11,12 +11,13 @@ module.exports = function(app){
 	app.post('/provider/upload/offer/video', pass.isAuthenticatedToMakeRequest , provider.uploadOfferVideo);
 	app.post('/provider/upload/offer/data', pass.isAuthenticatedToMakeRequest , provider.uploadOfferData);
 	app.get('/offers', pass.isAuthenticatedToMakeRequest , provider.offers);
+	app.delete('/offer', pass.isAuthenticatedToMakeRequest , provider.deleteOffer);
+	app.get('/offer', pass.isLoggedInNext , provider.offer);
 	app.post('/update/provider', pass.isAuthenticatedToMakeRequest , provider.update);
 	app.post('/update/avatar', pass.isAuthenticatedToMakeRequest , all.avatar);
 	app.get('/upload/progress', pass.isAuthenticatedToMakeRequest , provider.progress);
 	app.get('/profile', pass.isAuthenticatedToMakeRequest , all.profile);
 	app.get('/avatarinfos', pass.isAuthenticatedToMakeRequest , all.getAvatarInfos);
 	app.get('/authenticated',pass.isAuthenticatedToSeeContent);
-	app.get('/logout', function(req, res){req.logout()});
 	app.get('/isloggedin', pass.isLoggedIn);
 }

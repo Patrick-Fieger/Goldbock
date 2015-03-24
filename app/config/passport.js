@@ -71,15 +71,34 @@ function isLoggedIn(req, res, next){
   }
 }
 
+function isLoggedInNext(req, res, next){
+  if (req.user) {
+      return next();
+  } else {
+      res.status(401).end();
+  }
+}
+
 var isAuthenticatedToSeeContent = function (req, res, next) {
-  if (req.isAuthenticated() && allowedpath[req.user.role].indexOf(req.query.path) > -1)
+  var path;
+  if(req.query.path.split('/')[1] == "offer"){
+    path = '/offer'
+  }else{
+    path = req.query.path
+  }
+
+  if (req.isAuthenticated() && allowedpath[req.user.role].indexOf(path) > -1)
     res.status(200).end();
   else
     res.status(401).end();
 }
 
 var isAuthenticatedToMakeRequest = function (req, res, next) {
-  if (req.isAuthenticated() && allowedrequest[req.user.role].indexOf(req._parsedOriginalUrl.path) > -1)
+  var path = req._parsedOriginalUrl.path;
+  var split = path.indexOf('?');
+  path = path.substring(0, split != -1 ? split : path.length);
+
+  if (req.isAuthenticated() && allowedrequest[req.user.role].indexOf(path) > -1)
     return next();
   else
     res.status(401).end();
@@ -91,5 +110,6 @@ module.exports = {
   logout : logout,
   isAuthenticatedToSeeContent: isAuthenticatedToSeeContent,
   isAuthenticatedToMakeRequest: isAuthenticatedToMakeRequest,
-  isLoggedIn : isLoggedIn
+  isLoggedIn : isLoggedIn,
+  isLoggedInNext : isLoggedInNext
 }

@@ -19,11 +19,7 @@ angular.module('app.provider_dashboard', ['ngRoute','ngAnimate'])
 	$scope.count = 400;
 
 	AllService.profile().success(updateProfileView);
-	ProviderService.offers().success(updateOfferList);
-
-	function updateOfferList(data, status, headers, config){
-		$scope.offers = data;
-	}
+	// ProviderService.offers().success(updateOfferList);
 
 	function updateProfileView(data, status, headers, config){
 		$scope.user = data;
@@ -107,6 +103,26 @@ angular.module('app.provider_dashboard', ['ngRoute','ngAnimate'])
 
 	$scope.countText = function(){
 		$scope.count = 400 - $scope.user.about.length - ($scope.user.about.match(/\n/g)||[]).length;
+	}
+
+	$scope.redirectEdit = function(id){
+		alert(id)
+	}
+
+	$scope.deleteOffer = function(id){
+		if(confirm('Möchten sie das Angebot wirklich löschen?')){
+			ProviderService.deleteOffer(id).success(updateOfferList)
+		}
+	}
+
+	function updateOfferList(data, status, headers, config){
+		var id = data;
+		for(var i = 0; i < $scope.user.offers.length; i++) {
+		    var obj = $scope.user.offers[i];
+		    if( id == obj.id) {
+		        $scope.user.offers.splice(i, 1);
+		    }
+		}
 	}
 
 	$scope.logout = function(){

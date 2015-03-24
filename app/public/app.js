@@ -11,6 +11,7 @@ angular.module('myApp', [
   'myApp.view3',
   'app.provider_create_offer',
   'app.provider_dashboard',
+  'app.offer',
   'app.userService',
   'app.authService',
   'app.allService',
@@ -23,13 +24,14 @@ config(['$locationProvider','$routeProvider','$animateProvider', function($locat
   $routeProvider.otherwise({redirectTo: '/'});
 }])
 .run(function($rootScope,$http,AuthService,AllService,$timeout) {
-    AllService.checkAvatarInfos();
+    
 
     $rootScope.$on('$routeChangeSuccess', function(ev, to, toParams, from, fromParams) {
         $('body').scrollTop(0);
         $('.spinner').removeClass('active');
         if(to.$$route.originalPath !== '/'){
             AuthService.isAuth();
+            AllService.checkAvatarInfos();
         }
     });
 
