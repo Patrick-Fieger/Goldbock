@@ -35,7 +35,6 @@ $(document).on('click', '.switch_des li', function(event) {
 	$('.content_[typ="'+$(this).attr('typ')+'"]').addClass('active')
 });
 
-
 $(document).on('click','a[href="/buchung"]', function(event) {
 	event.preventDefault();
 	$('.overlay,.closeall,.meetingform').addClass('active');

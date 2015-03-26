@@ -36,6 +36,10 @@ angular.module('app.allService', [])
 		$rootScope.fullname = name;
 	}
 
+	function removePublicInLink(link){
+		return link.replace('public/','');
+	}
+
 	function hideAvatarInfos(){
 		$rootScope.isLogged = false;
 		$rootScope.fullname = "";
@@ -45,6 +49,7 @@ angular.module('app.allService', [])
 	return {
 		checkAvatarInfos: checkAvatarInfos,
 		profile : profile,
-		updateName : updateName
+		updateName : updateName,
+		removePublicInLink : removePublicInLink
 	}
 });

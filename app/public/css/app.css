@@ -244,6 +244,7 @@ input{
   width: 100%;
   height: 500px;
   position: relative;
+  z-index: -1;
 }
 
 .header_wrapper div{
@@ -251,12 +252,13 @@ input{
   width: 100%;
   height: 500px;
   background-size: cover;
-  background-position: 50% 50%;
-  -webkit-transform: translateZ(0);
-  -moz-transform: translateZ(0);
-  -ms-transform: translateZ(0);
-  -o-transform: translateZ(0);
-  transform: translateZ(0);
+  background-position-y: 0%;
+  background-position-x: 50%;
+  -webkit-transform: translate3d(0,0,0);
+  -moz-transform: translate3d(0,0,0);
+  -ms-transform: translate3d(0,0,0);
+  -o-transform: translate3d(0,0,0);
+  transform: translate3d(0,0,0);
 }
 
 /*PROGRESS BAR*/
@@ -316,8 +318,12 @@ input{
 
 .avatar{
   position: fixed;
-  right: 20px;
-  top:20px;
+  right: 0;
+  top: 0;
+  z-index: 1000;
+  padding: 10px 20px 10px 20px;
+  background: rgba(244,244,244,0.4);
+  border-bottom-left-radius: 20px;
 }
 
 .avatar img,
@@ -450,6 +456,70 @@ input{
   vertical-align: middle;
   padding: 5px 0 0 0;
 }
+
+/*OFFER*/
+
+.offer{
+  padding: 20px 0;
+  background: #fff;
+  border: 1px solid #dce0e0;
+  -webkit-box-shadow: 0px -4px 5px -2px rgba(0,0,0,0.2);
+  -moz-box-shadow: 0px -4px 5px -2px rgba(0,0,0,0.2);
+  box-shadow: 0px -4px 5px -2px rgba(0,0,0,0.2);
+}
+
+.o_title{
+  margin: -5px 0 0 0;
+  font-size: 24px;
+}
+
+.o_place{
+  margin: 0;
+  font-size: 15px;
+}
+
+.o_icon-offer{
+  width: 100%;
+  float: left;
+  font-size: 25px; 
+}
+
+
+.offer .o_avatar{
+  border-radius: 50%;
+  margin: 0 auto;
+  display: block;
+  clear: both;
+}
+
+
+#book_it {
+  position: absolute;
+  width: 315px;
+  z-index: 10;
+  border: 1px solid #dce0e0;
+  background-color: #fff;
+  border-radius: 0;
+  padding: 20px;
+}
+
+#pricing {
+  margin-top:-61px;
+  background-color: rgba(60,63,64,0.9);
+  border: 0;
+  color: #fff;
+  height: 40px;
+  padding: 0 20px;
+  text-transform: capitalize;
+  width: 315px;
+  z-index: 1001;
+}
+
+#pricing p{
+  font-size: 22px;
+  margin: 3px 0 0 0;
+}
+
 
 /*KATEGORIEN*/
 

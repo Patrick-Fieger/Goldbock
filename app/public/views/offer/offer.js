@@ -14,20 +14,53 @@ angular.module('app.offer', ['ngRoute','ngAnimate'])
 
 	function buildOfferView(data, status, headers, config){
 		$scope.offer = data;
-		$scope.offer.offer.titleimage.black = $scope.offer.offer.titleimage.black.replace('public/','');
-		$scope.offer.offer.titleimage.normal = $scope.offer.offer.titleimage.normal.replace('public/','');
+		$scope.offer.avatar = AllService.removePublicInLink($scope.offer.avatar);
+		console.log(data)
 	}
 
 	$(window).bind('scroll', calcScroll);
 
 	function calcScroll(event){
 		var top = $(window).scrollTop();
-		var perc = top / 300;
-		if(top <= 300){
+		var max = 500
+		var perc = top / max;
+		var indexcalc= '+'+(top/($(window).height()+10))*200 +'px'
+		if(top <= max){
 			var op = 1 - perc
-			$('.normal_image').css('opacity',op)
+			$('.normal_image').css('opacity',op);
+
+			$('.black_image,.normal_image').css('transform','translate3d(0,'+  indexcalc  + ', 0)');
 		}
 		
 	}
+
+	function initpicker (){
+		$('.timepicker').pickatime({
+			format: 'H:i',
+			clear: '',
+			hiddenName: true,
+  			min: [8,0],
+  			max: [18,0]
+		});
+
+		$('.datepicker').pickadate(
+            {
+            	format: 'dd.mm.yyyy',
+                today: '',
+                clear: '',
+                close: '',
+                hiddenName: true,
+                disable: [
+        			6,7
+    			],
+                min:true,
+                onSet: function(context) {
+   				 console.log(this)
+  				}
+            }
+        );
+	}
+
+	initpicker();
 
 }]);

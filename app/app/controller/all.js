@@ -93,8 +93,6 @@ function resizeAvatar(req,res,folderNameByEmail,_uuid,extension){
 			          if(err) {
 			              console.error('ERROR!');
 			          }else{
-			          	console.log('new')
-			          	console.log(avatar)
 			          	res.send(avatar).status(200).end();
 			          }
 			      });
@@ -107,8 +105,6 @@ function resizeAvatar(req,res,folderNameByEmail,_uuid,extension){
 }
 
 function deletePrevAvatar(avatars){
-	console.log('delete')
-	console.log(avatars)
 	fs.remove(avatars.big, function (err) {});
 	fs.remove(avatars.small, function (err) {});
 }

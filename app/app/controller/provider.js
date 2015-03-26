@@ -8,7 +8,7 @@ var uuid = require('uuid'),
     gm = require('gm'),
     progress_ = {};
 
-    var format = "dddd, d mmmm , yyyy, hh:MM:ss";
+    var format = "dddd, d. mmmm , yyyy, HH:MM:ss";
 
     dateFormat.i18n = {
 		dayNames: [
@@ -42,6 +42,8 @@ function uploadOfferTitleImage(req, res, next){
             		black : newPathImageBlurred
             	}
             	createBlackWhiteVersion(newPathImage,newPathImageBlurred);
+            	images.normal = removePublicFromLink(newPathImage);
+            	images.black = removePublicFromLink(newPathImageBlurred);
                 res.send(images).status(200).end();
             }
         });
@@ -84,14 +86,14 @@ function uploadOfferImages(req, res, next){
 	});
 
     form.on('file', function(name, file) {
-		var newFilename = uuid.v4() + '.' + file.name.split('.').pop()
+		var newFilename = newLocation + folderNameByEmail + uuid.v4() + '.' + file.name.split('.').pop()
 		, temp_path = file.path
 
-		fs.move(temp_path, newLocation + folderNameByEmail + newFilename, function(err) {
+		fs.move(temp_path, newFilename, function(err) {
             if (err) {
                 console.error(err);
             } else {
-                imageList.push(newFilename)
+                imageList.push(removePublicFromLink(newFilename))
             }
         });
 	});
@@ -115,14 +117,14 @@ function uploadOfferVideo(req, res, next){
 	folderNameByEmail = emailToFolder(req.user.email)
 
     form.on('end', function() {
-		var newFilename = uuid.v4() + '.' + this.openedFiles[0].name.split('.').pop()
+		var newFilename = newLocation + folderNameByEmail + uuid.v4() + '.' + this.openedFiles[0].name.split('.').pop()
 		, temp_path = this.openedFiles[0].path
 
-		fs.move(temp_path, newLocation + folderNameByEmail + newFilename, function(err) {
+		fs.move(temp_path,newFilename, function(err) {
             if (err) {
                 console.error(err);
             } else {
-                res.send(newFilename).status(200).end();
+                res.send(removePublicFromLink(newFilename)).status(200).end();
             }
         });
 	});
@@ -250,7 +252,7 @@ function deleteOffer(req, res, next){
       	for(var i = 0; i < user.offers.length; i++) {
 		    var obj = user.offers[i];
 		    if( id == obj.id) {
-				deleteOfferFiles(obj,req.user.email);
+				deleteOfferFiles(obj);
 		        user.offers.splice(i, 1);
 		    }
 		}
@@ -267,14 +269,19 @@ function deleteOffer(req, res, next){
 }
 
 
-function deleteOfferFiles(links,email){
+function deleteOfferFiles(links){
+	var public = 'public/'
 	for (var i = 0; i < links.photos.length; i++) {
-		fs.remove('public/uploads/' + emailToFolder(email) + links.photos[i], function (err) {});
+		fs.remove(public + links.photos[i], function (err) {});
 	};
 	for (var i = 0; i < links.titleimage.length; i++) {
-		fs.remove(links.titleimage[i], function (err) {});
+		fs.remove(public + links.titleimage[i], function (err) {});
 	};
-	fs.remove('public/uploads/' + emailToFolder(email) + links.video, function (err) {});
+	fs.remove(public + links.video, function (err) {});
+}
+
+function removePublicFromLink(link){
+	return link.replace('public/','')
 }
 
 function offer(req, res, next){
@@ -287,6 +294,9 @@ function offer(req, res, next){
             var offer = {
             	avatar : user.avatar.small,
             	name : user.firstname + ' ' + user.lastname,
+            	city : user.city,
+            	zip : user.zip,
+            	street : user.street,
             	isown : false,
             	offer : {}
             }
