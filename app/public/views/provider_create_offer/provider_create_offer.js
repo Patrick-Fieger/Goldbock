@@ -31,7 +31,12 @@ angular.module('app.provider_create_offer', ['ngRoute','ngAnimate'])
 
 	function pushImageFilenamesAndUploadVideo(data, status, headers, config){
 		photos = data;
-		UploadService.uploadOfferVideo($("#video")[0].files[0]).success(pushVideoFilenameAndUploadOfferData);
+		if($("#video")[0].files[0] == undefined){
+			pushVideoFilenameAndUploadOfferData("","","","");
+		}else{
+			UploadService.uploadOfferVideo($("#video")[0].files[0]).success(pushVideoFilenameAndUploadOfferData);	
+		}
+		
 	}
 
 	function pushVideoFilenameAndUploadOfferData(data, status, headers, config){
