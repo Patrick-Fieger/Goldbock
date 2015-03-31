@@ -191,7 +191,7 @@ function calculatePercentage(user){
 		percentage.progress = toPercentage(progress_[user].bytesReceived,progress_[user].bytesExpected) + 25;
 		percentage.message = "Lade Bilder hoch";
 	} else if(progress_[user].type == 'video'){
-		percentage.progress = toPercentage(progress_[user].bytesReceived,progress_[user].bytesExpected) + 25;
+		percentage.progress = toPercentage(progress_[user].bytesReceived,progress_[user].bytesExpected) + 50;
 		percentage.message = "Lade Video hoch";
 	}
 
@@ -199,7 +199,7 @@ function calculatePercentage(user){
 }
 
 function toPercentage(p1,p2){
-	return p1 / p2 * 100 / 3;
+	return p1 / p2 * 100 / 4;
 }
 
 function emailToFolder(email){

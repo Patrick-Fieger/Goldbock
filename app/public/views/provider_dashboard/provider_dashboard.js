@@ -28,6 +28,7 @@ angular.module('app.provider_dashboard', ['ngRoute','ngAnimate'])
         	$scope.user.avatar.big = data.avatar.big.replace('public/','')
         }
         else{
+        	$scope.user.avatar = {};
         	$scope.user.avatar.big = 'img/avatar/avatar.png';
         }
 
