@@ -81,8 +81,8 @@ function isLoggedInNext(req, res, next){
 
 var isAuthenticatedToSeeContent = function (req, res, next) {
   var path;
-  if(req.query.path.split('/')[1] == "offer" || req.query.path.split('/')[1] == "edit"){
-    path = '/' + req.query.path.split('/')[1]
+  if(req.query.path.split('/')[1] == "offer"){
+    path = '/offer'
   }else{
     path = req.query.path
   }

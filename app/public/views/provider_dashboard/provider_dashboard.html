@@ -1,0 +1,74 @@
+<div class="row dashboard">
+	<h1 class="tac mb30">Dashboard</h1>
+	<div class="large-3 columns userinfo">
+		<div class="avatar_wrapper mb20">
+			<img ng-src="{{user.avatar.big}}">
+			<span class="changeavatar">
+				Profilbild ändern
+				<input onchange="angular.element(this).scope().checkAvatar()" type="file" id="avatar">
+			</span>
+		</div>
+
+		<div ng-hide="editstate">
+			<p><strong>{{user.company}}</strong></p>
+			<p class="mb10"><strong>{{user.firstname}} {{user.lastname}}</strong></p>
+			<p>{{user.street}}</p>
+			<p>{{user.zip}} {{user.city}}</p>
+			<p class="mb30">{{user.tel}}</p>
+		</div>
+
+		<div ng-show="editstate">
+			<form class="form-group" name="userdata">
+				<fieldset>
+					<input required type="text" class="form-control mb10" ng-model="user.company" value="user.company">
+					<input required type="text" class="form-control mb10" ng-model="user.firstname" value="user.firstname">
+					<input required type="text" class="form-control mb10" ng-model="user.lastname" value="user.lastname">
+					<input required type="text" class="form-control mb10" ng-model="user.street" value="user.street">
+					<input required type="text" class="form-control mb10" ng-model="user.zip" value="user.zip">
+					<input required type="text" class="form-control mb10" ng-model="user.city" value="user.city">
+					<input required type="text" class="form-control" ng-model="user.tel" value="user.tel">
+				</fieldset>
+			</form>
+		</div>
+
+		<div ng-show="editstate">
+			<a class="btn btn-primary wd100 fl mb10" href="" ng-click="save()">Speichern</a>
+			<a class="btn btn-danger wd100 fl mb10" href="" ng-click="cancel()">Abbrechen</a>
+		</div>
+
+		<div ng-hide="editstate">
+			<a class="btn btn-primary wd100 fl mb10" href="" ng-click="edit()">Profil bearbeiten</a>
+			<a class="btn btn-primary wd100 fl mb10" href="" ng-click="edi()">Passwort ändern</a>
+			<a class="btn btn-danger wd100 fl" href="" ng-click="logout()">Logout</a>
+		</div>
+
+	</div>
+	<div class="large-9 columns">
+		<section ng-class="{'showforms': showAboutTextarea}">
+
+			<h2 class="mt0">Über mich</h2>
+			<p ng-show="showAboutTextareaText" class="mb30" ng-bind-html="about"></p>
+			<p ng-hide="showAboutTextareaText" class="mb30">
+				Schreibe etwas über dich, damit deine Kunden wissen mit wem sie es zu tun haben.
+			</p>
+			<form class="form-group" ng-show="showAboutTextarea" name="userabout">
+				<fieldset>
+					<textarea ng-change="countText()" ng-model="user.about" name="textareaabout" placeholder="Schreibe etwas über dich in 400 Zeichen." maxlength="400" ng-maxlength="400" ng-trim="5" class="wd100 mb10 form-control"></textarea>
+				</fieldset>
+				<span>{{count}}</span>
+			</form>
+		</section>
+		<hr>
+
+		<section class="posr">
+			<h2>Meine Angebote</h2><a href="#/provider/create/offer" class="icon-plus3 fr posa t0 r0 createoffer_link"></a>
+
+			<ul class="offer-list mt30">
+				<li ng-repeat="offer in user.offers"><a ng-href="#/offer/{{offer.id}}">{{offer.title}}</a><span class="icon-pencil" ng-click="redirectEdit(offer.id)"></span><span ng-click="deleteOffer(offer.id)" class="icon-cup"></span></li>
+
+			</ul>
+		</section>
+
+
+	</div>
+</div>

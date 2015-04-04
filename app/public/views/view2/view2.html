@@ -1,0 +1,138 @@
+<div class="kategorien">
+    <div class="roundabout">
+        
+        <div ng-hide="hidelogo" class="logo">
+            <img src="img/logo.png">
+        </div>
+        
+        <div ng-hide="listforitem" class="listforitem">
+            <ul ng-repeat="k in kat" id="{{k.id}}">
+                <li ng-repeat="l in k.list"><a href="{{l.href}}" ng-bind-html="l.title"></a></li>
+            </ul>
+        </div>
+
+        <div on-finish-render="positioning()" class="item" ng-repeat="k in kat">
+            <a ng-click="hideLogoShowList($event)" href="" kategorie="{{k.id}}" ng-bind-html="k.name"></a>
+        </div>
+
+        <div id="coming">
+            <p>Coming soon!</p>
+        </div>
+
+    </div>
+</div>
+
+<div class="angebot_loader" id="help">
+    <div class="icon-cross closeangebot"></div>
+    <div class="content">
+        <div class="row">
+            <h1>My Assistant</h1>
+
+            <p>Hallo ich bin Caro und Deine persönliche Assistentin rund um Goldbock – employees only. Du hast Fragen, benötigst Hilfe oder möchtest was bestellen? Dann rufe mich einfach unter <a href="tel:0800/19251925">0800 / 19 25 19 25</a> an oder schreibe mir eine Mail unter <a href="mailto:caro@goldbock.de"><strong>caro@goldbock.de</strong></a>.<br></br> Übrigens, Du findest mich auch auf Whats App. Speichere einfach diese Handynummer: <a href="tel:0173 / 1855857">0173 / 1855857</a> und schon erreichst Du mich auch per Whats App.</p>
+        </div>
+    </div>
+</div>
+
+<div class="angebot_loader" id="einkauf">
+    <div class="icon-cross closeangebot"></div>
+    <div class="content">
+
+        <div class="row">
+        
+            <h1>Wocheneinkauf</h1>
+            
+            <div class="columns large-12">
+                <p>
+                    Wir erledigen gerne Deinen Wocheneinkauf. Schicke uns einfach Deinen Einkaufszettel und wir bringen Dir den Einkauf ins Büro / Parkplatz oder direkt nachhause – wie Du willst. Momentan können wir bei folgenden Geschäften für Dich einkaufen:
+                </p>
+            </div>
+            
+
+            <div class="columns large-6">
+                <ul>
+                    <li>Lidl</li>
+                    <li>Edeka</li>
+                    <li>Alnatura</li>
+                    <li>Aldi </li>
+                    <li>Dm</li>
+                </ul>
+            </div>
+            <div class="columns large-6">
+                <button class="brettbutton">Buy for me</button>
+            </div>
+            <div class="columns large-12">
+                <p class="anmerkung">
+                    * Dieser Service kostet 15% von Deinem Einkauf aber mindestens € 10,00 inkl. MwSt. pro Einkaufsliste. Auftragsdauer bis zu 24 Stunden. Expresseinkauf und Lieferung -innerhalb 3 Stunden- kostet € 45,00 inkl. MwSt.
+                </p>
+            </div>  
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="meetingform">
+    <form class="simpleform" ng-submit="submitMeeting()">
+        <input autofocus required placeholder="Personenanzahl" type="number"><br>
+        <input required type="text" placeholder="Datum" class="datepicker"><br>
+        <select>
+            <option value="" disabled selected>Kriterien</option>
+            <option>Meeting Geschäfsabschluss</option>
+            <option>Meeting Personal / Kollegen</option>
+            <option>Stadtnah</option>
+            <option>Im Grünen</option>
+            <option>Mit Essen</option>
+            <option>Schulung</option>
+            <option>Besprechung</option>
+            <option>Feier</option>
+            <option>Lockeres Treffen</option>
+        </select>
+        <span class="morekrit">Weiteres Kriterium hinzufügen</span>
+        <textarea require placeholder="Besondere Wünsche?"></textarea><br>
+        <button type="submit">Buchungsanfrage senden</button>
+    </form>
+</div>
+
+<!-- <div class="firstnoti">
+    <div class="row">
+        <div class="columns large-12">
+            <h1>Es sind neue Bereiche freigeschalten worden. Schaue doch mal bei "Home & Garden" vorbei!</h1>
+        </div>
+    </div>
+</div> -->
+
+<!-- <div class="footernoti">
+    <div class="row">
+        <div class="columns large-12">
+            <h1>Alles für Ihr berufliches & privates Wohlbefinden - ohne personenbezogene Datenspeicherung - am Arbeitsplatz - von zuhause!</h1>
+        </div>
+    </div>
+</div> -->
+
+<a href="" class="icon-arrow-down5 opennoti" notification="2"></a>
+
+<div class="inbox">
+    <div class="row">
+        <h1>Inbox</h1>
+        <div class="large-12 columns underline">
+            <div class="large-3 columns">
+                <h3>Kategorie</h3>
+            </div>
+            <div class="large-9 columns">
+                <h3>Beschreibung</h3>
+            </div>
+        </div>
+        <div class="large-12 columns" ng-repeat="k in kat">
+            <a href="#/angebote">
+                <div class="large-3 columns">
+                    <p>{{k.name}}</p>
+                </div>
+                <div class="large-9 columns">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua.</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

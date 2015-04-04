@@ -269,102 +269,6 @@ function deleteOffer(req, res, next){
 }
 
 
-function deleteOfferData(req, res, next){
-	var data = req.query;
-	data.email = req.user.email;
-	deleteOfferFiles(data);
-	deleteOfferFilesFromDatabase(res,data)
-}
-
-
-function updateOfferData(req, res, next){
-	var data = req.body;
-	Provider.findOne({ email: req.user.email }, function(err, user) {
-      if (err) { console.log(err) }
-      if (!user) {
-        res.status(404).end();
-      }else {
-      	for (var i = 0; i < user.offers.length; i++) {
-      		if(user.offers[i].id == data.id){
-
-      			if(data.title !== ""){
-      				user.offers[i].title = data.title
-      			}
-
-      			if(data.description !== ""){
-      				user.offers[i].description = data.description
-      			}
-
-      			if(data.price !== ""){
-      				user.offers[i].price = data.price
-      			}
-
-      			if(data.video !== ""){
-      				user.offers[i].video = data.video
-      			}
-
-      			if(data.titleimage !== ""){
-      				user.offers[i].titleimage = data.titleimage
-      			}
-
-      			if(data.photos.length !== 0){
-      				for (var k = 0; k < data.photos; k++) {
-      					user.offers[i].photos.push(data.photos[k]);
-      				};
-      			}
-      		}
-      	}
-
-		user.save(function(err) {
-		    if(err) {
-		        console.log("Error");
-		    }
-		    else {
-				res.status(200).end();
-		    }
-		});
-      }
-    });
-}
-
-
-function deleteOfferFilesFromDatabase (res,data){
-	Provider.findOne({ email: data.email }, function(err, user) {
-      if (err) { console.log(err) }
-      if (!user) {
-        res.status(404).end();
-      }else {
-      	for (var i = 0; i < user.offers.length; i++) {
-      		if(user.offers[i].id == data.id){
-      			if(data.photos.length !== 0){
-					for (var k = 0; k < data.photos.length; k++) {
-						for (var j = 0; j < user.offers[i].photos.length; j++) {
-							if(data.photos[k] == user.offers[i].photos[j]){
-								user.offers[i].photos.splice(j, 1);
-							}
-						};
-					};
-				}
-				else if(data.titleimage.length !== 0 && data.titleimage !== undefined){
-      				user.offers[i].titleimage = [];
-      			}else if(data.video !== "" && data.video !== undefined){
-      				user.offers[i].video = "";
-      			}
-      		}
-      	};
-		user.save(function(err) {
-		    if(err) {
-		        console.log("Error");
-		    }
-		    else {
-				res.status(200).end();
-		    }
-		});
-      }
-    });
-}
-
-
 function deleteOfferFiles(links){
 	var public = 'public/'
 	for (var i = 0; i < links.photos.length; i++) {
@@ -420,8 +324,6 @@ module.exports = {
 	offers : offers,
 	offer : offer,
 	deleteOffer : deleteOffer,
-	deleteOfferData : deleteOfferData,
-	updateOfferData : updateOfferData,
 	progress : progress,
 	update : update
 }
