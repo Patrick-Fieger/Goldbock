@@ -38,6 +38,14 @@ angular.module('app.uploadService', [])
 		return $http.post('/provider/upload/offer/data',data)
 	}
 
+	var updateOfferData = function(data){
+		return $http.post('/provider/edit/offer/data',data)	
+	}
+
+	var deletePrevData = function(data){
+		return $http.delete('/edit/offer',{params: data});
+	}
+
 	var progress = function(){
 		return $http.get('/upload/progress')
 	}
@@ -61,6 +69,8 @@ angular.module('app.uploadService', [])
 		uploadOfferPhotos : uploadOfferPhotos,
 		uploadOfferVideo : uploadOfferVideo,
 		uploadOfferData : uploadOfferData,
+		updateOfferData : updateOfferData,
+		deletePrevData : deletePrevData,
 		avatar : avatar,
 		progress : progress
 	}

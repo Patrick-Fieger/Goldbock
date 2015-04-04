@@ -1,0 +1,59 @@
+<div class="bigform">
+    <h1 class="tac mb30">Angebot anlegen</h1>
+    <form ng-submit="uploadForm();watchProgress();" class="form-group">
+        <input class="form-control mb10" ng-model="offer.title" placeholder="Titel des Angebotes" value="" type="text" required>
+
+        <textarea ng-model="offer.description" class="form-control mb10 wd100" placeholder="Beschreibung des Angebotes"></textarea>
+
+        <input class="form-control mb30" ng-model="offer.price" placeholder="Kosten in €" value="{{offer.price}}" type="number" required>
+
+
+        <span ng-show="toggleTitleImage" class="btn btn-primary wd100 fl fileinput_hide">Titelbild auswählen<input id="titleimage" onchange="angular.element(this).scope().checkTitleImage()" placeholder="Bilder auswählen" type="file" accept="image/*"></span>
+
+        <div class="images_preview_big mt10 images_preview_big_delete" style="float: left;">
+            <div class="delete_wrapper">
+                <div class="icon-cross delete_ hpo" ng-click="toggleDelete(offer.titleimage.normal,'titleimage')"></div>
+                <img ng-src="{{offer.titleimage.normal}}">
+            </div>
+        </div>
+
+        <div ng-show="headerImageApplied" class="images_preview_big">
+            <img ng-src="{{titleImageNew}}" class="mt10">
+        </div>
+
+        <span ng-show="togglePhotos" class="btn btn-primary wd100 fl mt10 mb10 fileinput_hide">Bilder auswählen <input id="images" onchange="angular.element(this).scope().checkImages()" placeholder="Bilder auswählen" multiple="true" type="file" accept="image/*"></span>
+
+
+        <div ng-show="photosApplied" class="images_preview mb10">
+            <img ng-repeat="image in images" src="{{image}}">
+        </div>
+
+        <div class="images_preview edit_ mb10 wd100" style="float: left;">
+            <div class="delete_wrapper" ng-repeat="image in offer.photos">
+                <div class="icon-cross delete_ hpo" ng-click="toggleDelete(image,'photos')"></div>
+                <img ng-src="{{image}}">
+            </div>
+        </div>
+        
+        <span ng-show="toggleVideo" class="btn btn-primary wd100 fl mb10 fileinput_hide">Video auswählen <input id="video" onchange="angular.element(this).scope().checkVideo()" placeholder="Video auswählen" type="file" accept="video/mp4"></span>
+
+
+        <div class="delete_wrapper video_preview_delete">
+                <div class="icon-cross delete_ hpo" ng-click="toggleDelete(offer.video,'video')"></div>
+        <div class="video_preview wd100 fl mb10"><video class="wd100" ng-src="{{offer.video}}" controls></video></div>
+        </div>
+        <input class="btn btn-primary mt30" type="submit" value="Änderungen speichern"></input>
+        <button class="btn btn-danger mt10 hpo wd100"  ng-click="cancelEdit()">Abbrechen</button>
+        
+    </form>
+</div>
+
+
+<div class="progress_wrapper" ng-class="{'active': showProgress}">
+    <div class="progress_wrapper_inner">
+        <p class="tac">{{progressMessage}}</p>
+        <div class="progress">
+            <div class="progress-bar" style="width: 0%;"></div>
+        </div>
+    </div>
+</div>

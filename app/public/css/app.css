@@ -162,6 +162,10 @@ input{
   text-align: center;
 }
 
+.hpo:hover{
+  cursor: pointer;
+}
+
 .tar{
  text-align: right; 
 }
@@ -225,11 +229,23 @@ input{
   cursor: pointer;
 }
 
+
+
 .images_preview img{
   width: 31.3%;
   margin: 1%;
   float: left;
+  position: ree
 }
+
+.images_preview.edit_ img{
+  width: 98%;
+}
+
+.images_preview.edit_ .delete_wrapper{
+  width: 33.3%;
+}
+
 
 .images_preview_big img{
   width: 100%;
@@ -456,6 +472,35 @@ input{
   vertical-align: middle;
   padding: 5px 0 0 0;
 }
+
+/*EDIT OFFER*/
+.delete_wrapper{
+  width: auto;
+  position: relative;
+  float: left;
+  height: auto;
+}
+
+.delete_wrapper .delete_{
+  width: 40px;
+  height: 40px;
+  background: rgba(255,255,255,0.8);
+  color: red;
+  border-radius: 50%;
+  right: 10px;
+  top: 10px;
+  position: absolute;
+  z-index: 1000;
+}
+
+.delete_:before{
+  font-size: 30px;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+}
+
+  
 
 /*OFFER*/
 
