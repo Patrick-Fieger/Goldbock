@@ -107,7 +107,7 @@ angular.module('app.provider_dashboard', ['ngRoute','ngAnimate'])
 	}
 
 	$scope.redirectEdit = function(id){
-		alert(id)
+		$location.path('/edit/'+id)
 	}
 
 	$scope.deleteOffer = function(id){

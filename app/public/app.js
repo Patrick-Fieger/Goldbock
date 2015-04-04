@@ -11,6 +11,7 @@ angular.module('myApp', [
   'myApp.view3',
   'app.provider_create_offer',
   'app.provider_dashboard',
+  'app.provider_edit_offer',
   'app.offer',
   'app.userService',
   'app.authService',

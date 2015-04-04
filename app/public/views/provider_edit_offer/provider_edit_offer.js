@@ -218,9 +218,5 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 	$scope.$watch('delete.photos' ,function(newValues, oldValues, scope) {
 		anydelete++;
 	},true)
-
-
-
 	
-
 }]);
