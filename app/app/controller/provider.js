@@ -367,13 +367,23 @@ function deleteOfferFilesFromDatabase (res,data){
 
 function deleteOfferFiles(links){
 	var public = 'public/'
-	for (var i = 0; i < links.photos.length; i++) {
-		fs.remove(public + links.photos[i], function (err) {});
-	};
-	for (var i = 0; i < links.titleimage.length; i++) {
-		fs.remove(public + links.titleimage[i], function (err) {});
-	};
-	fs.remove(public + links.video, function (err) {});
+
+	if(links.photos.length !== 0){
+		for (var i = 0; i < links.photos.length; i++) {
+			fs.remove(public + links.photos[i], function (err) {});
+		};
+	}
+
+	if(links.titleimage.length !== 0){
+		for (var i = 0; i < links.titleimage.length; i++) {
+			fs.remove(public + links.titleimage[i], function (err) {});
+		};
+	}
+	
+	if(links.video !== ""){
+		fs.remove(public + links.video, function (err) {});
+	}
+	
 }
 
 function removePublicFromLink(link){
