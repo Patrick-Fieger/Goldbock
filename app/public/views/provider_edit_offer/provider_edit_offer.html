@@ -38,14 +38,13 @@
         <span ng-show="toggleVideo" class="btn btn-primary wd100 fl mb10 fileinput_hide">Video auswählen <input id="video" onchange="angular.element(this).scope().checkVideo()" placeholder="Video auswählen" type="file" accept="video/mp4"></span>
 
 
-        <div class="delete_wrapper video_preview_delete">
+        <div ng-hide="toggleVideo" class="delete_wrapper video_preview_delete">
                 <div class="icon-cross delete_ hpo" ng-click="toggleDelete(offer.video,'video')"></div>
         <div class="video_preview wd100 fl mb10"><video class="wd100" ng-src="{{offer.video}}" controls></video></div>
         </div>
         <input class="btn btn-primary mt30" type="submit" value="Änderungen speichern"></input>
-        <button class="btn btn-danger mt10 hpo wd100"  ng-click="cancelEdit()">Abbrechen</button>
-        
     </form>
+    <button class="btn btn-danger mb30 hpo wd100"  ng-click="cancelEdit()">Abbrechen</button>
 </div>
 
 

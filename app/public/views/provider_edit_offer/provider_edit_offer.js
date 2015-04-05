@@ -25,14 +25,17 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 
 	$scope.delete = {
 		id: "",
-		titleimage : "",
+		titleimage : {
+			normal : "",
+			black : ""
+		},
 		photos : [""],
 		video : ""
 	};
 
 	$scope.uploadForm = function(){
 		if(anydelete > 0){
-			UploadService.deletePrevData($scope.delete).success(uploadNewFiles);	
+			UploadService.deletePrevData($scope.delete).success(uploadNewFiles);
 		}else{
 			uploadNewFiles();
 		}
@@ -50,8 +53,7 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 
 	function pushTitleFilenameAndUploadImages(data, status, headers, config){
 		title = data;
-
-		if($("#images")[0].files !== undefined){
+		if($("#images")[0].files.length !== 0){
 			UploadService.uploadOfferPhotos($("#images")[0].files).success(pushImageFilenamesAndUploadVideo);
 		}else{
 			pushImageFilenamesAndUploadVideo("", "", "", "");
@@ -81,6 +83,7 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 		$scope.new.price = $scope.offer.price;
 
 		if($scope.new.video !== "" || $scope.new.photos !== "" || $scope.new.titleimage !== "" || changed > 0){
+			$scope.progressMessage = "Daten werden gespeichert";
 			$timeout(function(){
 				$('.progress-bar').width('75%');
 				$scope.progressMessage = "Daten werden gespeichert";
@@ -93,33 +96,59 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 
 	function uploadFinish(){
 		$('.progress-bar').width('100%');
+		watchProgressStop();
 		$timeout(function(){
 			$location.path('/provider/dashboard');
 		},1000);
+	}
+
+	$scope.cancelEdit = function(){
+		if(confirm('Wollen sie die Bearbeitung von ' + $scope.offer.title +' abbrechen?')){
+			$location.path('/provider/dashboard');
+		}
 	}
 
 	function updateProgress(){
 		UploadService.progress().success(function(data, status, headers, config){
 			$('.progress-bar').width(data.progress + '%');
 			$scope.progressMessage = data.message;
-		})
+		}).error(function() {
+			$scope.progressMessage = "Daten werden gespeichert";
+		});
 	}
 
 
 	function buildOfferView(data, status, headers, config){
 		$scope.offer = data.offer;
-		$scope.delete.id = data.offer.id
+		$scope.delete.id = data.offer.id;
+
+
+		console.log($scope.offer)
 		
 		if(data.offer.photos.length < 3){
 			$scope.togglePhotos = true;
 			max = 3 - data.offer.photos.length
 		}
-		if(data.offer.video == undefined && data.offer.video == ""){
+		if(data.offer.video == undefined || data.offer.video == ""){
 			$scope.toggleVideo = true;
+			$('.video_preview_delete').remove();
 		}
 
 		if(!data.isown){
 			$location.path('/')
+		}
+	}
+
+
+	$scope.checkVideo = function(){
+		var video = $("#video")[0].files[0];
+		if (video) {
+			var reader = new FileReader();
+			reader.onload = function (e) {
+				$('.video_preview').remove();
+				$('#video').closest('span').after('<div class="video_preview wd100 fl mb10"><video class="wd100" src="'+ e.target.result +'" controls></video></div>');
+			}
+			reader.readAsDataURL(video);
 		}
 	}
 
@@ -129,7 +158,8 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 			if(type=="photos"){
 				$scope.delete.photos.push(id)
 			}else if(type=="titleimage"){
-				$scope.delete[type] = $scope.titleimage;
+				$scope.delete[type].normal = $scope.offer.titleimage.normal;
+				$scope.delete[type].black = $scope.offer.titleimage.black;
 			}else{
 				$scope.delete[type] = id;
 			}
@@ -196,13 +226,13 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 		}
 	}
 
-
 	$scope.watchProgress = function() {
 		$scope.showProgress = true;
 		progressInterval = setInterval(function(){updateProgress()}, 10);
 	}
 
 	function watchProgressStop() {
+		UploadService.clearProgress();
 	    clearInterval(progressInterval);
 	}
 
@@ -211,7 +241,7 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 		changed++;
 	});
 
-	$scope.$watchGroup(['delete.titleimage','delete.video'] ,function(newValues, oldValues, scope) {
+	$scope.$watchGroup(['delete.titleimage.normal','delete.titleimage.black','delete.video'] ,function(newValues, oldValues, scope) {
 		anydelete++;
 	},true);
 

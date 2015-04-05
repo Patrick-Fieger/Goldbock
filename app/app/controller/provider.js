@@ -67,7 +67,7 @@ function createBlackWhiteVersion (path,blurred) {
 	gm(path).colorspace('GRAY')
 	.write(blurred, function (err) {
 		if (!err){
-			console.log('plured')
+			console.log('TitleImage saved!')
 		}
 	})
 }
@@ -174,7 +174,7 @@ function progress(req, res, next){
 		var pro_ = calculatePercentage(user);
 		res.send(pro_).status(200).end();
 	}else{
-		res.status(404).end();
+		res.status(200).end();
 	}
 }
 
@@ -270,6 +270,7 @@ function deleteOffer(req, res, next){
 
 
 function deleteOfferData(req, res, next){
+
 	var data = req.query;
 	data.email = req.user.email;
 	deleteOfferFiles(data);
@@ -284,49 +285,47 @@ function updateOfferData(req, res, next){
       if (!user) {
         res.status(404).end();
       }else {
-      	for (var i = 0; i < user.offers.length; i++) {
-      		if(user.offers[i].id == data.id){
+      	var alloffer = user.offers;
+
+
+      	for (var i = 0; i < alloffer.length; i++) {
+      		if(alloffer[i].id == data.id){
 
       			if(data.title !== ""){
-      				user.offers[i].title = data.title
+      				alloffer[i].title = data.title
       			}
 
       			if(data.description !== ""){
-      				user.offers[i].description = data.description
+      				alloffer[i].description = data.description
       			}
 
       			if(data.price !== ""){
-      				user.offers[i].price = data.price
+      				alloffer[i].price = data.price
       			}
 
       			if(data.video !== ""){
-      				user.offers[i].video = data.video
+      				alloffer[i].video = data.video
       			}
 
       			if(data.titleimage !== ""){
-      				user.offers[i].titleimage = data.titleimage
+      				alloffer[i].titleimage = data.titleimage
       			}
 
       			if(data.photos.length !== 0){
-      				for (var k = 0; k < data.photos; k++) {
-      					user.offers[i].photos.push(data.photos[k]);
+      				for (var k = 0; k < data.photos.length; k++) {
+      					alloffer[i].photos.push(data.photos[k]);
       				};
       			}
       		}
       	}
+      	
 
-		user.save(function(err) {
-		    if(err) {
-		        console.log("Error");
-		    }
-		    else {
-				res.status(200).end();
-		    }
-		});
+		Provider.update({email: req.user.email}, {$set: { offers: alloffer }}, {upsert: true}, function(err){if(!err){res.status(200).end()}})
       }
     });
 }
 
+// Provider.find({ email:null }).remove().exec();
 
 function deleteOfferFilesFromDatabase (res,data){
 	Provider.findOne({ email: data.email }, function(err, user) {
@@ -334,32 +333,27 @@ function deleteOfferFilesFromDatabase (res,data){
       if (!user) {
         res.status(404).end();
       }else {
-      	for (var i = 0; i < user.offers.length; i++) {
-      		if(user.offers[i].id == data.id){
+      	var alloffer = user.offers
+      	for (var i = 0; i < alloffer.length; i++) {
+      		if(alloffer[i].id == data.id){
       			if(data.photos.length !== 0){
 					for (var k = 0; k < data.photos.length; k++) {
-						for (var j = 0; j < user.offers[i].photos.length; j++) {
-							if(data.photos[k] == user.offers[i].photos[j]){
-								user.offers[i].photos.splice(j, 1);
+						for (var j = 0; j < alloffer[i].photos.length; j++) {
+							if(data.photos[k] == alloffer[i].photos[j]){
+								alloffer[i].photos.splice(j, 1);
 							}
 						};
 					};
 				}
-				else if(data.titleimage.length !== 0 && data.titleimage !== undefined){
-      				user.offers[i].titleimage = [];
-      			}else if(data.video !== "" && data.video !== undefined){
-      				user.offers[i].video = "";
+				if(data.titleimage.length !== 0 && data.titleimage !== undefined){
+      				alloffer[i].titleimage = {};
+      			}
+      			if(data.video !== "" && data.video !== undefined){
+      				alloffer[i].video = "";
       			}
       		}
       	};
-		user.save(function(err) {
-		    if(err) {
-		        console.log("Error");
-		    }
-		    else {
-				res.status(200).end();
-		    }
-		});
+		Provider.update({email: data.email}, {$set: { offers: alloffer }}, {upsert: true}, function(err){if(!err){res.status(200).end();}})
       }
     });
 }
@@ -370,15 +364,20 @@ function deleteOfferFiles(links){
 
 	if(links.photos.length !== 0){
 		for (var i = 0; i < links.photos.length; i++) {
-			fs.remove(public + links.photos[i], function (err) {});
+			if(links.photos[i] !== ""){
+				fs.remove(public + links.photos[i], function (err) {});
+			}
 		};
 	}
 
-	if(links.titleimage.length !== 0){
-		for (var i = 0; i < links.titleimage.length; i++) {
-			fs.remove(public + links.titleimage[i], function (err) {});
+	if(links.titleimage !== undefined){
+		var titimages = JSON.parse(links.titleimage);
+		if(titimages.normal !== undefined && titimages.black !== undefined){
+			fs.remove(public + titimages.normal, function (err) {});
+			fs.remove(public + titimages.black, function (err) {});
 		};
 	}
+
 	
 	if(links.video !== ""){
 		fs.remove(public + links.video, function (err) {});
@@ -422,11 +421,19 @@ function offer(req, res, next){
     });
 }
 
+
+function clearProgress(req, res, next){
+	var email = emailToFolder(req.user.email);
+	delete progress_[email];
+	res.status(200).end();
+}
+
 module.exports = {
 	uploadOfferTitleImage : uploadOfferTitleImage,
 	uploadOfferImages : uploadOfferImages,
 	uploadOfferVideo : uploadOfferVideo,
 	uploadOfferData : uploadOfferData,
+	clearProgress : clearProgress,
 	offers : offers,
 	offer : offer,
 	deleteOffer : deleteOffer,

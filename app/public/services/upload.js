@@ -34,6 +34,10 @@ angular.module('app.uploadService', [])
         });	
 	}
 
+	var clearProgress = function(){
+		return $http.post('/clear/upload');
+	}
+
 	var uploadOfferData = function(data){
 		return $http.post('/provider/upload/offer/data',data)
 	}
@@ -71,6 +75,7 @@ angular.module('app.uploadService', [])
 		uploadOfferData : uploadOfferData,
 		updateOfferData : updateOfferData,
 		deletePrevData : deletePrevData,
+		clearProgress : clearProgress,
 		avatar : avatar,
 		progress : progress
 	}
