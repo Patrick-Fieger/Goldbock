@@ -212,6 +212,12 @@ input{
 
 /*INPUT HIDE*/
 
+.datepicker,
+.timepicker{
+  font-weight: 400 !important;
+  color: #000 !important;
+}
+
 .fileinput_hide{
   overflow: hidden;
   position: relative;
