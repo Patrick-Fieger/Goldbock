@@ -14,15 +14,19 @@ angular.module('app.provider_dashboard', ['ngRoute','ngAnimate'])
 	$scope.avatar;
 	$scope.showAboutTextarea = false;
 	$scope.editstate = false;
+	$scope.hideAddOffer = false;
 	$scope.showAboutTextareaText;
 	$scope.about;
 	$scope.count = 400;
 
 	AllService.profile().success(updateProfileView);
-	// ProviderService.offers().success(updateOfferList);
 
 	function updateProfileView(data, status, headers, config){
 		$scope.user = data;
+
+		if(data.offers.length >= 3){
+			$scope.hideAddOffer = true
+		}
 
 		if (data.avatar !== undefined) {
         	$scope.user.avatar.big = data.avatar.big.replace('public/','')
@@ -122,6 +126,7 @@ angular.module('app.provider_dashboard', ['ngRoute','ngAnimate'])
 		    var obj = $scope.user.offers[i];
 		    if( id == obj.id) {
 		        $scope.user.offers.splice(i, 1);
+		        $scope.hideAddOffer = false;
 		    }
 		}
 	}

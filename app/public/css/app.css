@@ -41,7 +41,8 @@ hr{
 .firstnoti,
 .changeavatar,
 .progress_wrapper,
-.offer-list li span{
+.offer-list li span,
+.delete_wrapper .delete_{
   -webkit-transition: all 0.3s;
   -moz-transition: all 0.3s;
   -o-transition: all 0.3s;
@@ -109,6 +110,10 @@ a:active{
 
 input{
   width: 100% !important;
+}
+
+.mb0{
+  margin-bottom: 0px !important;
 }
 
 .mb10{
@@ -444,6 +449,7 @@ input{
   width: 100%;
   height: 36px;
   padding-left: 10px;
+  margin-bottom: 15px;
 }
 
 .offer-list li span{
@@ -483,10 +489,10 @@ input{
 }
 
 .delete_wrapper .delete_{
-  width: 40px;
-  height: 40px;
-  background: rgba(255,255,255,0.8);
-  color: red;
+  width: 30px;
+  height: 30px;
+  background: rgba(0,0,0,0.8);
+  color: #fff;
   border-radius: 50%;
   right: 10px;
   top: 10px;
@@ -495,13 +501,15 @@ input{
 }
 
 .delete_:before{
-  font-size: 30px;
+  font-size: 20px;
   position: absolute;
   top: 5px;
   left: 5px;
 }
 
-  
+.delete_wrapper .delete_:hover{
+  background: rgba(0,0,0,1);
+} 
 
 /*OFFER*/
 

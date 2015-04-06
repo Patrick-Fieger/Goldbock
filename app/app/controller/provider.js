@@ -371,13 +371,17 @@ function deleteOfferFiles(links){
 	}
 
 	if(links.titleimage !== undefined){
-		var titimages = JSON.parse(links.titleimage);
+		var titimages;
+		if(typeof(links.titleimage) == "string"){
+			titimages = JSON.parse(links.titleimage);
+		}else {
+			titimages = links.titleimage
+		}
 		if(titimages.normal !== undefined && titimages.black !== undefined){
 			fs.remove(public + titimages.normal, function (err) {});
 			fs.remove(public + titimages.black, function (err) {});
 		};
 	}
-
 	
 	if(links.video !== ""){
 		fs.remove(public + links.video, function (err) {});
