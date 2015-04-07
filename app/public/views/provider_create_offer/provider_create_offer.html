@@ -5,7 +5,37 @@
 
         <textarea ng-model="offer.description" class="form-control mb10 wd100" placeholder="Beschreibung des Angebotes"></textarea>
 
-        <input class="form-control mb30" ng-model="offer.price" placeholder="Kosten in €" value="{{offer.price}}" type="number" required>
+        <input class="form-control mb10" ng-model="offer.price" placeholder="Kosten in €" value="{{offer.price}}" type="number" required>
+
+        <select ng-model="offer.category" class="mb10">
+          <optgroup label="Gemeinsames / Verabreden">
+            <option value="Kochen / Backen">Kochen / Backen</option>
+            <option value="Diskutieren">Diskutieren</option>
+            <option value="Aktivitäten">Aktivitäten</option>
+            <option value="Außerhaus Meeting">Außerhaus Meeting</option>
+          </optgroup>
+          <optgroup label="Schönes und Leckeres">
+            <option value="Aus der Region">Aus der Region</option>
+          </optgroup>
+          <optgroup label="Service">
+            <option value="Bügeln">Bügeln</option>
+            <option value="Lesen">Lesen</option>
+            <option value="Geschenke">Geschenke</option>
+            <option value="Energie und Versicherung">Energie & Versicherung</option>
+          </optgroup>
+          <optgroup label="Fortschritt Privat und Beruf">
+            <option value="Coaches">Coaches</option>
+            <option value="Berater">Berater</option>
+            <option value="Therapeuten">Therapeuten</option>
+            <option value="Trainer">Trainer</option>
+            <option value="Spezial">Spezial</option>
+          </optgroup>
+          <optgroup label="Kunst und Kultur">
+            <option value="Unterhaltung">Unterhaltung</option>
+            <option value="Künstler">Künstler</option>
+            <option value="Theater">Theater</option>
+          </optgroup>
+        </select>
 
 
         <span class="btn btn-primary wd100 fl fileinput_hide">Titelbild auswählen<input id="titleimage" onchange="angular.element(this).scope().checkTitleImage()" placeholder="Bilder auswählen" multiple="false" type="file" required accept="image/*"></span>

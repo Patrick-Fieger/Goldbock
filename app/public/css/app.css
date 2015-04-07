@@ -1,3 +1,14 @@
+.btn-primary{
+    /*background-color: #1abc9c;*/
+    background-color: #cf9e34;
+    /**/
+}
+
+.btn-primary:hover, .btn-primary.hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
+  background-color: #ceab5e;
+  border-color: #ceab5e;
+}
+
 fieldset{
   border: none;
 }
@@ -19,6 +30,17 @@ hr{
   border: 0;
   border-top: 1px solid #dce0e0;
 }
+
+select{
+  background: #fff;
+  -webkit-appearance: none;
+  font-size: 15px;
+  border: 2px solid #bdc3c7;
+  outline: none;
+  padding: 10px;
+  line-height: 13px;
+}
+
 
 #login,
 .spinner,

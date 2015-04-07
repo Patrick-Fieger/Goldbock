@@ -31,14 +31,23 @@
 			</form>
 		</div>
 
-		<div ng-show="editstate">
+		<div ng-show="passstate">
+			<form class="form-group" style="float:left" name="pass">
+				<fieldset>
+					<input required placeholder="Altes Passwort" type="password" class="form-control mb10" ng-model="password.old" value="password.old">
+					<input required placeholder="Neues Passwort" type="password" class="form-control mb10" ng-model="password.new" value="password.new">
+				</fieldset>
+			</form>
+		</div>
+
+		<div ng-show="editstate || passstate">
 			<a class="btn btn-primary wd100 fl mb10" href="" ng-click="save()">Speichern</a>
 			<a class="btn btn-danger wd100 fl mb10" href="" ng-click="cancel()">Abbrechen</a>
 		</div>
 
-		<div ng-hide="editstate">
-			<a class="btn btn-primary wd100 fl mb10" href="" ng-click="edit()">Profil bearbeiten</a>
-			<a class="btn btn-primary wd100 fl mb10" href="" ng-click="edi()">Passwort ändern</a>
+		<div ng-hide="editstate || passstate">
+			<a class="btn btn-primary wd100 fl mb10" href="" ng-click="editProfile()">Profil bearbeiten</a>
+			<a class="btn btn-primary wd100 fl mb10" href="" ng-click="editPass()">Passwort ändern</a>
 			<a class="btn btn-danger wd100 fl" href="" ng-click="logout()">Logout</a>
 		</div>
 

@@ -16,6 +16,10 @@ angular.module('app.allService', [])
 		return $http.get('/avatarinfos').success(updateAvatar)
 	}
 
+	var updatePassword = function(data){
+		return $http.post('/update/password' , data)
+	}
+
 	function updateAvatar(data, status, headers, config){
 		$rootScope.avatar = {
 			small : "",
@@ -50,6 +54,7 @@ angular.module('app.allService', [])
 		checkAvatarInfos: checkAvatarInfos,
 		profile : profile,
 		updateName : updateName,
+		updatePassword : updatePassword,
 		removePublicInLink : removePublicInLink
 	}
 });

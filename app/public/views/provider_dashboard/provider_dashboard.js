@@ -15,9 +15,11 @@ angular.module('app.provider_dashboard', ['ngRoute','ngAnimate'])
 	$scope.showAboutTextarea = false;
 	$scope.editstate = false;
 	$scope.hideAddOffer = false;
+	$scope.passstate = false;
 	$scope.showAboutTextareaText;
 	$scope.about;
 	$scope.count = 400;
+	$scope.password = {};
 
 	AllService.profile().success(updateProfileView);
 
@@ -57,20 +59,29 @@ angular.module('app.provider_dashboard', ['ngRoute','ngAnimate'])
 		checkSize($('#avatar'))
 	}
 
-	$scope.edit = function(){
+	$scope.editProfile = function(){
 		$scope.showAboutTextarea = true;
 		$scope.editstate = true;
+	}
+
+	$scope.editPass = function(){
+		$scope.passstate = true;
 	}
 
 	$scope.cancel = function(){
 		$scope.showAboutTextarea = false;
 		$scope.editstate = false;
+		$scope.passstate = false;
 	}
 
 	$scope.save = function(){
-		if($scope.userabout.$valid && $scope.userdata.$valid) {
+		console.log($scope.pass.$valid)
+		if($scope.userabout.$valid && $scope.userdata.$valid && $scope.editstate) {
 			var data = angular.copy($scope.user);
-       		ProviderService.updateProfile(data).success(updateProfileSuccess)
+       		ProviderService.updateProfile(data).success(updateProfileSuccess);
+     	}else if ($scope.pass.$valid && $scope.passstate){
+     		var data = angular.copy($scope.password);
+     		AllService.updatePassword(data).success(changePasswordSuccess);
      	}else{
      		alert('Bitte füllen sie alle notwendigen Felder aus!')
      	}
@@ -79,8 +90,12 @@ angular.module('app.provider_dashboard', ['ngRoute','ngAnimate'])
 	function updateProfileSuccess(){
 		checkAboutText();
 		$scope.cancel();
-		AllService.updateName($scope.user.firstname + ' ' + $scope.user.lastname)
+		AllService.updateName($scope.user.firstname + ' ' + $scope.user.lastname);
 	}
+
+	function changePasswordSuccess(){
+		$scope.cancel();
+	} 
 
 	function checkSize(input){
 		if (input[0].files[0] !== undefined) {

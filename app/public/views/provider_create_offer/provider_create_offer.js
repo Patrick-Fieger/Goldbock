@@ -18,7 +18,9 @@ angular.module('app.provider_create_offer', ['ngRoute','ngAnimate'])
 	$scope.showProgress = false;
 	$scope.headerImageApplied = false;
 	$scope.progressMessage = "";
-	$scope.offer = {};
+	$scope.offer = {
+		category : "Kochen / Backen"
+	};
 
 	$scope.uploadForm = function(){
 		UploadService.uploadOfferTitleImage($("#titleimage")[0].files[0]).success(pushTitleFilenameAndUploadImages);

@@ -295,6 +295,10 @@ function updateOfferData(req, res, next){
       				alloffer[i].title = data.title
       			}
 
+      			if(data.category !== ""){
+      				alloffer[i].category = data.category
+      			}
+
       			if(data.description !== ""){
       				alloffer[i].description = data.description
       			}

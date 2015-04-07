@@ -78,6 +78,7 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 		$scope.new.video = data;
 		$scope.new.photos = photos;
 		$scope.new.titleimage = title;
+		$scope.new.category = $scope.offer.category;
 		$scope.new.description = $scope.offer.description;
 		$scope.new.title = $scope.offer.title;
 		$scope.new.price = $scope.offer.price;
@@ -123,7 +124,9 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 		$scope.delete.id = data.offer.id;
 
 
-		console.log($scope.offer)
+		if(data.offer.category == undefined){
+			$scope.offer.category = "Kochen / Backen"
+		}
 		
 		if(data.offer.photos.length < 3){
 			$scope.togglePhotos = true;
@@ -237,7 +240,7 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 	}
 
 	
-	$scope.$watchGroup(['offer.description', 'offer.title','offer.price'], function(newValues, oldValues, scope) {
+	$scope.$watchGroup(['offer.description', 'offer.title','offer.price','offer.category'], function(newValues, oldValues, scope) {
 		changed++;
 	});
 

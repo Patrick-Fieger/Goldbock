@@ -19,6 +19,7 @@ module.exports = function(app){
 	app.get('/offer', pass.isLoggedInNext , provider.offer);
 	app.post('/update/provider', pass.isAuthenticatedToMakeRequest , provider.update);
 	app.post('/update/avatar', pass.isAuthenticatedToMakeRequest , all.avatar);
+	app.post('/update/password', pass.isAuthenticatedToMakeRequest , all.updatePassword);
 	app.get('/upload/progress', pass.isAuthenticatedToMakeRequest , provider.progress);
 	app.get('/profile', pass.isAuthenticatedToMakeRequest , all.profile);
 	app.get('/avatarinfos', pass.isAuthenticatedToMakeRequest , all.getAvatarInfos);

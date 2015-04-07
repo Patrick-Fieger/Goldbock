@@ -65,6 +65,33 @@ var avatar = function(req, res, next){
 }
 
 
+function updatePassword (req, res, next){
+	var password = req.body.old;
+
+	Login.findOne({ email: req.user.email }, function(err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return false;
+      }
+
+		user.comparePassword(password, function(err, isMatch) {
+		  if (isMatch) {
+		    user.password = req.body.new;
+		    user.save(function (err) {
+			    if(err) {
+			        console.error('ERROR!');
+			    }else{
+			    	res.status(200).end();
+			    }
+			});
+		  } else {
+		    console.log('NOOOO!')
+		  }
+		});
+    });
+}
+
+
 function resizeAvatar(req,res,folderNameByEmail,_uuid,extension){
 	var path = newLocation + folderNameByEmail + _uuid + '.' + extension;
 	var role = capitalizeFirstLetter(req.user.role);
@@ -120,5 +147,6 @@ function capitalizeFirstLetter(string) {
 module.exports = {
 	getAvatarInfos : getAvatarInfos,
 	profile : profile,
+	updatePassword : updatePassword,
 	avatar : avatar
 };
