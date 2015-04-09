@@ -9,16 +9,20 @@ angular.module('app.admin_provider', ['ngRoute','ngAnimate'])
   });
 }])
 
-.controller('AdminCreateProviderCtrl', ['$scope','$location','$timeout','ProviderService',function($scope,$location,$timeout,ProviderService) {
+.controller('AdminCreateProviderCtrl', ['AuthService','$scope','$location','$timeout','ProviderService',function(AuthService,$scope,$location,$timeout,ProviderService) {
 	$scope.provider = {
-		company : "Programierung GmbH",
-		lastname : "Fieger",
-		firstname : "Patrick",
-		email : "patrick@patrick-fieger.com",
-		street : "K.-Adenauer-Straße 55",
-		city : "Weinheim",
-		zip : 69469,
-		tel : "0176/78883900"
+		company :"",
+		lastname :"",
+		firstname :"",
+		email :"",
+		street :"",
+		city :"",
+		zip :0,
+		tel :""
+	}
+
+	$scope.logout = function(){
+		AuthService.logout();
 	}
 
 	$scope.registerProvider = function(){

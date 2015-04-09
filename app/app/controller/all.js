@@ -132,8 +132,13 @@ function resizeAvatar(req,res,folderNameByEmail,_uuid,extension){
 }
 
 function deletePrevAvatar(avatars){
-	fs.remove(avatars.big, function (err) {});
-	fs.remove(avatars.small, function (err) {});
+	if(avatars !== undefined){
+		if(avatars.big !== "" && avatars.big !== undefined && avatars.small !== "" && avatars.small !== undefined){
+			fs.remove(avatars.big, function (err) {});
+			fs.remove(avatars.small, function (err) {});
+		}
+	}
+	
 }
 
 function emailToFolder(email){

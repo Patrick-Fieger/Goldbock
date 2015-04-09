@@ -368,7 +368,7 @@ function deleteOfferFiles(links){
 
 	if(links.photos.length !== 0){
 		for (var i = 0; i < links.photos.length; i++) {
-			if(links.photos[i] !== ""){
+			if(links.photos[i] !== "" && links.photos[i] !== undefined){
 				fs.remove(public + links.photos[i], function (err) {});
 			}
 		};
@@ -376,18 +376,20 @@ function deleteOfferFiles(links){
 
 	if(links.titleimage !== undefined){
 		var titimages;
+		
 		if(typeof(links.titleimage) == "string"){
 			titimages = JSON.parse(links.titleimage);
 		}else {
 			titimages = links.titleimage
 		}
-		if(titimages.normal !== undefined && titimages.black !== undefined){
+
+		if(titimages.normal !== undefined && titimages.normal !== "" && titimages.black !== undefined && titimages.black !== ""){
 			fs.remove(public + titimages.normal, function (err) {});
 			fs.remove(public + titimages.black, function (err) {});
 		};
 	}
 	
-	if(links.video !== ""){
+	if(links.video !== "" && links.video !== undefined){
 		fs.remove(public + links.video, function (err) {});
 	}
 	
