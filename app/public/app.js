@@ -9,6 +9,7 @@ angular.module('myApp', [
   'app.login',
   'app.register',
   'app.forgot',
+  'app.forgot_enter',
   'app.admin',
   'app.admin_provider',
   'app.provider_create_offer',
@@ -30,7 +31,7 @@ config(['$locationProvider','$routeProvider','$animateProvider', function($locat
         $(window).unbind("scroll");
         $('body').scrollTop(0);
         $('.spinner').removeClass('active');
-        if(path !== '/' && path !== "/register" && path !== "/forgot"){
+        if(path !== '/' && path !== "/register" && path.split('/')[1] !== "forgot"){
             AuthService.isAuth();
             AllService.checkAvatarInfos();
         }

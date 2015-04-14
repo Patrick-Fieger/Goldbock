@@ -1,0 +1,10 @@
+<div id="login">
+	<img src="img/logo.png">
+	<form ng-submit="sendForgot()" class="form-group">
+		<fieldset>
+			<input class="form-control mb10" ng-model="userData.password" placeholder="Passwort" value="{{userData.password}}" type="password" required>
+			<input class="form-control mb10" ng-model="userData.passwordRepeat" placeholder="Passwort" value="{{userData.passwordRepeat}}" type="password" required>
+			<input class="btn btn-block btn-lg btn-default"  type="submit" value="Passwort zurücksetzen"></input>
+		</fieldset>
+	</form>
+</div>

@@ -21,6 +21,10 @@ angular.module('app.authService', [])
 		return $http.post('/register', user)
 	};
 
+	var updatePassword = function(data){
+		return $http.post('/update/password', data)	
+	}
+
 	var forgot = function(user){
 		return $http.post('/forgot', user)
 	};
@@ -31,5 +35,6 @@ angular.module('app.authService', [])
 		register : register,
 		forgot : forgot,
 		isAuth : isAuth,
+		updatePassword : updatePassword
 	}
 });

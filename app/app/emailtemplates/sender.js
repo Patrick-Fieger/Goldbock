@@ -11,7 +11,11 @@ var path           = require('path')
     },
     secure: true
     },
-    emailHeaders = [['welcomeuser','Herzlich Willkommen bei Goldbock']],
+    emailHeaders = [
+    	['welcomeuser','Herzlich Willkommen bei Goldbock'],
+    	['forgot','Sie möchten ihr Passwort zurücksetzen'],
+    	['forgot_complete','Passwort erfolgreich zurückgesetzt']
+    ],
     sub_ = function(path_){
 		for (var i = 0; i < emailHeaders.length; i++) {
 	  		if(emailHeaders[i][0] == path_){

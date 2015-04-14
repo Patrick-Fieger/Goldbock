@@ -1,9 +1,11 @@
   passport = require('passport')
+, moment = require('moment')
 , LocalStrategy = require('passport-local').Strategy
 , Login = require('../app/models/onlylogin')
 , bcrypt = require('bcrypt')
 , allowedpath = require('./allowedpath')
 , allowedrequest = require('./allowedrequest')
+, email = require('../app/emailtemplates/sender')
 
 passport.serializeUser(function(user, done) {
   done(null, {
@@ -58,6 +60,60 @@ var logout = function(req, res, next){
   res.status(200).end();
 }
 
+function forgot (req, res, next){
+    var tomorrow = moment().format(),
+    token = uuid.v4();
+
+    var emailData = {
+      email: req.body.email,
+      link : 'http://goldbock.de/forgot/' + token
+    }
+
+    Login.update({email : req.body.email},
+      { 
+        $set: {
+          resetPasswordToken : token,
+          resetPasswordExpires : tomorrow
+        }
+      },
+      function(err, affected){
+        if(err){
+
+        }else{
+          email.sendEmail(emailData,'forgot')
+          res.send(200).end();
+        }
+      });
+}
+
+function updatePassword(req, res, next){
+  Login.findOne({ resetPasswordToken : req.body.token }, function(err, user) {
+    if (err) { return done(err); }
+    if (!user) {
+      res.status(404).end();
+    }else{
+      if(moment().diff(user.resetPasswordExpires, 'days') == 0){
+        user.password = req.body.password;
+        user.resetPasswordToken = "";
+        user.resetPasswordExpires = "";
+        user.save(function(err) {
+            if(err) {
+                console.log("Error");
+            }
+            else {
+              res.status(200).end();
+              var emailData = {
+                email: user.email
+              }
+              email.sendEmail(emailData,'forgot_complete')
+            }
+        });
+      }else{
+        console.log('expired!!!!')
+      }
+    }
+  });
+}
 
 function getLoginRedirect(role){
   return allowedpath[role][0]
@@ -108,8 +164,10 @@ var isAuthenticatedToMakeRequest = function (req, res, next) {
 module.exports = {
   login : login,
   logout : logout,
+  forgot : forgot,
   isAuthenticatedToSeeContent: isAuthenticatedToSeeContent,
   isAuthenticatedToMakeRequest: isAuthenticatedToMakeRequest,
   isLoggedIn : isLoggedIn,
-  isLoggedInNext : isLoggedInNext
+  isLoggedInNext : isLoggedInNext,
+  updatePassword : updatePassword
 }

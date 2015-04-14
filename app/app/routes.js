@@ -1,11 +1,16 @@
 var pass = require('../config/passport')
 	, provider = require('./controller/provider')
+	, user = require('./controller/user')
 	, admin = require('./controller/admin')
 	, all = require('./controller/all')
 
 module.exports = function(app){
 	app.post('/login', pass.login);
 	app.post('/logout', pass.logout);
+	app.post('/forgot', pass.forgot);
+	app.post('/register', user.register);
+	app.post('/register', user.register);
+	app.post('/update/password', pass.updatePassword);
 	app.post('/createprovider', pass.isAuthenticatedToMakeRequest , admin.createProvider);
 	app.post('/provider/upload/offer/title', pass.isAuthenticatedToMakeRequest , provider.uploadOfferTitleImage);
 	app.post('/provider/upload/offer/images', pass.isAuthenticatedToMakeRequest , provider.uploadOfferImages);
