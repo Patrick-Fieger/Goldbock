@@ -1,12 +1,12 @@
 <div id="login">
 	<img src="img/logo.png">
-	<form ng-submit="sendLogin()" class="form-group">
+	<form ng-submit="sendRegister()" class="form-group">
 		<fieldset>
 			<input class="form-control mb10" ng-model="userData.email" placeholder="Email" value="{{userData.email}}" type="email" required>
 			<input class="form-control" ng-model="userData.password" placeholder="Passwort" value="{{userData.password}}" type="password" required>
 			<p><a href="#/forgot">Passwort vergessen? </a></p>
-			<input class="btn btn-block btn-lg btn-default"  type="submit" value="Login"></input>
+			<input class="btn btn-block btn-lg btn-default"  type="submit" value="Registrieren"></input>
 		</fieldset>
 	</form>
-	<p class="tac wd100"><a  href="#/register">Oder registrieren sie sich</a></p>
+	<p class="tac wd100"><a href="#/">Oder loggen sie sich ein</a></p>
 </div>

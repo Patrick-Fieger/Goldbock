@@ -11,15 +11,25 @@ angular.module('app.authService', [])
 		return $http.post('/login', data)
 	};
 
-	var logout = function(user){
+	var logout = function(){
 		$http.post('/logout')
 		$rootScope.isLogged = false;
 		$location.path('/');
 	};
 
+	var register = function(user){
+		return $http.post('/register', user)
+	};
+
+	var forgot = function(user){
+		return $http.post('/forgot', user)
+	};
+
 	return {
 		login : login,
 		logout : logout,
+		register : register,
+		forgot : forgot,
 		isAuth : isAuth,
 	}
 });
