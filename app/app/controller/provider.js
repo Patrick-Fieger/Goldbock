@@ -163,11 +163,6 @@ function uploadOfferData(req, res, next){
 		});
 }
 
-// CLEAR ARRAY OFFERS
-// Provider.update({email:"patrickfieger90@gmail.com"}, { $set: { offers: [] }}, function(err, affected){
-//     console.log('updated: ', affected);
-// });
-
 function progress(req, res, next){
 	var user = emailToFolder(req.user.email)
 	if(progress_[user] !== undefined){

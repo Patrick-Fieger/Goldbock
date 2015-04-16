@@ -19,7 +19,8 @@ LoginSchema.methods.comparePassword = function(candidatePassword, cb) {
 };
 
 LoginSchema.pre('save', salt.salt);
+LoginSchema.pre('create', salt.salt);
 var Login = mongoose.model('Login', LoginSchema);
 module.exports = Login;
 
-// Login.find({ email:"patrickfieger90@gmail.com" }).remove().exec();
+// Login.find({ email:"patrick.fieger@me.com" }).remove().exec();

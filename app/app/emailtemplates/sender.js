@@ -56,4 +56,3 @@ function SendEmail(emailcontent,path_){
 module.exports = {
 	sendEmail: SendEmail
 }
-

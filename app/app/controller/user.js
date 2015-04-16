@@ -1,8 +1,10 @@
-var uuid = require('uuid'),
-User = require('../models/user')
+var User = require('../models/user'),
+create = require('./create')
 
 function register (req, res, next){
-	console.log(req.body)
+	var user = new User(req.body);
+	// andere email template nehmen zur registreieung
+	create.createUser(res,user,'welcomeuser','user')
 }
 
 module.exports = {

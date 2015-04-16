@@ -2,6 +2,8 @@
 	<img src="img/logo.png">
 	<form ng-submit="sendRegister()" class="form-group">
 		<fieldset>
+			<input class="form-control mb10" ng-model="userData.firstname" placeholder="Name" value="{{userData.firstname}}" type="text" required>
+			<input class="form-control mb10" ng-model="userData.lastname" placeholder="Vorname" value="{{userData.lastname}}" type="text" required>
 			<input class="form-control mb10" ng-model="userData.email" placeholder="Email" value="{{userData.email}}" type="email" required>
 			<input class="form-control" ng-model="userData.password" placeholder="Passwort" value="{{userData.password}}" type="password" required>
 			<p><a href="#/forgot">Passwort vergessen? </a></p>

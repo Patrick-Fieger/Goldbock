@@ -12,7 +12,9 @@ angular.module('app.register', ['ngRoute','ngAnimate'])
 .controller('RegisterCtrl', ['$scope','$location','$timeout','AuthService','AllService',function($scope,$location,$timeout,AuthService,AllService) {
 	$scope.userData = {
 		"email":"",
-		"password":""
+		"password":"",
+    "firstname": "",
+    "lastname": ""
 	}
 
 	$scope.sendRegister = function(){

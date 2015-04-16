@@ -16,7 +16,6 @@ module.exports = function(app){
 	  genid: function(req) {return uuid.v4();},
 	  secret: 'goldbockemployees4ever'
 	}))
-	
 	app.use(passport.initialize());
 	app.use(passport.session());
 }

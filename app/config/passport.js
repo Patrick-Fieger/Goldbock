@@ -83,7 +83,7 @@ function forgot (req, res, next){
           email.sendEmail(emailData,'forgot')
           res.send(200).end();
         }
-      });
+    });
 }
 
 function updatePassword(req, res, next){
@@ -135,7 +135,7 @@ function isLoggedInNext(req, res, next){
   }
 }
 
-var isAuthenticatedToSeeContent = function (req, res, next) {
+function isAuthenticatedToSeeContent(req, res, next) {
   var path;
   if(req.query.path.split('/')[1] == "offer" || req.query.path.split('/')[1] == "edit"){
     path = '/' + req.query.path.split('/')[1]
@@ -149,7 +149,7 @@ var isAuthenticatedToSeeContent = function (req, res, next) {
     res.status(401).end();
 }
 
-var isAuthenticatedToMakeRequest = function (req, res, next) {
+function isAuthenticatedToMakeRequest(req, res, next) {
   var path = req._parsedOriginalUrl.path;
   var split = path.indexOf('?');
   path = path.substring(0, split != -1 ? split : path.length);
@@ -165,8 +165,8 @@ module.exports = {
   login : login,
   logout : logout,
   forgot : forgot,
-  isAuthenticatedToSeeContent: isAuthenticatedToSeeContent,
-  isAuthenticatedToMakeRequest: isAuthenticatedToMakeRequest,
+  isAuthenticatedToSeeContent : isAuthenticatedToSeeContent,
+  isAuthenticatedToMakeRequest : isAuthenticatedToMakeRequest,
   isLoggedIn : isLoggedIn,
   isLoggedInNext : isLoggedInNext,
   updatePassword : updatePassword
