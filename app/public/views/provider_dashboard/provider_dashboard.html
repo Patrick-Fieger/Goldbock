@@ -5,7 +5,7 @@
 			<img ng-src="{{user.avatar.big}}">
 			<span class="changeavatar">
 				Profilbild ändern
-				<input onchange="angular.element(this).scope().checkAvatar()" type="file" id="avatar">
+				<input type="file" id="fileInput">
 			</span>
 		</div>
 
@@ -82,3 +82,18 @@
 
 	</div>
 </div>
+
+
+<div class="crop_wrapper" ng-show="showCrop">
+	<div class="cropArea">
+		<img-crop result-image-quality="1" area-min-size="200" image="myImage" area-type="square" result-image="myCroppedImage"></img-crop>
+	</div>
+
+	<div class="decision_wrapper">
+		<span ng-click="uploadAvatar()" class="icon-checkmark"></span>
+		<span ng-click="cancelCrop()" class="icon-cross"></span>
+	</div> 
+
+</div>
+
+

@@ -55,9 +55,7 @@ angular.module('app.provider_dashboard', ['ngRoute','ngAnimate'])
 		$scope.countText();
 	}
 
-	$scope.checkAvatar = function($event){
-		checkSize($('#avatar'))
-	}
+
 
 	$scope.editProfile = function(){
 		$scope.showAboutTextarea = true;
@@ -97,28 +95,10 @@ angular.module('app.provider_dashboard', ['ngRoute','ngAnimate'])
 		$scope.cancel();
 	} 
 
-	function checkSize(input){
-		if (input[0].files[0] !== undefined) {
-    	    var reader = new FileReader();
-	
-    	    reader.onload = function (e) {
-    			var image = new Image();
-				image.src = e.target.result;
-				image.onload = function() {
-				    if(this.width == this.height && this.width >= 200){
-				    	UploadService.avatar(input[0].files[0]).success(updateAvatarsView)
-				    }else{
-				    	alert('Das Profilbild muss quadratisch und größer als 200px sein.')
-				    }
-				};
-    	    }
-    	    reader.readAsDataURL(input[0].files[0]);
-    	}
-	}
-
 	function updateAvatarsView(data, status, headers, config){
 		$rootScope.avatar.small = data.small.replace('public/','');
 		$scope.user.avatar.big = data.big.replace('public/','');
+		$scope.cancelCrop();
 	}
 
 	$scope.countText = function(){
@@ -146,7 +126,35 @@ angular.module('app.provider_dashboard', ['ngRoute','ngAnimate'])
 		}
 	}
 
+	$scope.myImage='';
+	$scope.myCroppedImage='';
+	$scope.showCrop = false;
+
 	$scope.logout = function(){
 		AuthService.logout();
+	}
+
+
+	$scope.cancelCrop = function(){
+		$scope.myImage='';
+		$scope.myCroppedImage='';
+		$scope.showCrop = false;
+	}
+
+	var handleFileSelect=function(evt) {
+	  var file=evt.currentTarget.files[0];
+	  var reader = new FileReader();
+	  reader.onload = function (evt) {
+	    $scope.$apply(function($scope){
+	      $scope.myImage = evt.target.result;
+	      $scope.showCrop = true
+	    });
+	  };
+	  reader.readAsDataURL(file);
+	};
+	angular.element(document.querySelector('#fileInput')).on('change',handleFileSelect);
+
+	$scope.uploadAvatar = function(){
+		UploadService.avatar({data:$scope.myCroppedImage}).success(updateAvatarsView)	
 	}
 }]);

@@ -29,12 +29,17 @@ angular.module('app.authService', [])
 		return $http.post('/forgot', user)
 	};
 
+	var verifyEmail = function(data){
+		return $http.post('/verify/email', data)	
+	}
+
 	return {
 		login : login,
 		logout : logout,
 		register : register,
 		forgot : forgot,
 		isAuth : isAuth,
+		verifyEmail : verifyEmail,
 		updatePassword : updatePassword
 	}
 });

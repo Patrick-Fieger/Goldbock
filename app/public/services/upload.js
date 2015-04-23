@@ -55,17 +55,7 @@ angular.module('app.uploadService', [])
 	}
 
 	var avatar = function(file){
-		return singleFileUpload(file,'/update/avatar')
-	}
-
-	function singleFileUpload(file,path){
-		var formData = new FormData();
-		formData.append('files', file);
-
-		return $http.post(path, formData, {
-            transformRequest: angular.identity,
-            headers: {'Content-Type': undefined}
-        });	
+		return $http.post('/update/avatar', file)
 	}
 
 	return{

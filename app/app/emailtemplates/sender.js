@@ -14,7 +14,9 @@ var path           = require('path')
     emailHeaders = [
     	['welcomeuser','Herzlich Willkommen bei Goldbock'],
     	['forgot','Sie möchten ihr Passwort zurücksetzen'],
-    	['forgot_complete','Passwort erfolgreich zurückgesetzt']
+    	['forgot_complete','Passwort erfolgreich zurückgesetzt'],
+    	['register_verify','Verifizieren sie Ihre Email'],
+    	['register_complete','Ihre Email wurde erfolgreich Verifiziert']
     ],
     sub_ = function(path_){
 		for (var i = 0; i < emailHeaders.length; i++) {

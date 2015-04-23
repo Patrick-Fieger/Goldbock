@@ -14,7 +14,7 @@ var ProviderSchema = mongoose.Schema({
   tel : { type: String, required: true},
   about : { type: String},
   avatar : { type: Object},
-  offers : { type: Array},
+  offers : { type: Array}
 });
 
 ProviderSchema.pre('save', salt.salt);

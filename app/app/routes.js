@@ -9,6 +9,7 @@ module.exports = function(app){
 	app.post('/logout', pass.logout);
 	app.post('/forgot', pass.forgot);
 	app.post('/register', user.register);
+	app.post('/verify/email', user.verifyEmail);
 	app.post('/update/password', pass.updatePassword);
 	app.post('/createprovider', pass.isAuthenticatedToMakeRequest , admin.createProvider);
 	app.post('/provider/upload/offer/title', pass.isAuthenticatedToMakeRequest , provider.uploadOfferTitleImage);

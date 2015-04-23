@@ -1,12 +1,22 @@
 var User = require('../models/user'),
+Login = require('../models/onlylogin'),
 create = require('./create')
 
 function register (req, res, next){
 	var user = new User(req.body);
-	// andere email template nehmen zur registreieung
-	create.createUser(res,user,'welcomeuser','user')
+	create.createUser(res,user,'register_verify','user')
+}
+
+
+function verifyEmail(req, res, next){
+	var data = req.body;
+
+	// ABFRAGE TOKEN
+
+	res.status(200).end();
 }
 
 module.exports = {
-	register : register
+	register : register,
+	verifyEmail : verifyEmail
 }

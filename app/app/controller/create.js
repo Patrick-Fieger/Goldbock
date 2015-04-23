@@ -3,12 +3,12 @@ var Provider = require('../models/provider')
 , User = require('../models/user')
 , email = require('../emailtemplates/sender')
 , random = require('randomstring')
-
-
+, uuid = require('uuid')
 
 function createUser(res,data,emailtype,roletype){
 	var roleCap = roletype.charAt(0).toUpperCase() + roletype.slice(1);
 	var saveData = data;
+	var uuid_ = uuid.v4();
 	saveData.role = roletype;
 	var password = saveData.password;
 	if(password == undefined){
@@ -32,6 +32,11 @@ function createUser(res,data,emailtype,roletype){
 
 	if(roletype == 'provider' || roletype == 'company'){
 		emailData.name.password = password
+	}
+
+	if(roletype == 'user'){
+		loginData.emailVerificationToken = uuid_;
+		emailData.name.token = 'http://goldbock.de/verify/email/' + uuid_;
 	}
 	
 	eval(roleCap).create(saveData,function(err, roletype){

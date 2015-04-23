@@ -136,8 +136,8 @@ function isLoggedInNext(req, res, next){
 }
 
 function isAuthenticatedToSeeContent(req, res, next) {
-  var path;
-  if(req.query.path.split('/')[1] == "offer" || req.query.path.split('/')[1] == "edit"){
+  var path = req.query.path.split('/')[1];
+  if(path == "offer" || path == "edit" || path == "verify"){
     path = '/' + req.query.path.split('/')[1]
   }else{
     path = req.query.path

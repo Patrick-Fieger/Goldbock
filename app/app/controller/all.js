@@ -41,26 +41,21 @@ var profile = function(req, res, next){
 }
 
 var avatar = function(req, res, next){
-	var form = new formidable.IncomingForm(options.avatar),
+	var _uuid = uuid.v4();
+	var data = req.body.data
+	data = data.replace(/^data:image\/\w+;base64,/, "");
+
+	var bitmap = new Buffer(data, 'base64');
 	folderNameByEmail = emailToFolder(req.user.email)
+	var filename = _uuid + '.jpg'
 
-    form.on('end', function() {
-    	var _uuid = uuid.v4();
-    	var extension = this.openedFiles[0].name.split('.').pop();
-		var newFilename = _uuid + '.' + extension
-		, temp_path = this.openedFiles[0].path
-
-		fs.move(temp_path, newLocation + folderNameByEmail + newFilename, function(err) {
-            if (err) {
-                console.error(err);
-            } else {
-            	resizeAvatar(req,res,folderNameByEmail,_uuid,extension)
-            }
-        });
-	});
-
-	form.parse(req, function(err, fields, files) {
-        if (err) console.log(err);
+	fs.writeFileSync(filename, bitmap)
+	fs.move(filename, 'public/uploads/' + folderNameByEmail + filename, function(err) {
+		if (err) {
+		    console.error(err);
+		} else {
+			resizeAvatar(req,res,folderNameByEmail,filename)
+		}
     });
 }
 
@@ -92,13 +87,17 @@ function updatePassword (req, res, next){
 }
 
 
-function resizeAvatar(req,res,folderNameByEmail,_uuid,extension){
-	var path = newLocation + folderNameByEmail + _uuid + '.' + extension;
+function resizeAvatar(req,res,folderNameByEmail,filename){
+	var path = 'public/uploads/' + folderNameByEmail + filename;
 	var role = capitalizeFirstLetter(req.user.role);
+
+	var path_ = path.split(".");
+
 	var avatar = {
-		big : newLocation + folderNameByEmail + _uuid + '_big.' + extension,
-		small : newLocation + folderNameByEmail + _uuid + '_small.' + extension
+		big : path_[0] + '_big.' + path_[1],
+		small : path_[0] + '_small.' + path_[1]
 	}
+	
 	gm(path)
 	.resize(200, 200)
 	.autoOrient()

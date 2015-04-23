@@ -33,8 +33,8 @@
       <p ng-cloak>{{fullname}}</p>
     </a>
   </div>
-  <div class="noti">
-    <p>Die Buchung ist in Bearbeitung.</p>
+  <div ng-class="{'active' : showNotify , 'danger' : notifyDanger}" class="notify">
+    <p>{{notifyText}}</p>
   </div>
   <div class="container">
     <div ng-view></div>
@@ -54,14 +54,13 @@
   <script src="bower_components/angular-animate/angular-animate.js"></script>
   <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
   <script src="js/ng-currency.js"></script>
+  <script src="js/ng-img-crop.js"></script>
   <script src="js/fancy.js"></script>
   <script src="js/picker.js"></script>
   <script src="js/picker.date.js"></script>
   <script src="js/picker.time.js"></script>
   <script src="js/de.date.js"></script>
-
-  <script src="event.js"></script>
-  <script src="app.js"></script>
+  
   <!-- VIEWS CONTROLLER -->
   <script src="views/login/login.js"></script>
   <script src="views/admin/admin.js"></script>
@@ -70,14 +69,17 @@
   <script src="views/provider_dashboard/provider_dashboard.js"></script>
   <script src="views/provider_edit_offer/provider_edit_offer.js"></script>
   <script src="views/offer/offer.js"></script>
+  <script src="views/verify_email/verify_email.js"></script>
   <script src="views/register/register.js"></script>
   <script src="views/forgot/forgot.js"></script>
   <script src="views/forgot_enter/forgot_enter.js"></script>
   <!-- SERVICES -->
   <script src="services/user.js"></script>
   <script src="services/all.js"></script>
+  <script src="services/message.js"></script>
   <script src="services/auth.js"></script>
   <script src="services/provider.js"></script>
   <script src="services/upload.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>

@@ -16,22 +16,27 @@ angular.module('myApp', [
   'app.provider_dashboard',
   'app.provider_edit_offer',
   'app.offer',
+  'app.verify_email',
+  'app.messageService',
   'app.userService',
   'app.authService',
   'app.allService',
+  'ngImgCrop',
   'app.uploadService',
   'app.providerService'
 ]).
 config(['$locationProvider','$routeProvider','$animateProvider', function($locationProvider,$routeProvider,$animateProvider) {
   $routeProvider.otherwise({redirectTo: '/'});
 }])
-.run(function($rootScope,$http,AuthService,AllService,$timeout) {
+.run(function($rootScope,$http,AuthService,AllService,$timeout,MessageService) {
     $rootScope.$on('$routeChangeSuccess', function(ev, to, toParams, from, fromParams) {
         var path = to.$$route.originalPath
         $(window).unbind("scroll");
         $('body').scrollTop(0);
         $('.spinner').removeClass('active');
-        if(path !== '/' && path !== "/register" && path.split('/')[1] !== "forgot"){
+
+
+        if(path !== '/' && path !== "/register" && path.split('/')[1] !== "forgot" && path.split('/')[1] !== "verify"){
             AuthService.isAuth();
             AllService.checkAvatarInfos();
         }
@@ -40,6 +45,10 @@ config(['$locationProvider','$routeProvider','$animateProvider', function($locat
     $(document).on('click', '.disabled input', function(event) {
         event.preventDefault();
     });
+
+    $rootScope.closeNotification = function(){
+      MessageService.hideMessage();
+    }
 
 }).directive('onFinishRender', function ($timeout) {
     return {
