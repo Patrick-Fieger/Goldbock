@@ -9,13 +9,15 @@ angular.module('app.offer', ['ngRoute','ngAnimate'])
   });
 }])
 
-.controller('OfferCtrl', ['$scope','$routeParams','$location','$timeout','ProviderService','AllService','AuthService','UploadService','$rootScope',function($scope,$routeParams,$location,$timeout,ProviderService,AllService,AuthService,UploadService,$rootScope) {
+.controller('OfferCtrl', ['$scope','$routeParams','$location','$timeout','ProviderService','AllService','$rootScope','PhotoService','MessageService',function($scope,$routeParams,$location,$timeout,ProviderService,AllService,$rootScope,PhotoService,MessageService) {
 	ProviderService.offer($routeParams.id).success(buildOfferView);
 
 	function buildOfferView(data, status, headers, config){
 		$scope.offer = data;
 		$scope.offer.avatar = AllService.removePublicInLink($scope.offer.avatar);
-		console.log(data)
+		if($scope.offer.offer.video !== undefined && $scope.offer.offer.video !== ""){
+			$scope.offerVideo = true
+		}
 	}
 
 	$(window).bind('scroll', calcScroll);
@@ -32,6 +34,21 @@ angular.module('app.offer', ['ngRoute','ngAnimate'])
 			$('.black_image,.normal_image').css('transform','translate3d(0,'+  indexcalc  + ', 0)');
 		}
 		
+	}
+
+	$scope.sendRequest = function(){
+		MessageService.danger(1)
+	}
+
+	$scope.initPhotos = function(){
+		$timeout(function(){
+			$('.offer_pictures img').each(function(index, el) {
+				$(this).attr('data-size', $(this).get(0).naturalHeight + 'x' + $(this).get(0).naturalWidth);
+				$(this).parent('a').attr('data-size', $(this).get(0).naturalHeight + 'x' + $(this).get(0).naturalWidth);
+			}).promise().done(function(){
+				PhotoService.init('.offer_pictures');		
+			});
+		},1000)
 	}
 
 	function initpicker (){
@@ -60,7 +77,6 @@ angular.module('app.offer', ['ngRoute','ngAnimate'])
             }
         );
 	}
-
 	initpicker();
 
 }]);

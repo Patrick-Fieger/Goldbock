@@ -9,7 +9,7 @@ angular.module('app.admin_provider', ['ngRoute','ngAnimate'])
   });
 }])
 
-.controller('AdminCreateProviderCtrl', ['AuthService','$scope','$location','$timeout','ProviderService',function(AuthService,$scope,$location,$timeout,ProviderService) {
+.controller('AdminCreateProviderCtrl', ['AuthService','$scope','$location','$timeout','ProviderService','MessageService',function(AuthService,$scope,$location,$timeout,ProviderService,MessageService) {
 	$scope.provider = {
 		company :"",
 		lastname :"",
@@ -30,7 +30,7 @@ angular.module('app.admin_provider', ['ngRoute','ngAnimate'])
 	}
 	
 	function providerIsRegistered(){
-
+		MessageService.info(2)
 	}
 
 	function providerRegistrationError(){

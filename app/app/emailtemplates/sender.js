@@ -26,7 +26,7 @@ var path           = require('path')
 	  	};
 	}
 
-function SendEmail(emailcontent,path_){
+var SendEmail = function(emailcontent,path_){
 	emailTemplates(templatesDir, function(err, template) {
 	  if (err) {
 	    console.log(err);

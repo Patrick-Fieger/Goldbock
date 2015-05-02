@@ -9,7 +9,7 @@ angular.module('app.forgot', ['ngRoute','ngAnimate'])
   });
 }])
 
-.controller('ForgotCtrl', ['$scope','$location','$timeout','AuthService','AllService',function($scope,$location,$timeout,AuthService,AllService) {
+.controller('ForgotCtrl', ['$scope','$location','$timeout','AuthService','AllService','MessageService',function($scope,$location,$timeout,AuthService,AllService,MessageService) {
 	$scope.userData = {
 		"email":""
 	}
@@ -19,10 +19,11 @@ angular.module('app.forgot', ['ngRoute','ngAnimate'])
 	}
 
 	function checkforgot(data, status, headers, config) {
+    MessageService.info(0)
     $location.path('/');
   }
 
   function failforgot(data, status, headers, config) {
-  	console.log(status)
+  	MessageService.danger(0)
   }
 }]);

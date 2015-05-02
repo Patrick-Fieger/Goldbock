@@ -1,57 +1,73 @@
 <div class="header_wrapper">
-	<div class="black_image" style="background-image:url({{offer.offer.titleimage.black}})"></div>
-	<div class="normal_image" style="background-image:url({{offer.offer.titleimage.normal}})"></div>
+    <div class="black_image" style="background-image:url({{offer.offer.titleimage.black}})"></div>
+    <div class="normal_image" style="background-image:url({{offer.offer.titleimage.normal}})"></div>
 </div>
 <div class="offer">
-	<div class="row">
-		<div class="columns large-8">
-			<div class="columns large-3">
-
-				<img class="o_avatar" ng-src="{{offer.avatar}}">
-				<p class="o_name tac">{{offer.name}}</p>
-			</div>
-			<div class="columns large-9">
-				<div class="columns large-12">
-					<h1 class="o_title">{{offer.offer.title}}</h1>
-					<p class="o_place"><strong>{{offer.city}}</strong> - {{offer.street}}</p>
-				</div>
-				<div class="columns large-4">
-					<i class="mt10 tac o_icon-offer icon-eye"></i>
-					<p class="tac">{{offer.offer.views}}</p>
-				</div>
-				<div class="columns large-4">
-					<i class="mt10 tac o_icon-offer icon-heart"></i>
-					<p class="tac">{{offer.offer.likes}}</p>
-				</div>
-				<div class="columns large-4">
-					<i class="mt10 tac o_icon-offer icon-creditcard"></i>
-					<p class="tac">{{offer.offer.booked}}</p>
-				</div>
-			</div>
-		</div>
-		<div class="columns large-4">
-			<div id="pricing">
-			  	<p class="fl">{{offer.offer.price}} €</p>
-			  	<p class="fr">Pro Buchung</p>
-			</div>
-			<div id="book_it">
-				<form class="form-group mb0">
-					<fieldset>
-						<div class="o_picker">
-							<p></p>
-							<input class="datepicker form-control mb10" placeholder="Datum">
-						</div>
-						<input class="timepicker form-control mb10" placeholder="Uhrzeit">
-					</fieldset>
-					<input class="btn btn-block btn-lg btn-primary mt20"  type="submit" value="Buchung anfragen"></input>
-				</form>
-			</div>
-		</div>
-	</div>
+    <div class="row">
+        <div class="columns large-8">
+            <div class="columns large-3">
+                <img class="o_avatar" ng-src="{{offer.avatar}}">
+                <p class="o_name tac">{{offer.name}}</p>
+            </div>
+            <div class="columns large-9">
+                <div class="columns large-12">
+                    <h1 class="o_title">{{offer.offer.title}}</h1>
+                    <p class="o_place"><strong>{{offer.city}}</strong> - {{offer.street}}</p>
+                </div>
+                <div class="columns large-4">
+                    <i class="mt10 tac o_icon-offer icon-eye"></i>
+                    <p class="tac">{{offer.offer.views}}</p>
+                </div>
+                <div class="columns large-4">
+                    <i class="mt10 tac o_icon-offer icon-heart"></i>
+                    <p class="tac">{{offer.offer.likes}}</p>
+                </div>
+                <div class="columns large-4">
+                    <i class="mt10 tac o_icon-offer icon-creditcard"></i>
+                    <p class="tac">{{offer.offer.booked}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="columns large-4">
+            <div id="pricing">
+                <p class="fl">{{offer.offer.price}} €</p>
+                <p class="fr">Pro Buchung</p>
+            </div>
+            <div id="book_it">
+                <form class="form-group mb0" ng-submit="sendRequest()">
+                    <fieldset>
+                        <div class="o_picker">
+                            <p></p>
+                            <input class="datepicker form-control mb10" placeholder="Datum">
+                        </div>
+                        <input class="timepicker form-control mb10" placeholder="Uhrzeit">
+                    </fieldset>
+                    <input class="btn btn-block btn-lg btn-primary mt20"  type="submit" value="Buchung anfragen"></input>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="row">
-	<div class="large-8">
-		<h1>Über das Angebot</h1>
-		<p>{{offer.offer.description}}</p>
-	</div>
+    <div class="large-8">
+        <div class="offer_content">
+            <h1>Über das Angebot</h1>
+            <p>{{offer.offer.description}}</p>
+            <h1>Bilder</h1>
+            <div class="offer_pictures" itemscope itemtype="http://schema.org/ImageGallery">
+                <figure on-finish-render="initPhotos()" ng-repeat="p in offer.offer.photos" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+                    <a ng-href="{{p}}" itemprop="contentUrl" data-size="600x400">
+                    	<img ng-src="{{p}}" itemprop="thumbnail" alt="Image description" />
+                    </a>
+                </figure>
+            </div>
+            <div class="offer_video_wrapper" ng-show="offerVideo">
+            	<h1>Video</h1>
+            	<video class="wd100" ng-src="{{offer.offer.video}}" controls></video>
+            </div>
+            
+        </div>
+
+
+    </div>
 </div>

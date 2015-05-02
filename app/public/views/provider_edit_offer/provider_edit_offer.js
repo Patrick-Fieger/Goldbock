@@ -9,7 +9,7 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
   });
 }])
 
-.controller('ProviderEditOfferCtrl', ['$scope','$routeParams','$location','$timeout','ProviderService','AllService','AuthService','UploadService','$rootScope',function($scope,$routeParams,$location,$timeout,ProviderService,AllService,AuthService,UploadService,$rootScope) {
+.controller('ProviderEditOfferCtrl', ['$scope','$routeParams','$location','$timeout','ProviderService','AllService','AuthService','UploadService','$rootScope','MessageService',function($scope,$routeParams,$location,$timeout,ProviderService,AllService,AuthService,UploadService,$rootScope,MessageService) {
 	ProviderService.offer($routeParams.id).success(buildOfferView);
 
 	var progressInterval;
@@ -99,6 +99,7 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 		$('.progress-bar').width('100%');
 		watchProgressStop();
 		$timeout(function(){
+			MessageService.info(5)
 			$location.path('/provider/dashboard');
 		},1000);
 	}

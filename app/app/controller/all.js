@@ -1,4 +1,5 @@
 var Provider = require('../models/provider'),
+	User = require('../models/user')
 	mongoose = require('mongoose'),
 	uuid = require('uuid'),
     formidable = require('formidable'),
@@ -30,6 +31,7 @@ var getAvatarInfos = function (req, res, next){
 
 var profile = function(req, res, next){
 	var role = capitalizeFirstLetter(req.user.role);
+	console.log(role)
 	eval(role).findOne({ email: req.user.email }, function(err, user) {
       if (err) { console.log(err) }
       if (!user) {

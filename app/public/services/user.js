@@ -3,16 +3,25 @@ angular.module('app.userService', [])
 	var register = function(data){
 		return $http.post('/create', data)
 	};
-	var updatePassword = function(oldpassword, newpassword){
 
-	};
 	var deleteAccount = function(user){
 
 	};
 
+	var updateProfile = function(data){
+		var data_ = data;
+		delete data_.role;
+		delete data_.email;
+		delete data_.__v;
+		delete data_._id;
+		delete data_.avatar;
+		delete data_.offers;
+		return $http.post('/update/user', data_)
+	}
+
 	return{
 		register : register,
-		updatePassword : updatePassword,
-		deleteAccount : deleteAccount
+		deleteAccount : deleteAccount,
+		updateProfile : updateProfile
 	}
 })

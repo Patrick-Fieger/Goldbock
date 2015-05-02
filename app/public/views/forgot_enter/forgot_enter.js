@@ -9,7 +9,7 @@ angular.module('app.forgot_enter', ['ngRoute','ngAnimate'])
   });
 }])
 
-.controller('ForgotEnterCtrl', ['$scope','$routeParams','$location','$timeout','AuthService','AllService',function($scope,$routeParams,$location,$timeout,AuthService,AllService) {
+.controller('ForgotEnterCtrl', ['$scope','$routeParams','$location','$timeout','AuthService','AllService','MessageService',function($scope,$routeParams,$location,$timeout,AuthService,AllService,MessageService) {
   $scope.userData = {
     token : $routeParams.id,
 		password : "",
@@ -23,10 +23,11 @@ angular.module('app.forgot_enter', ['ngRoute','ngAnimate'])
 	}
 
 	function changeSuccess(data, status, headers, config) {
+    MessageService.info(3)
     $location.path('/');
   }
 
   function changeFail(data, status, headers, config) {
-  	console.log(status)
+  	MessageService.danger(0)
   }
 }]);

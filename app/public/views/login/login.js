@@ -10,10 +10,10 @@ angular.module('app.login', ['ngRoute','ngAnimate'])
 
 }])
 
-.controller('LoginCtrl', ['$scope','$location','$timeout','AuthService','AllService',function($scope,$location,$timeout,AuthService,AllService) {
+.controller('LoginCtrl', ['$scope','$location','$timeout','AuthService','AllService','MessageService',function($scope,$location,$timeout,AuthService,AllService,MessageService) {
 	$scope.userData = {
-		"email":"patrickfieger90@gmail.com",
-		"password":"123"
+		"email":"patrick.fieger@me.com",
+		"password":"12345"
 	}
 
 	$scope.sendLogin = function(){
@@ -26,6 +26,6 @@ angular.module('app.login', ['ngRoute','ngAnimate'])
   }
 
   function faillogin(data, status, headers, config) {
-  	console.log(status)
+  	MessageService.danger(2)
   }
 }]);

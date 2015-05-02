@@ -1,34 +1,25 @@
 'use strict';
 
-angular.module('app.provider_dashboard', ['ngRoute','ngAnimate'])
+angular.module('app.user_dashboard', ['ngRoute','ngAnimate'])
 
 .config(['$routeProvider','$animateProvider', function($routeProvider,$animateProvider) {
-  $routeProvider.when('/provider/dashboard', {
-    templateUrl: 'views/provider_dashboard/provider_dashboard.html',
-    controller: 'ProviderDashboardCtrl'
+  $routeProvider.when('/user/dashboard', {
+    templateUrl: 'views/user_dashboard/user_dashboard.html',
+    controller: 'UserDashboardCtrl'
   });
 }])
 
-.controller('ProviderDashboardCtrl', ['$scope','$location','$timeout','ProviderService','AllService','AuthService','UploadService','$rootScope','MessageService',function($scope,$location,$timeout,ProviderService,AllService,AuthService,UploadService,$rootScope,MessageService) {
+.controller('UserDashboardCtrl', ['$scope','$location','$timeout','UserService','AllService','AuthService','UploadService','$rootScope','MessageService',function($scope,$location,$timeout,UserService,AllService,AuthService,UploadService,$rootScope,MessageService) {
 	$scope.user = {};
 	$scope.avatar;
-	$scope.showAboutTextarea = false;
 	$scope.editstate = false;
-	$scope.hideAddOffer = false;
 	$scope.passstate = false;
-	$scope.showAboutTextareaText;
-	$scope.about;
-	$scope.count = 400;
 	$scope.password = {};
 
 	AllService.profile().success(updateProfileView);
 
 	function updateProfileView(data, status, headers, config){
 		$scope.user = data;
-
-		if(data.offers.length >= 3){
-			$scope.hideAddOffer = true
-		}
 
 		if (data.avatar !== undefined) {
         	$scope.user.avatar.big = data.avatar.big.replace('public/','')
@@ -37,25 +28,7 @@ angular.module('app.provider_dashboard', ['ngRoute','ngAnimate'])
         	$scope.user.avatar = {};
         	$scope.user.avatar.big = 'img/avatar/avatar.png';
         }
-
-        checkAboutText();
 	}
-
-	function checkAboutText(){
-		if($scope.user.about !== undefined && $scope.user.about !== ""){
-        	nltobr();
-        }else{
-        	$scope.showAboutTextareaText = false;
-        }
-	}
-
-	function nltobr() {
-		$scope.about = $scope.user.about.replace(/(?:\r\n|\r|\n)/g, '<br />');
-		$scope.showAboutTextareaText = true;
-		$scope.countText();
-	}
-
-
 
 	$scope.editProfile = function(){
 		$scope.showAboutTextarea = true;
@@ -73,10 +46,9 @@ angular.module('app.provider_dashboard', ['ngRoute','ngAnimate'])
 	}
 
 	$scope.save = function(){
-		console.log($scope.pass.$valid)
-		if($scope.userabout.$valid && $scope.userdata.$valid && $scope.editstate) {
+		if($scope.userdata.$valid && $scope.editstate) {
 			var data = angular.copy($scope.user);
-       		ProviderService.updateProfile(data).success(updateProfileSuccess);
+       		UserService.updateProfile(data).success(updateProfileSuccess);
      	}else if ($scope.pass.$valid && $scope.passstate){
      		var data = angular.copy($scope.password);
      		AllService.updatePassword(data).success(changePasswordSuccess);
@@ -86,7 +58,6 @@ angular.module('app.provider_dashboard', ['ngRoute','ngAnimate'])
 	}
 
 	function updateProfileSuccess(){
-		checkAboutText();
 		$scope.cancel();
 		AllService.updateName($scope.user.firstname + ' ' + $scope.user.lastname);
 		MessageService.info(6)
@@ -102,32 +73,6 @@ angular.module('app.provider_dashboard', ['ngRoute','ngAnimate'])
 		$scope.cancelCrop();
 	}
 
-	$scope.countText = function(){
-		$scope.count = 400 - $scope.user.about.length - ($scope.user.about.match(/\n/g)||[]).length;
-	}
-
-	$scope.redirectEdit = function(id){
-		$location.path('/edit/'+id)
-	}
-
-	$scope.deleteOffer = function(id){
-		if(confirm('Möchten sie das Angebot wirklich löschen?')){
-			ProviderService.deleteOffer(id).success(updateOfferList)
-		}
-	}
-
-	function updateOfferList(data, status, headers, config){
-		var id = data;
-		for(var i = 0; i < $scope.user.offers.length; i++) {
-		    var obj = $scope.user.offers[i];
-		    if( id == obj.id) {
-		        $scope.user.offers.splice(i, 1);
-		        $scope.hideAddOffer = false;
-		    }
-		}
-		MessageService.danger(3)
-	}
-
 	$scope.myImage='';
 	$scope.myCroppedImage='';
 	$scope.showCrop = false;
@@ -135,7 +80,6 @@ angular.module('app.provider_dashboard', ['ngRoute','ngAnimate'])
 	$scope.logout = function(){
 		AuthService.logout();
 	}
-
 
 	$scope.cancelCrop = function(){
 		$scope.myImage='';

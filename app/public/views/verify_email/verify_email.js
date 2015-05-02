@@ -9,14 +9,15 @@ angular.module('app.verify_email', ['ngRoute','ngAnimate'])
   });
 }])
 
-.controller('VerifyEmailCtrl', ['$scope','$routeParams','$location','$timeout','AuthService','AllService',function($scope,$routeParams,$location,$timeout,AuthService,AllService) {
+.controller('VerifyEmailCtrl', ['$scope','$routeParams','$location','AuthService','MessageService',function($scope,$routeParams,$location,AuthService,MessageService) {
   AuthService.verifyEmail({token : $routeParams.token}).success(changeSuccess).error(changeFail);
 
 	function changeSuccess(data, status, headers, config) {
+    MessageService.info(1);
     $location.path('/');
   }
 
   function changeFail(data, status, headers, config) {
-  	console.log(status)
+  	MessageService.danger(5);
   }
 }]);

@@ -9,12 +9,12 @@ angular.module('app.register', ['ngRoute','ngAnimate'])
   });
 }])
 
-.controller('RegisterCtrl', ['$scope','$location','$timeout','AuthService','AllService',function($scope,$location,$timeout,AuthService,AllService) {
+.controller('RegisterCtrl', ['$scope','$location','$timeout','AuthService','AllService','MessageService',function($scope,$location,$timeout,AuthService,AllService,MessageService) {
 	$scope.userData = {
-		"email":"",
-		"password":"",
-    "firstname": "",
-    "lastname": ""
+		"email":"patrick.fieger@me.com",
+		"password":"12345",
+    "firstname": "Patrick",
+    "lastname": "Fieger"
 	}
 
 	$scope.sendRegister = function(){
@@ -22,11 +22,12 @@ angular.module('app.register', ['ngRoute','ngAnimate'])
 	}
 
 	function checkregister(data, status, headers, config) {
-    $location.path(data);
-    AllService.checkAvatarInfos();
+    MessageService.info(0)
+    $location.path('/');
+    
   }
 
   function failregister(data, status, headers, config) {
-  	console.log(status)
+  	MessageService.danger(4)
   }
 }]);

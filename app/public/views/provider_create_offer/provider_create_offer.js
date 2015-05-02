@@ -8,7 +8,7 @@ angular.module('app.provider_create_offer', ['ngRoute','ngAnimate'])
     controller: 'ProviderCreateOfferCtrl'
   });
 }])
-.controller('ProviderCreateOfferCtrl', ['$scope','UploadService','$location','$timeout', function ($scope,UploadService,$location,$timeout) {
+.controller('ProviderCreateOfferCtrl', ['$scope','UploadService','$location','$timeout','MessageService', function ($scope,UploadService,$location,$timeout,MessageService) {
 	var title;
 	var photos;
 
@@ -56,6 +56,7 @@ angular.module('app.provider_create_offer', ['ngRoute','ngAnimate'])
 	function uploadFinish(){
 		$('.progress-bar').width('100%');
 		$timeout(function(){
+			MessageService.info(4)
 			$location.path('/provider/dashboard');
 		},1000);
 	}

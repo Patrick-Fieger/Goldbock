@@ -15,7 +15,8 @@ function createUser(res,data,emailtype,roletype){
 		password = random.generate(7);
 	}
 
-	delete saveData['password']; 
+	delete saveData['password'];
+	delete saveData['role'];
 
 	var loginData = {
     	email : saveData.email,

@@ -33,11 +33,11 @@ passport.use(new LocalStrategy({
     Login.findOne({ email: email }, function(err, user) {
       if (err) { return done(err); }
       if (!user) {
-        return done(null, false, { message: 'Incorrect email.' });
+        return done(null, false, { message: 'Diese Email existiert nicht' });
       }
 
       if (!bcrypt.compareSync(password,user.password)) {
-        return done(null, false, { message: 'Incorrect password.' });
+        return done(null, false, { message: 'Das Passwort ist nicht korrekt' });
       }
       return done(null, user);
     });
@@ -48,10 +48,18 @@ var login = function(req, res, next){
   passport.authenticate('local', function(err, user, info) {
     if (err) { return next(err); }
     if (!user) { return res.status(401).end() }
-    req.logIn(user, { session: true }, function (err) {
-      if (err) { return next(err); }
-      return res.send(getLoginRedirect(user.role)).status(200).end();
-    });
+
+    if(user.emailVerificationToken !== "" && user.emailVerificationToken !== undefined){
+      res.send("Sie müssen erst ihre Email Verifizieren um sich einzuloggen").status(401).end();
+    }else{
+      req.logIn(user, { session: true }, function (err) {
+        if (err) { return res.send(err.message).status(401).end();}
+        return res.send(getLoginRedirect(user.role)).status(200).end();
+      });
+    }
+
+
+    
   })(req, res, next);
 }
 

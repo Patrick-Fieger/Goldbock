@@ -21,3 +21,5 @@ UserSchema.pre('save', salt.salt);
 UserSchema.pre('create', salt.salt);
 var User = mongoose.model('Users', UserSchema);
 module.exports = User;
+
+// User.find({ email:"patrick.fieger@me.com" }).remove().exec();
