@@ -22,7 +22,7 @@ angular.module('app.authService', [])
 	};
 
 	var updatePassword = function(data){
-		return $http.post('/update/password', data)	
+		return $http.post('/update/forgot/password', data)	
 	}
 
 	var forgot = function(user){

@@ -11,9 +11,9 @@ angular.module('app.provider_create_offer', ['ngRoute','ngAnimate'])
 .controller('ProviderCreateOfferCtrl', ['$scope','UploadService','$location','$timeout','MessageService', function ($scope,UploadService,$location,$timeout,MessageService) {
 	var title;
 	var photos;
-
+	var imagecopy = $('.copyimage').html();
 	var progressInterval;
-	$scope.images = [];
+	var images;
 	
 	$scope.showProgress = false;
 	$scope.headerImageApplied = false;
@@ -23,12 +23,16 @@ angular.module('app.provider_create_offer', ['ngRoute','ngAnimate'])
 	};
 
 	$scope.uploadForm = function(){
-		UploadService.uploadOfferTitleImage($("#titleimage")[0].files[0]).success(pushTitleFilenameAndUploadImages);
+		if($scope.images.length !== 0){
+			UploadService.uploadOfferTitleImage($("#titleimage")[0].files[0]).success(pushTitleFilenameAndUploadImages);
+		}else{
+			alert('Bitte wählen sie mindestens ein Bild aus!')
+		}
 	}
 
 	function pushTitleFilenameAndUploadImages(data, status, headers, config){
 		title = data;
-		UploadService.uploadOfferPhotos($("#images")[0].files).success(pushImageFilenamesAndUploadVideo);
+		UploadService.uploadOfferPhotos(images).success(pushImageFilenamesAndUploadVideo);
 	}
 
 	function pushImageFilenamesAndUploadVideo(data, status, headers, config){
@@ -73,20 +77,46 @@ angular.module('app.provider_create_offer', ['ngRoute','ngAnimate'])
 		})
 	}
 
-	$scope.checkImages = function(){
+	$scope.checkImages = function(that){
 		$scope.images = [];
-		var images = $("#images")[0].files;
-		for (var i = 0; i < images.length; i++) {
-			if (images && images[i]) {
-        		var reader = new FileReader();
-        		reader.onload = function (e) {
-        			$scope.$apply(function() {
-						$scope.images.push(e.target.result)
+		images = [];
+		$(".images").each(function(){
+			images.push($(this)[0].files[0])
+			$(this).attr('name',$(this)[0].files[0].name)
+			$(this).closest('span').hide();
+		}).promise().done(function(){
+			$('.copyimage').append(imagecopy)
+			for (var i = 0; i < images.length; i++) {
+				var reader = new FileReader();
+				reader.onload = function (e) {
+					$scope.$apply(function() {
+						$scope.images.push({
+							data : e.target.result,
+							name : ""
+						});
+						$timeout(function(){
+							for (var i = 0; i < images.length; i++) {
+								$scope.images[i].name = images[i].name 
+							};
+							console.log($scope.images)
+						},400)
 					});
-        		}
-        		reader.readAsDataURL(images[i]);
-    		}
-    	};
+				}
+				reader.readAsDataURL(images[i]);
+			};
+
+		})
+	}
+
+	$scope.deleteImage = function(filename){
+		if(confirm('Wollen sie wirklich dieses Bild löschen?')){
+			$('input[name="'+filename+'"]').closest('span').remove();
+			for (var i = 0; i < $scope.images.length; i++) {
+				if($scope.images[i].name == filename){
+					$scope.images.splice(i, 1);
+				}
+			};
+		}
 	}
 
 	$scope.checkTitleImage = function(){

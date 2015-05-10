@@ -50,12 +50,20 @@
         <div ng-show="headerImageApplied" class="images_preview_big">
             <img ng-src="{{titleImageNew}}" class="mt10">
         </div>
+        <div class="copyimage">
+        <!-- <span ng-show="togglePhotos" class="btn btn-primary wd100 fl mt10 mb10 fileinput_hide">Bilder auswählen <input id="images" onchange="angular.element(this).scope().checkImages()" placeholder="Bilder auswählen" multiple="true" type="file" accept="image/*"></span> -->
+            <span class="btn btn-primary wd100 fl mt10 mb10 fileinput_hide">Bild auswählen <input class="images" onchange="angular.element(this).scope().checkImages(this)" placeholder="Bild auswählen" type="file" accept="image/*"></span>
 
-        <span ng-show="togglePhotos" class="btn btn-primary wd100 fl mt10 mb10 fileinput_hide">Bilder auswählen <input id="images" onchange="angular.element(this).scope().checkImages()" placeholder="Bilder auswählen" multiple="true" type="file" accept="image/*"></span>
+        </div>
 
 
         <div ng-show="photosApplied" class="images_preview mb10">
-            <img ng-repeat="image in images" src="{{image}}">
+            <!-- <img ng-repeat="image in images" src="{{image}}"> -->
+
+            <div class="images_preview_wrapper" ng-repeat="image in images">
+                <img src="{{image.data}}">
+                <div class="icon-cross" ng-click="deleteImage(image.name)"></div>
+            </div>
         </div>
 
         <div class="images_preview edit_ mb10 mt10 wd100" style="float: left;">

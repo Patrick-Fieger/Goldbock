@@ -263,13 +263,38 @@ input{
   cursor: pointer;
 }
 
-
+.images_preview{
+  width: 100%;
+  height: auto;
+  position: relative;
+  float: left;
+}
 
 .images_preview img{
+  width: 100%
+}
+
+
+.images_preview_wrapper{
   width: 31.3%;
   margin: 1%;
   float: left;
-  position: ree
+  position: relative;
+}
+
+.images_preview_wrapper div{
+  font-size: 30px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: #fff;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.images_preview_wrapper div:hover{
+  cursor: pointer;
 }
 
 .images_preview.edit_ img{
@@ -515,10 +540,13 @@ input{
   position: relative;
   float: left;
   height: auto;
+  margin: 1%
 }
 
+
+
 .delete_wrapper .delete_{
-  width: 30px;
+/*  width: 30px;
   height: 30px;
   background: rgba(0,0,0,0.8);
   color: #fff;
@@ -526,19 +554,32 @@ input{
   right: 10px;
   top: 10px;
   position: absolute;
-  z-index: 10;
+  z-index: 10;*/
+
+  font-size: 30px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: #fff;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
 }
 
+.images_preview.edit_ .delete_wrapper .delete_{
+  right: 10px; 
+}
+/*
 .delete_:before{
   font-size: 20px;
   position: absolute;
   top: 5px;
   left: 5px;
-}
+}*/
 
-.delete_wrapper .delete_:hover{
+/*.delete_wrapper .delete_:hover{
   background: rgba(0,0,0,1);
-} 
+} */
 
 /*OFFER*/
 

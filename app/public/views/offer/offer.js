@@ -44,7 +44,7 @@ angular.module('app.offer', ['ngRoute','ngAnimate'])
 		$timeout(function(){
 			$('.offer_pictures img').each(function(index, el) {
 				$(this).attr('data-size', $(this).get(0).naturalHeight + 'x' + $(this).get(0).naturalWidth);
-				$(this).parent('a').attr('data-size', $(this).get(0).naturalHeight + 'x' + $(this).get(0).naturalWidth);
+				$(this).parent('a').attr('data-size', $(this).get(0).naturalWidth + 'x' + $(this).get(0).naturalHeight);
 			}).promise().done(function(){
 				PhotoService.init('.offer_pictures');		
 			});

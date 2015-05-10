@@ -64,7 +64,6 @@ var avatar = function(req, res, next){
 
 function updatePassword (req, res, next){
 	var password = req.body.old;
-
 	Login.findOne({ email: req.user.email }, function(err, user) {
       if (err) { return done(err); }
       if (!user) {
@@ -76,7 +75,7 @@ function updatePassword (req, res, next){
 		    user.password = req.body.new;
 		    user.save(function (err) {
 			    if(err) {
-			        console.error('ERROR!');
+			        console.error(err);
 			    }else{
 			    	res.status(200).end();
 			    }

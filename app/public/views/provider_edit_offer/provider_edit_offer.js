@@ -22,6 +22,8 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 	var max;
 	var title;
 	var photos;
+	var images = [];
+	var imagecopy = $('.copyimage').html();
 
 	$scope.delete = {
 		id: "",
@@ -43,6 +45,7 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 
 
 	function uploadNewFiles(){
+		console.log($("#titleimage")[0].files[0])
 		if($("#titleimage")[0].files[0] !== undefined){
 			UploadService.uploadOfferTitleImage($("#titleimage")[0].files[0]).success(pushTitleFilenameAndUploadImages);
 		}else{
@@ -53,8 +56,8 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 
 	function pushTitleFilenameAndUploadImages(data, status, headers, config){
 		title = data;
-		if($("#images")[0].files.length !== 0){
-			UploadService.uploadOfferPhotos($("#images")[0].files).success(pushImageFilenamesAndUploadVideo);
+		if(images !== 0){
+			UploadService.uploadOfferPhotos(images).success(pushImageFilenamesAndUploadVideo);
 		}else{
 			pushImageFilenamesAndUploadVideo("", "", "", "");
 		}
@@ -193,28 +196,71 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 		}
 	}
 
-	$scope.checkImages = function(){
+	// $scope.checkImages = function(){
+	// 	$scope.images = [];
+	// 	var images = $("#images")[0].files;
+	// 	if($("#images")[0].files.length <= max){
+	// 		for (var i = 0; i < images.length; i++) {
+	// 			if (images && images[i]) {
+	// 				var reader = new FileReader();
+	// 				reader.onload = function (e) {
+	// 					$scope.$apply(function() {
+	// 						$scope.photosApplied = true;
+	// 						$scope.images.push(e.target.result)
+	// 					});
+	// 				}
+	// 				reader.readAsDataURL(images[i]);
+	// 			}
+	// 		};
+ //    	}else{
+ //    		alert('Sie können höchstens ' + max + ' Bild(er) auswählen');
+ //    		var input = $("#images");
+ //    		input.replaceWith(input.val('').clone(true));
+ //    	}
+	// }
+	$scope.checkImages = function(that){
 		$scope.images = [];
-		var images = $("#images")[0].files;
-		if($("#images")[0].files.length <= max){
+		images = [];
+		$(".images").each(function(){
+			images.push($(this)[0].files[0])
+			$(this).attr('name',$(this)[0].files[0].name)
+			$(this).closest('span').hide();
+		}).promise().done(function(){
+			$('.copyimage').append(imagecopy)
 			for (var i = 0; i < images.length; i++) {
-				if (images && images[i]) {
-					var reader = new FileReader();
-					reader.onload = function (e) {
-						$scope.$apply(function() {
-							$scope.photosApplied = true;
-							$scope.images.push(e.target.result)
+				var reader = new FileReader();
+				reader.onload = function (e) {
+					$scope.$apply(function() {
+						$scope.images.push({
+							data : e.target.result,
+							name : ""
 						});
-					}
-					reader.readAsDataURL(images[i]);
+						$scope.photosApplied = true;
+						$timeout(function(){
+							for (var i = 0; i < images.length; i++) {
+								$scope.images[i].name = images[i].name 
+							};
+							console.log($scope.images)
+						},400)
+					});
+				}
+				reader.readAsDataURL(images[i]);
+			};
+
+		})
+	}
+
+	$scope.deleteImage = function(filename){
+		if(confirm('Wollen sie wirklich dieses Bild löschen?')){
+			$('input[name="'+filename+'"]').closest('span').remove();
+			for (var i = 0; i < $scope.images.length; i++) {
+				if($scope.images[i].name == filename){
+					$scope.images.splice(i, 1);
 				}
 			};
-    	}else{
-    		alert('Sie können höchstens ' + max + ' Bild(er) auswählen');
-    		var input = $("#images");
-    		input.replaceWith(input.val('').clone(true));
-    	}
+		}
 	}
+
 
 	$scope.checkTitleImage = function(){
 		var image = $("#titleimage")[0].files[0];

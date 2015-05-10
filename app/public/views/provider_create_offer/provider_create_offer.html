@@ -38,16 +38,22 @@
         </select>
 
 
-        <span class="btn btn-primary wd100 fl fileinput_hide">Titelbild auswählen<input id="titleimage" onchange="angular.element(this).scope().checkTitleImage()" placeholder="Bilder auswählen" multiple="false" type="file" required accept="image/*"></span>
+        <span class="btn btn-primary wd100 fl fileinput_hide">Titelbild auswählen<input id="titleimage" onchange="angular.element(this).scope().checkTitleImage()" multiple="false" type="file" required accept="image/*"></span>
 
         <div class="images_preview_big">
             <img ng-src="{{titleImage}}" ng-class="{mt10: headerImageApplied}">
         </div>
 
-        <span class="btn btn-primary wd100 fl mt10 mb10 fileinput_hide">Bilder auswählen <input id="images" onchange="angular.element(this).scope().checkImages()" placeholder="Bilder auswählen" multiple="true" type="file" required accept="image/*"></span>
+        <div class="copyimage">
+            <span class="btn btn-primary wd100 fl mt10 mb10 fileinput_hide">Bild auswählen <input class="images" onchange="angular.element(this).scope().checkImages(this)" placeholder="Bild auswählen" type="file" accept="image/*"></span>
+        </div>
 
         <div class="images_preview">
-            <img ng-repeat="image in images" src="{{image}}">
+            <div class="images_preview_wrapper" ng-repeat="image in images">
+                <img src="{{image.data}}">
+                <div class="icon-cross" ng-click="deleteImage(image.name)"></div>
+            </div>
+            
         </div>
         
         <span class="btn btn-primary wd100 fl mb10 fileinput_hide">Video auswählen <input id="video" onchange="angular.element(this).scope().checkVideo()" placeholder="Video auswählen" type="file" accept="video/mp4"></span>
