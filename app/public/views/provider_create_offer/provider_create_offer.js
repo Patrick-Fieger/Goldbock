@@ -19,7 +19,8 @@ angular.module('app.provider_create_offer', ['ngRoute','ngAnimate'])
 	$scope.headerImageApplied = false;
 	$scope.progressMessage = "";
 	$scope.offer = {
-		category : "Kochen / Backen"
+		category : "Kochen / Backen",
+		per : "pro Buchung"
 	};
 
 	$scope.uploadForm = function(){

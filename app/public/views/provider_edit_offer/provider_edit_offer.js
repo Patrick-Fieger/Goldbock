@@ -82,6 +82,7 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 		$scope.new.photos = photos;
 		$scope.new.titleimage = title;
 		$scope.new.category = $scope.offer.category;
+		$scope.new.per = $scope.offer.per;
 		$scope.new.description = $scope.offer.description;
 		$scope.new.title = $scope.offer.title;
 		$scope.new.price = $scope.offer.price;
@@ -126,7 +127,6 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 	function buildOfferView(data, status, headers, config){
 		$scope.offer = data.offer;
 		$scope.delete.id = data.offer.id;
-
 
 		if(data.offer.category == undefined){
 			$scope.offer.category = "Kochen / Backen"
@@ -287,7 +287,7 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 	}
 
 	
-	$scope.$watchGroup(['offer.description', 'offer.title','offer.price','offer.category'], function(newValues, oldValues, scope) {
+	$scope.$watchGroup(['offer.description', 'offer.title','offer.price','offer.category','offer.per'], function(newValues, oldValues, scope) {
 		changed++;
 	});
 

@@ -630,7 +630,7 @@ label {
 .form-control:focus,
 .form-group.focus .select2-search input[type="text"],
 .select2-search input[type="text"]:focus {
-  border-color: #1abc9c;
+  border-color: #e0e22c;
   outline: 0;
   box-shadow: none;
   }

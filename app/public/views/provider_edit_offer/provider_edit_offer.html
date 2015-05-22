@@ -5,7 +5,17 @@
 
         <textarea ng-model="offer.description" class="form-control mb10 wd100" placeholder="Beschreibung des Angebotes"></textarea>
 
-        <input class="form-control mb10" ng-model="offer.price" placeholder="Kosten in €" value="{{offer.price}}" type="number" required>
+        <input class="form-control mb10" min="0" ng-model="offer.price" placeholder="Kosten in €" value="{{offer.price}}" type="number" required>
+
+        <select ng-model="offer.per" class="mb10">
+            <option value="pro Buchung">pro Buchung</option>
+            <option value="pro Teilnehmer">pro Teilnehmer</option>
+            <option value="pro Jahr">pro Jahr</option>
+            <option value="pro Monat">pro Monat</option>
+            <option value="pro Tag">pro Tag</option>
+            <option value="pro Stunde">pro Stunde</option>
+            <option value="pro Minute">pro Minute</option>
+        </select>
 
         <select ng-model="offer.category" class="mb10">
           <optgroup label="Gemeinsames / Verabreden">

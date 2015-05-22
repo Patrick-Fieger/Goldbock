@@ -310,6 +310,10 @@ function updateOfferData(req, res, next){
       				alloffer[i].titleimage = data.titleimage
       			}
 
+      			if(data.per !== ""){
+      				alloffer[i].per = data.per
+      			}
+
       			if(data.photos.length !== 0){
       				for (var k = 0; k < data.photos.length; k++) {
       					alloffer[i].photos.push(data.photos[k]);

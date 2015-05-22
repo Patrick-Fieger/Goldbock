@@ -14,10 +14,28 @@ angular.module('app.offer', ['ngRoute','ngAnimate'])
 
 	function buildOfferView(data, status, headers, config){
 		$scope.offer = data;
+
+		$scope.offer.offer.companyAmount = "10%";
+
+		if(isPercentage($scope.offer.offer.companyAmount)){
+			var amount = $scope.offer.offer.price / 100 * removeCurrencyAndParseInt($scope.offer.offer.companyAmount)
+			$scope.offer.offer.endPrice = $scope.offer.offer.price - amount
+		}else{
+			$scope.offer.offer.endPrice = $scope.offer.offer.price - removeCurrencyAndParseInt($scope.offer.offer.companyAmount)
+		}
+
 		$scope.offer.avatar = AllService.removePublicInLink($scope.offer.avatar);
 		if($scope.offer.offer.video !== undefined && $scope.offer.offer.video !== ""){
 			$scope.offerVideo = true
 		}
+	}
+
+	function isPercentage (string){
+		return string.indexOf('%');
+	}
+
+	function removeCurrencyAndParseInt(string){
+		return parseInt(string.replace('%').replace('€'))
 	}
 
 	$(window).bind('scroll', calcScroll);
