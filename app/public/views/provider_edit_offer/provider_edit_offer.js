@@ -83,6 +83,7 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 		$scope.new.titleimage = title;
 		$scope.new.category = $scope.offer.category;
 		$scope.new.per = $scope.offer.per;
+		$scope.new.reqirements = $scope.offer.reqirements;
 		$scope.new.description = $scope.offer.description;
 		$scope.new.title = $scope.offer.title;
 		$scope.new.price = $scope.offer.price;
@@ -287,7 +288,7 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 	}
 
 	
-	$scope.$watchGroup(['offer.description', 'offer.title','offer.price','offer.category','offer.per'], function(newValues, oldValues, scope) {
+	$scope.$watchGroup(['offer.description', 'offer.title','offer.price','offer.category','offer.per','offer.reqirements'], function(newValues, oldValues, scope) {
 		changed++;
 	});
 

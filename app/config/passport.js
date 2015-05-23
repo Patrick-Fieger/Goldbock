@@ -157,6 +157,12 @@ function isAuthenticatedToSeeContent(req, res, next) {
     res.status(401).end();
 }
 
+function isNotAdmin(req,res,next){
+  if(req.user.role !== 'admin'){
+    return next()
+  }
+}
+
 function isAuthenticatedToMakeRequest(req, res, next) {
   var path = req._parsedOriginalUrl.path;
   var split = path.indexOf('?');
@@ -168,7 +174,6 @@ function isAuthenticatedToMakeRequest(req, res, next) {
     res.status(401).end();
 }
 
-
 module.exports = {
   login : login,
   logout : logout,
@@ -177,5 +182,6 @@ module.exports = {
   isAuthenticatedToMakeRequest : isAuthenticatedToMakeRequest,
   isLoggedIn : isLoggedIn,
   isLoggedInNext : isLoggedInNext,
-  updatePassword : updatePassword
+  updatePassword : updatePassword,
+  isNotAdmin : isNotAdmin
 }

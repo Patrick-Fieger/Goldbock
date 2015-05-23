@@ -28,7 +28,7 @@ module.exports = function(app){
 	app.post('/update/password', pass.isAuthenticatedToMakeRequest , all.updatePassword);
 	app.get('/upload/progress', pass.isAuthenticatedToMakeRequest , provider.progress);
 	app.get('/profile', pass.isAuthenticatedToMakeRequest , all.profile);
-	app.get('/avatarinfos', pass.isAuthenticatedToMakeRequest , all.getAvatarInfos);
+	app.get('/avatarinfos', pass.isAuthenticatedToMakeRequest ,pass.isNotAdmin, all.getAvatarInfos);
 	app.get('/authenticated',pass.isAuthenticatedToSeeContent);
 	app.get('/isloggedin', pass.isLoggedIn);
 }

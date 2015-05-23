@@ -1664,6 +1664,10 @@ keyframes pulse {
   background: #d3324c
 }
 
+.error{
+  color: #d3324c; 
+}
+
 .notify.active{
   top: 0;
 }
