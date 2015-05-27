@@ -22,6 +22,7 @@ angular.module('app.userService', [])
 	return{
 		register : register,
 		deleteAccount : deleteAccount,
-		updateProfile : updateProfile
+		updateProfile : updateProfile,
+		getAllUsers : getAllUsers
 	}
 })

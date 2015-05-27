@@ -18,6 +18,7 @@ angular.module('myApp', [
   'app.provider_edit_offer',
   'app.offer',
   'app.verify_email',
+  'app.list',
   'app.messageService',
   'app.userService',
   'app.authService',
@@ -25,6 +26,7 @@ angular.module('myApp', [
   'app.allService',
   'ngImgCrop',
   'app.uploadService',
+  'app.adminService',
   'app.providerService'
 ]).
 config(['$locationProvider','$routeProvider','$animateProvider', function($locationProvider,$routeProvider,$animateProvider) {
