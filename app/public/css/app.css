@@ -564,6 +564,7 @@ input{
   width: 30px;
   height: 30px;
   border-radius: 50%;
+  z-index: 1000;
 }
 
 .images_preview.edit_ .delete_wrapper .delete_{
@@ -676,7 +677,7 @@ input{
 }
 
 .offer_pictures figure{
-  width: 150px;
+  width: 202px;
   /*height: 150px;*/
   float: left;
   margin: 10px;

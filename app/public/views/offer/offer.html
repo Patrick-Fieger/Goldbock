@@ -52,7 +52,7 @@
 
                     <div class="o_accept">
                         <input required type="checkbox" id="accept">
-                        <label for="accept">Beim checken der Box, akzeptieren sie die Bedingungen des Anbieters und bestellen Kostenpflichtig.</label>
+                        <label for="accept">Beim checken der Box, akzeptieren sie die Bedingungen des Anbieters und bestellen kostenpflichtig.</label>
                     </div>
 
                     <input class="btn btn-block btn-lg btn-primary mt30"  type="submit" value="Buchung anfragen"></input>
@@ -66,8 +66,8 @@
         <div class="offer_content">
             <h1>Über das Angebot</h1>
             <p>{{offer.offer.description}}</p>
-            <h1 class="error">Wichtig zu beachten!</h1>
-            <p class="error">{{offer.offer.reqirements}}</p>
+            <h1>Bedingungen / Next Steps</h1>
+            <p>{{offer.offer.reqirements}}</p>
             <h1>Bilder</h1>
             <div class="offer_pictures" itemscope itemtype="http://schema.org/ImageGallery">
                 <figure on-finish-render="initPhotos()" ng-repeat="p in offer.offer.photos" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">

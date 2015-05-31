@@ -14,6 +14,7 @@ angular.module('app.provider_create_offer', ['ngRoute','ngAnimate'])
 	var imagecopy = $('.copyimage').html();
 	var progressInterval;
 	var images;
+	$scope.images = [];
 	
 	$scope.showProgress = false;
 	$scope.headerImageApplied = false;
@@ -25,6 +26,7 @@ angular.module('app.provider_create_offer', ['ngRoute','ngAnimate'])
 
 	$scope.uploadForm = function(){
 		if($scope.images.length !== 0){
+			$scope.watchProgress();
 			UploadService.uploadOfferTitleImage($("#titleimage")[0].files[0]).success(pushTitleFilenameAndUploadImages);
 		}else{
 			alert('Bitte wählen sie mindestens ein Bild aus!')

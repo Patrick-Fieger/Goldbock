@@ -16,7 +16,7 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 	$scope.toggleTitleImage = false;
 	$scope.togglePhotos = false;
 	$scope.toggleVideo = false;
-	$scope.images;
+	$scope.images = [];
 	var changed = -2;
 	var anydelete = -2;
 	var max;
@@ -37,6 +37,7 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 
 	$scope.uploadForm = function(){
 		if(anydelete > 0){
+			console.log($scope.delete)
 			UploadService.deletePrevData($scope.delete).success(uploadNewFiles);
 		}else{
 			uploadNewFiles();
@@ -45,12 +46,17 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 
 
 	function uploadNewFiles(){
-		console.log($("#titleimage")[0].files[0])
-		if($("#titleimage")[0].files[0] !== undefined){
-			UploadService.uploadOfferTitleImage($("#titleimage")[0].files[0]).success(pushTitleFilenameAndUploadImages);
+		if($scope.images.length !== 0){
+			$scope.watchProgress();
+			if($("#titleimage")[0].files[0] !== undefined ){
+				UploadService.uploadOfferTitleImage($("#titleimage")[0].files[0]).success(pushTitleFilenameAndUploadImages);
+			}else{
+				pushTitleFilenameAndUploadImages("", "", "", "");
+			}	
 		}else{
-			pushTitleFilenameAndUploadImages("", "", "", "");
+			alert('Bitte wählen sie mindestens ein Bild aus!')
 		}
+		
 	}
 
 
@@ -132,6 +138,8 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 		if(data.offer.category == undefined){
 			$scope.offer.category = "Kochen / Backen"
 		}
+
+		$scope.images = data.offer.photos
 		
 		if(data.offer.photos.length < 3){
 			$scope.togglePhotos = true;

@@ -352,7 +352,9 @@ function deleteOfferFilesFromDatabase (res,data){
 						};
 					};
 				}
-				if(data.titleimage.length !== 0 && data.titleimage !== undefined){
+				var titimages = JSON.parse(data.titleimage)
+
+				if(titimages.length !== 0 && titimages !== undefined && titimages.normal !== "" && titimages.black !== ""){
       				alloffer[i].titleimage = {};
       			}
       			if(data.video !== "" && data.video !== undefined){
@@ -377,7 +379,7 @@ function deleteOfferFiles(links){
 		};
 	}
 
-	if(links.titleimage !== undefined){
+	if(links.titleimage !== undefined && links.titleimage.normal !== "" && links.titleimage.black !== ""){
 		var titimages;
 		
 		if(typeof(links.titleimage) == "string"){
