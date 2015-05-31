@@ -9,15 +9,27 @@ function createProvider(req, res, next){
 }
 
 var getProviders = function(req, res, next){
-      res.status(200).end();
+    Provider.find({},function(err,provider){
+    	if(!err){
+    		res.send(provider).status(200).end();
+    	}
+    }); 
 }
 
 var getUsers = function(req, res, next){
-      
+    User.find({},function(err,user){
+    	if(!err){
+    		res.send(user).status(200).end();
+    	}
+    });  
 }
 
 var getCompanys = function(req, res, next){
-      
+    Company.find({},function(err,companies){
+    	if(!err){
+    		res.send(companies).status(200).end();
+    	}
+    });  
 }
 
 module.exports = {

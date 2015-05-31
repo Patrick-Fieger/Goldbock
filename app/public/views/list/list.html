@@ -1,0 +1,27 @@
+<div class="row">
+    <h1>Anbieter</h1>
+    <div class="list_users">
+        <ul>
+            <li ng-repeat="user in list.provider" id="{{user.id}}">
+                <div class="large-4 columns">
+
+                    <p class="mb20 m0"><img src="{{user.avatar.small}}"> <strong>{{user.lastname}} {{user.firstname}}</strong></p>
+                    <p>Angebote: {{user.countoffer}}</p>
+                    <p>Telefon: {{user.tel}}</p>
+                    <p>Stadt: {{user.city}}</p>
+
+                    <div class="offer_list">
+                    	<h2>Angebote</h2>
+                    	<a class="fl wd100 cb" ng-repeat="offer in user.offers" href="#/offer/{{offer.id}}">- {{offer.title}}</a>
+                    </div>
+
+                </div>
+                <div class="large-8 columns">
+                    <a class="btn fr btn-lg btn-primary" ng-click="showDetails($event)">Profil ansehen</a>
+                    <a class="btn fr btn-lg btn-primary" ng-href="mailto:{{user.email}}">Email schreiben</a>
+                    <a class="btn fr btn-lg btn-danger" ng-click="deleteUser(user.id)">Profil löschen</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -65,7 +65,8 @@ select{
 .progress_wrapper,
 .offer-list li span,
 .delete_wrapper .delete_,
-.notify{
+.notify,
+.list_users li{
   -webkit-transition: all 0.3s;
   -moz-transition: all 0.3s;
   -o-transition: all 0.3s;
@@ -133,6 +134,10 @@ a:active{
 
 input{
   width: 100% !important;
+}
+
+.m0{
+  margin: 0;
 }
 
 .mb0{

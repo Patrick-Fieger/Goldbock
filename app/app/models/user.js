@@ -1,5 +1,6 @@
 var mongoose = require('mongoose')
 var salt = require('../../config/salt')
+var idgenerator = require('../../config/id')
 
 var UserSchema = mongoose.Schema({
   email: { type: String, required: true, unique: true },
@@ -18,7 +19,7 @@ var UserSchema = mongoose.Schema({
 });
 
 UserSchema.pre('save', salt.salt);
-UserSchema.pre('create', salt.salt);
+UserSchema.pre('create', salt.salt, idgenerator.generateId);
 var User = mongoose.model('Users', UserSchema);
 module.exports = User;
 

@@ -1,6 +1,7 @@
 var mongoose = require('mongoose')
 var bcrypt = require('bcrypt')
 var salt = require('../../config/salt')
+var idgenerator = require('../../config/id')
 
 // User Schema
 var LoginSchema = mongoose.Schema({
@@ -20,7 +21,7 @@ LoginSchema.methods.comparePassword = function(candidatePassword, cb) {
 };
 
 LoginSchema.pre('save', salt.salt);
-LoginSchema.pre('create', salt.salt);
+LoginSchema.pre('create', salt.salt, idgenerator.generateId);
 var Login = mongoose.model('Login', LoginSchema);
 module.exports = Login;
 
