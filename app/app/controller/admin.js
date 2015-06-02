@@ -32,9 +32,36 @@ var getCompanys = function(req, res, next){
     });  
 }
 
+var updateProfile = function(req, res, next){
+    var role = capitalizeFirstLetter(req.body.role)
+    eval(role).findOne({email: req.body.email},function(err,user){
+        user.firstname = req.body.firstname
+        user.lastname = req.body.lastname
+        user.company = req.body.company
+        user.city = req.body.city
+        user.street = req.body.street
+        user.zip = req.body.zip
+        user.tel = req.body.tel
+        user.save(function(err) {
+            if(err) {
+                console.log("Error");
+            }
+            else {
+                res.status(200).end();
+            }
+        });
+    });
+
+}
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 module.exports = {
 	createProvider : createProvider,
 	getProviders : getProviders,
 	getUsers : getUsers,
-	getCompanys : getCompanys
+	getCompanys : getCompanys,
+    updateProfile : updateProfile
 }

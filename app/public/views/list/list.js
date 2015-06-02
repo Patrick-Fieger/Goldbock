@@ -10,7 +10,7 @@ angular.module('app.list', ['ngRoute','ngAnimate'])
 
 }])
 
-.controller('ListCtrl', ['$scope','$location','$timeout','AdminService','AllService',function($scope,$location,$timeout,AdminService,AllService) {
+.controller('ListCtrl', ['$scope','$location','$timeout','AdminService','AllService','MessageService','ProviderService',function($scope,$location,$timeout,AdminService,AllService,MessageService,ProviderService) {
   $scope.list = {};
 
   AdminService.getProviders().success(function(data, status, headers, config){
@@ -18,9 +18,14 @@ angular.module('app.list', ['ngRoute','ngAnimate'])
 
     for (var i = 0; i < $scope.list.provider.length; i++) {
     	$scope.list.provider[i].countoffer = $scope.list.provider[i].offers.length
-		$scope.list.provider[i].avatar.small = AllService.removePublicInLink($scope.list.provider[i].avatar.small)
+		  $scope.list.provider[i].avatar.small = AllService.removePublicInLink($scope.list.provider[i].avatar.small)
     };
+
   });
+
+  $scope.sendNewData = function(data){
+    AdminService.updateProfile(data).success(MessageService.info(6))
+  }
 
   $scope.showDetails = function(e){
   	$(e.target).closest('li').toggleClass('active')
@@ -30,10 +35,24 @@ angular.module('app.list', ['ngRoute','ngAnimate'])
   }
 
   $scope.deleteUser = function(id){
-
   	alert(id)
-
   }
 
+  $scope.redirectToOfferSetCookie = function(email){
+    $.cookie('email',email);
+    $location.path('/provider/create/offer')
+  }
+
+  $scope.redirectEdit = function(id){
+    $location.path('/edit/'+id)
+  }
+
+  $scope.deleteOffer = function(id,ev){
+    if(confirm('Möchten sie das Angebot wirklich löschen?')){
+      ProviderService.deleteOffer(id).success(function(){
+        $(ev.target).closest('li').remove()
+      });
+    }
+  }
 
 }]);

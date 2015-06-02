@@ -3,7 +3,7 @@ var uuid = require('uuid'),
     dateFormat = require('dateformat'),
     fs = require('fs-extra'),
     newLocation = 'public/uploads/',
-    options = require('../../config/uploads.js'),
+    options = require('../../config/uploads'),
     Provider = require('../models/provider'),
     gm = require('gm'),
     progress_ = {};
@@ -24,7 +24,7 @@ var uuid = require('uuid'),
 
 function uploadOfferTitleImage(req, res, next){
 	var form = new formidable.IncomingForm(options.video),
-	folderNameByEmail = emailToFolder(req.user.email)
+	folderNameByEmail = emailToFolder(checkAdmin(req))
 
     form.on('end', function() {
     	var _uuid = uuid.v4();
@@ -77,7 +77,7 @@ function createBlackWhiteVersion (path,blurred) {
 function uploadOfferImages(req, res, next){
 	var form = new formidable.IncomingForm(options.images)
 	, imageList = []
-    , folderNameByEmail = emailToFolder(req.user.email);
+    , folderNameByEmail = emailToFolder(checkAdmin(req));
     
     form.on('end', function() {
 		setTimeout(function(){
@@ -114,7 +114,7 @@ function uploadOfferImages(req, res, next){
 
 function uploadOfferVideo(req, res, next){
 	var form = new formidable.IncomingForm(options.video),
-	folderNameByEmail = emailToFolder(req.user.email)
+	folderNameByEmail = emailToFolder(checkAdmin(req))
 
     form.on('end', function() {
 		var newFilename = newLocation + folderNameByEmail + uuid.v4() + '.' + this.openedFiles[0].name.split('.').pop()
@@ -154,7 +154,7 @@ function uploadOfferData(req, res, next){
 		offer.date = new Date()
 		offer.reviews = [];
 
-		Provider.update({email: req.user.email},{$push: {offers:offer}},{upsert:true},function(err){
+		Provider.update({email: checkAdmin(req)},{$push: {offers:offer}},{upsert:true},function(err){
         	if(err){
         	    console.log(err);
         	}else{
@@ -164,7 +164,7 @@ function uploadOfferData(req, res, next){
 }
 
 function progress(req, res, next){
-	var user = emailToFolder(req.user.email)
+	var user = emailToFolder(checkAdmin(req))
 	if(progress_[user] !== undefined){
 		var pro_ = calculatePercentage(user);
 		res.send(pro_).status(200).end();
@@ -203,7 +203,7 @@ function emailToFolder(email){
 
 
 function offers(req, res, next){
-	Provider.findOne({ email: req.user.email }, function(err, user) {
+	Provider.findOne({ email: checkAdmin(req) }, function(err, user) {
       if (err) { console.log(err) }
       if (!user) {
         res.status(404).end();
@@ -214,7 +214,7 @@ function offers(req, res, next){
 }
 
 function update(req, res, next){
-	Provider.findOne({ email: req.user.email }, function(err, user) {
+	Provider.findOne({ email: checkAdmin(req) }, function(err, user) {
       if (err) { console.log(err) }
       if (!user) {
         res.status(404).end();
@@ -239,7 +239,7 @@ function update(req, res, next){
 
 function deleteOffer(req, res, next){
 	var id = req.query.id;
-	Provider.findOne({ email: req.user.email }, function(err, user) {
+	Provider.findOne({ email: checkAdmin(req) }, function(err, user) {
       if (err) { console.log(err) }
       if (!user) {
         res.status(404).end();
@@ -265,9 +265,8 @@ function deleteOffer(req, res, next){
 
 
 function deleteOfferData(req, res, next){
-
 	var data = req.query;
-	data.email = req.user.email;
+	data.email = checkAdmin(req);
 	deleteOfferFiles(data);
 	deleteOfferFilesFromDatabase(res,data)
 }
@@ -275,7 +274,7 @@ function deleteOfferData(req, res, next){
 
 function updateOfferData(req, res, next){
 	var data = req.body;
-	Provider.findOne({ email: req.user.email }, function(err, user) {
+	Provider.findOne({ email: checkAdmin(req) }, function(err, user) {
       if (err) { console.log(err) }
       if (!user) {
         res.status(404).end();
@@ -327,7 +326,7 @@ function updateOfferData(req, res, next){
       	}
       	
 
-		Provider.update({email: req.user.email}, {$set: { offers: alloffer }}, {upsert: true}, function(err){if(!err){res.status(200).end()}})
+		Provider.update({email: checkAdmin(req)}, {$set: { offers: alloffer }}, {upsert: true}, function(err){if(!err){res.status(200).end()}})
       }
     });
 }
@@ -416,11 +415,13 @@ function offer(req, res, next){
             	name : user.firstname + ' ' + user.lastname,
             	city : user.city,
             	zip : user.zip,
+            	id : user.id,
+            	email : user.email,
             	street : user.street,
             	isown : false,
             	offer : {}
             }
-            if(user.email == req.user.email){
+            if(user.email == req.user.email || req.user.role == "admin"){
             	offer.isown = true;
             }
 
@@ -437,10 +438,19 @@ function offer(req, res, next){
 }
 
 
+
 function clearProgress(req, res, next){
-	var email = emailToFolder(req.user.email);
+	var email = emailToFolder(checkAdmin(req));
 	delete progress_[email];
 	res.status(200).end();
+}
+
+function checkAdmin(req){
+	if(req.user.role == "admin"){
+		return req.cookies.email
+	}else{
+		return req.user.email
+	}
 }
 
 module.exports = {

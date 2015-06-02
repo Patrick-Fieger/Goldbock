@@ -8,7 +8,7 @@ angular.module('app.provider_create_offer', ['ngRoute','ngAnimate'])
     controller: 'ProviderCreateOfferCtrl'
   });
 }])
-.controller('ProviderCreateOfferCtrl', ['$scope','UploadService','$location','$timeout','MessageService', function ($scope,UploadService,$location,$timeout,MessageService) {
+.controller('ProviderCreateOfferCtrl', ['$scope','UploadService','$location','$timeout','MessageService','AuthService', function ($scope,UploadService,$location,$timeout,MessageService,AuthService) {
 	var title;
 	var photos;
 	var imagecopy = $('.copyimage').html();
@@ -23,6 +23,14 @@ angular.module('app.provider_create_offer', ['ngRoute','ngAnimate'])
 		category : "Kochen / Backen",
 		per : "pro Buchung"
 	};
+	var path;
+	AuthService.isAdmin().success(function(data, status, headers, config){
+		if(data.admin){
+			path = "/list"
+		}else{
+			path = "/provider/dashboard"
+		}
+	});
 
 	$scope.uploadForm = function(){
 		if($scope.images.length !== 0){
@@ -64,7 +72,7 @@ angular.module('app.provider_create_offer', ['ngRoute','ngAnimate'])
 		$('.progress-bar').width('100%');
 		$timeout(function(){
 			MessageService.info(4)
-			$location.path('/provider/dashboard');
+			$location.path(path);
 		},1000);
 	}
 

@@ -1,27 +1,47 @@
 <div class="row">
     <h1>Anbieter</h1>
-    <div class="list_users">
-        <ul>
-            <li ng-repeat="user in list.provider" id="{{user.id}}">
+    <ul>
+        <li class="list_users" ng-repeat="user in list.provider" id="{{user.id}}">
+            <div class="large-12 columns">
                 <div class="large-4 columns">
-
                     <p class="mb20 m0"><img src="{{user.avatar.small}}"> <strong>{{user.lastname}} {{user.firstname}}</strong></p>
-                    <p>Angebote: {{user.countoffer}}</p>
-                    <p>Telefon: {{user.tel}}</p>
-                    <p>Stadt: {{user.city}}</p>
-
-                    <div class="offer_list">
-                    	<h2>Angebote</h2>
-                    	<a class="fl wd100 cb" ng-repeat="offer in user.offers" href="#/offer/{{offer.id}}">- {{offer.title}}</a>
-                    </div>
-
                 </div>
                 <div class="large-8 columns">
-                    <a class="btn fr btn-lg btn-primary" ng-click="showDetails($event)">Profil ansehen</a>
-                    <a class="btn fr btn-lg btn-primary" ng-href="mailto:{{user.email}}">Email schreiben</a>
-                    <a class="btn fr btn-lg btn-danger" ng-click="deleteUser(user.id)">Profil löschen</a>
+                    <div class="admin_prof_btn">
+                        <a class="btn fr btn-lg btn-primary" ng-click="showDetails($event)">Profil ansehen</a>
+                        <a class="btn fr btn-lg btn-primary" ng-href="mailto:{{user.email}}">Email schreiben</a>
+                        <a class="btn fr btn-lg btn-danger" ng-click="deleteUser(user.id)">Profil deaktivieren</a>
+                    </div>
                 </div>
-            </li>
-        </ul>
-    </div>
+            </div>
+            <div class="large-12 columns">
+                <div class="large-6 columns">
+                    <form ng-submit="sendNewData(user)" class="form-group">
+                        <fieldset>
+                            <p><span class="fl mb5">Nachname: </span><input class="form-control" ng-model="user.firstname"></p>
+                            <p><span class="fl mb5">Vorname: </span><input class="form-control" ng-model="user.lastname"></p>
+                            <p><span class="fl mb5">Unternehmen: </span><input class="form-control" ng-model="user.company"></p>
+                            <p><span class="fl mb5">Stadt: </span><input class="form-control" ng-model="user.city"></p>
+                            <p><span class="fl mb5">Straße: </span><input class="form-control" ng-model="user.street"></p>
+                            <p><span class="fl mb5">PLZ: </span><input class="form-control" ng-model="user.zip"></p>
+                            <p><span class="fl mb5">Telefon: </span><input class="form-control" ng-model="user.tel"></p>
+                            <input class="btn btn-block btn-lg btn-primary mt20"  type="submit" value="Profil abspeichern"></input>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="large-6 columns">
+                    <div class="offer_list">
+                        <h2>Angebote</h2>
+                        <!--     <div ng-repeat="offer in user.offers">
+                                                    <a class="fl wd100 cb"  href="#/edit/{{offer.id}}">- {{offer.title}}</a> <span ng-click="deleteOffer(offer.id)" class="icon-cup fr"></span>
+                        </div> -->
+                        <ul class="offer-list mt30">
+                            <li ng-repeat="offer in user.offers"><a ng-href="#/offer/{{offer.id}}">{{offer.title}}</a><span class="icon-pencil" ng-click="redirectEdit(offer.id)"></span><span ng-click="deleteOffer(offer.id,$event)" class="icon-cup"></span></li>
+                        </ul>
+                        <a class="btn mt30 fr btn-lg btn-primary wd100" ng-click="redirectToOfferSetCookie(user.email)">Angebot Hinzufügen</a>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
 </div>

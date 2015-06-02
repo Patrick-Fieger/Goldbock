@@ -12,11 +12,15 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 .controller('ProviderEditOfferCtrl', ['$scope','$routeParams','$location','$timeout','ProviderService','AllService','AuthService','UploadService','$rootScope','MessageService',function($scope,$routeParams,$location,$timeout,ProviderService,AllService,AuthService,UploadService,$rootScope,MessageService) {
 	ProviderService.offer($routeParams.id).success(buildOfferView);
 
+
+
 	var progressInterval;
 	$scope.toggleTitleImage = false;
 	$scope.togglePhotos = false;
 	$scope.toggleVideo = false;
 	$scope.images = [];
+	
+
 	var changed = -2;
 	var anydelete = -2;
 	var max;
@@ -24,6 +28,16 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 	var photos;
 	var images = [];
 	var imagecopy = $('.copyimage').html();
+	var path;
+
+
+	AuthService.isAdmin().success(function(data, status, headers, config){
+		if(data.admin){
+			path = "/list"
+		}else{
+			path = "/provider/dashboard"
+		}
+	});
 
 	$scope.delete = {
 		id: "",
@@ -34,7 +48,6 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 		photos : [""],
 		video : ""
 	};
-
 	$scope.uploadForm = function(){
 		if(anydelete > 0){
 			console.log($scope.delete)
@@ -43,6 +56,8 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 			uploadNewFiles();
 		}
 	}
+
+
 
 
 	function uploadNewFiles(){
@@ -106,18 +121,18 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 		}
 	}
 
-	function uploadFinish(){
+	function uploadFinish(data, status, headers, config){
 		$('.progress-bar').width('100%');
 		watchProgressStop();
 		$timeout(function(){
 			MessageService.info(5)
-			$location.path('/provider/dashboard');
+			$location.path(path);
 		},1000);
 	}
 
 	$scope.cancelEdit = function(){
 		if(confirm('Wollen sie die Bearbeitung von ' + $scope.offer.title +' abbrechen?')){
-			$location.path('/provider/dashboard');
+			$location.path(path);
 		}
 	}
 
@@ -134,7 +149,7 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 	function buildOfferView(data, status, headers, config){
 		$scope.offer = data.offer;
 		$scope.delete.id = data.offer.id;
-
+		$.cookie('email',data.email);
 		if(data.offer.category == undefined){
 			$scope.offer.category = "Kochen / Backen"
 		}

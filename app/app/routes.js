@@ -26,7 +26,8 @@ module.exports = function(app){
 	app.post('/update/user', pass.isAuthenticatedToMakeRequest , user.update);
 	app.get('/getProviders', pass.isAuthenticatedToMakeRequest , admin.getProviders) 
 	app.get('/getUsers', pass.isAuthenticatedToMakeRequest , admin.getUsers) 
-	app.get('/getCompanys', pass.isAuthenticatedToMakeRequest , admin.getCompanys) 
+	app.get('/getCompanys', pass.isAuthenticatedToMakeRequest , admin.getCompanys)
+	app.post('/admin/update/profile', pass.isAuthenticatedToMakeRequest , admin.updateProfile);
 	app.post('/update/avatar', pass.isAuthenticatedToMakeRequest , all.avatar);
 	app.post('/update/password', pass.isAuthenticatedToMakeRequest , all.updatePassword);
 	app.get('/upload/progress', pass.isAuthenticatedToMakeRequest , provider.progress);
@@ -34,4 +35,5 @@ module.exports = function(app){
 	app.get('/avatarinfos', pass.isAuthenticatedToMakeRequest ,pass.isNotAdmin, all.getAvatarInfos);
 	app.get('/authenticated',pass.isAuthenticatedToSeeContent);
 	app.get('/isloggedin', pass.isLoggedIn);
+	app.get('/isadmin', pass.isAdmin);
 }

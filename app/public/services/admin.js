@@ -19,8 +19,13 @@ angular.module('app.adminService', [])
 		return $http.get('/getCompanys')
 	}
 
+	var updateProfile = function(data){
+		return $http.post('/admin/update/profile',data)
+	}
+
 	return{
 		getAllUsers : getAllUsers,
-		getProviders : getProviders
+		getProviders : getProviders,
+		updateProfile : updateProfile
 	}
 })

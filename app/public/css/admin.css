@@ -15,7 +15,7 @@
 	margin-bottom: 0;
 }
 
-.list_users li{
+.list_users{
 	list-style: none;
 	background-color: #fff;
 	border: 1px solid #ccc;
@@ -25,19 +25,20 @@
   	width: 100%;
   	height: 76px;
   	overflow: hidden;
+  	margin-bottom: 20px;
 }
 
-.list_users li img{
+.list_users img{
 	border-radius: 50%;
 	margin-right: 15px;
 	height: 57px;
 }
 
-.list_users li.active{
+.list_users.active{
 	height: auto
 }
 
-.list_users li a {
+.admin_prof_btn a {
 	margin-top: 5px;
 	margin-left: 10px;
 }

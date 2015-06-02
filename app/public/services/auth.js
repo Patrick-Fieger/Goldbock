@@ -30,7 +30,11 @@ angular.module('app.authService', [])
 	};
 
 	var verifyEmail = function(data){
-		return $http.post('/verify/email', data)	
+		return $http.post('/verify/email', data)
+	}
+
+	var isAdmin = function(){
+		return $http.get('/isadmin')
 	}
 
 	return {
@@ -39,6 +43,7 @@ angular.module('app.authService', [])
 		register : register,
 		forgot : forgot,
 		isAuth : isAuth,
+		isAdmin : isAdmin,
 		verifyEmail : verifyEmail,
 		updatePassword : updatePassword
 	}

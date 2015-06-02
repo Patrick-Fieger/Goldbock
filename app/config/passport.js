@@ -153,6 +153,7 @@ function isAuthenticatedToSeeContent(req, res, next) {
 
   if (req.isAuthenticated() && allowedpath[req.user.role].indexOf(path) > -1)
     res.status(200).end();
+    // return next();
   else
     res.status(401).end();
 }
@@ -167,11 +168,18 @@ function isAuthenticatedToMakeRequest(req, res, next) {
   var path = req._parsedOriginalUrl.path;
   var split = path.indexOf('?');
   path = path.substring(0, split != -1 ? split : path.length);
-
   if (req.isAuthenticated() && allowedrequest[req.user.role].indexOf(path) > -1)
     return next();
   else
     res.status(401).end();
+}
+
+function isAdmin(req, res, next){
+  if(req.user.role == "admin"){
+    res.send({admin: true}).status(200).end();
+  }else{
+    res.send({admin: false}).status(200).end();
+  }
 }
 
 module.exports = {
@@ -183,5 +191,6 @@ module.exports = {
   isLoggedIn : isLoggedIn,
   isLoggedInNext : isLoggedInNext,
   updatePassword : updatePassword,
-  isNotAdmin : isNotAdmin
+  isNotAdmin : isNotAdmin,
+  isAdmin : isAdmin
 }
