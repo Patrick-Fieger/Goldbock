@@ -39,6 +39,8 @@ function createUser(res,data,emailtype,roletype){
 		loginData.emailVerificationToken = uuid_;
 		emailData.name.token = 'http://goldbock.de/#/verify/email/' + uuid_;
 	}
+
+	saveData.id = uuid.v4();
 	
 	eval(roleCap).create(saveData,function(err, roletype){
 		if(err){

@@ -33,7 +33,11 @@ var getCompanys = function(req, res, next){
 }
 
 var updateProfile = function(req, res, next){
-    var role = capitalizeFirstLetter(req.body.role)
+
+    var role = capitalizeFirstLetter(req.body.role);
+
+    console.log(role)
+    console.log(req.body.email)
     eval(role).findOne({email: req.body.email},function(err,user){
         user.firstname = req.body.firstname
         user.lastname = req.body.lastname
@@ -44,7 +48,7 @@ var updateProfile = function(req, res, next){
         user.tel = req.body.tel
         user.save(function(err) {
             if(err) {
-                console.log("Error");
+                console.log(err);
             }
             else {
                 res.status(200).end();

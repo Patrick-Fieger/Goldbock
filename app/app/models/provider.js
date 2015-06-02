@@ -19,6 +19,7 @@ var ProviderSchema = mongoose.Schema({
   offers : { type: Array}
 });
 
-ProviderSchema.pre('save', salt.salt , idgenerator.generateId);
+ProviderSchema.pre('save', salt.salt);
+ProviderSchema.pre('create', salt.salt , idgenerator.generateId);
 var Provider = mongoose.model('Providers', ProviderSchema);
 module.exports = Provider;
