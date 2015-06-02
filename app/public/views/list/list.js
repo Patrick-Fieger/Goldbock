@@ -18,7 +18,15 @@ angular.module('app.list', ['ngRoute','ngAnimate'])
 
     for (var i = 0; i < $scope.list.provider.length; i++) {
     	$scope.list.provider[i].countoffer = $scope.list.provider[i].offers.length
-		  $scope.list.provider[i].avatar.small = AllService.removePublicInLink($scope.list.provider[i].avatar.small)
+
+      if($scope.list.provider[i].avatar !== undefined){
+        $scope.list.provider[i].avatar.small = AllService.removePublicInLink($scope.list.provider[i].avatar.small)  
+      }else{
+        $scope.list.provider[i].avatar = {}
+        $scope.list.provider[i].avatar.small = '/img/avatar/avatar.png'
+      }
+
+		  
     };
 
   });
