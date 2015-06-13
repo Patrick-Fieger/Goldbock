@@ -64,17 +64,7 @@ angular.module('app.offer', ['ngRoute','ngAnimate'])
 				$(this).attr('data-size', $(this).get(0).naturalHeight + 'x' + $(this).get(0).naturalWidth);
 				$(this).parent('a').attr('data-size', $(this).get(0).naturalWidth + 'x' + $(this).get(0).naturalHeight);
 			}).promise().done(function(){
-				PhotoService.init('.offer_pictures');
-
-				$('.Collage').removeWhitespace().collagePlus(
-				    {
-				        'fadeSpeed'     : 2000,
-				        'targetHeight'  : 200,
-				        'effect'        : 'effect-2',
-				        'direction'     : 'vertical',
-				        'allowPartialLastRow':true
-				    }
-				);
+				PhotoService.init('.offer_pictures');		
 			});
 		},1000)
 	}

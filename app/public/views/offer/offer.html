@@ -69,7 +69,7 @@
             <h1>Bedingungen / Next Steps</h1>
             <p>{{offer.offer.reqirements}}</p>
             <h1>Bilder</h1>
-            <div class="offer_pictures Collage effect-parent" itemscope itemtype="http://schema.org/ImageGallery">
+            <div class="offer_pictures" itemscope itemtype="http://schema.org/ImageGallery">
                 <figure on-finish-render="initPhotos()" ng-repeat="p in offer.offer.photos" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
                     <a ng-href="{{p}}" itemprop="contentUrl" data-size="600x400">
                     	<img ng-src="{{p}}" itemprop="thumbnail" alt="Image description" />
