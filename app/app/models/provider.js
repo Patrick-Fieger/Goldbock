@@ -1,5 +1,6 @@
 var mongoose = require('mongoose')
 var salt = require('../../config/salt')
+var geo = require('../../config/geo')
 var idgenerator = require('../../config/id')
 
 // User Schema
@@ -16,10 +17,11 @@ var ProviderSchema = mongoose.Schema({
   tel : { type: String, required: true},
   about : { type: String},
   avatar : { type: Object},
-  offers : { type: Array}
+  offers : { type: Array},
+  geo : { type: Object}
 });
 
-ProviderSchema.pre('save', salt.salt);
+ProviderSchema.pre('save', geo.setGeo, salt.salt);
 ProviderSchema.pre('create', salt.salt , idgenerator.generateId);
 var Provider = mongoose.model('Providers', ProviderSchema);
 module.exports = Provider;

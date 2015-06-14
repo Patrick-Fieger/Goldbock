@@ -62,4 +62,39 @@ config(['$locationProvider','$routeProvider','$animateProvider', function($locat
             }
         }
     }
-});
+}).directive("scroll", function ($window,$timeout,$routeParams) {
+    return function(scope, element, attrs) {
+        var left = "";
+        setTimeout(function(){
+            left = $('#pricing').parent('div').offset().left;
+        },300)
+        angular.element($window).bind("scroll", function() {
+            var stickvar = $('.header_wrapper').height() - 40;
+            
+            if (this.pageYOffset >= stickvar) {
+               $('#pricing').parent('div').css('left',left + 'px')
+               scope.sticky = true;
+            } else {
+                $('#pricing').parent('div').removeAttr('style')
+                scope.sticky = false;
+            }
+            scope.$apply();
+        });
+    };
+}).directive('mapbox', [
+    function () {
+        return {
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                callback: "="
+            },
+            template: '<div></div>',
+            link: function (scope, element, attributes) {
+                L.mapbox.accessToken = 'pk.eyJ1IjoiZ29sZGJvY2siLCJhIjoiNzIyZjZhMmQyMWU4M2RlY2I4NDQzNWY1ZWYwMTRhOTAifQ.MlC67JdU6PFNJHKKQhRp4w';
+                var map = L.mapbox.map(element[0], 'goldbock.meoi9afp');
+                scope.callback(map);
+            }
+        };
+    }
+]);

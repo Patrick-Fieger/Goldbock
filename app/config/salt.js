@@ -7,7 +7,7 @@ var salt = function(next){
     bcrypt.hash(user.password, SALT_WORK_FACTOR, function(err, hash) {
         if(err) return next(err);
         user.password = hash;
-        next();
+        return next();
     });
 }
 

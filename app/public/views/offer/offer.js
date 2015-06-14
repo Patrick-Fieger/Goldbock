@@ -97,4 +97,35 @@ angular.module('app.offer', ['ngRoute','ngAnimate'])
 	}
 	initpicker();
 
+	$scope.callback = function (map) {
+		var automessage;
+		function turnON() {
+		    automessage = setInterval(function(){
+		    	if($scope.offer !== undefined){
+		    		map.setView([$scope.offer.geo.lat, $scope.offer.geo.lng], 15);
+					map.touchZoom.disable();
+					map.doubleClickZoom.disable();
+					map.scrollWheelZoom.disable();
+					if (map.tap) map.tap.disable();
+
+					var marker = L.marker(new L.LatLng($scope.offer.geo.lat, $scope.offer.geo.lng), {
+    					icon: L.mapbox.marker.icon({
+    					    'marker-color': 'cf9e34',
+    					    'marker-size': 'large'
+    					}),
+    					draggable: false
+					});
+					marker.bindPopup($scope.offer.street + ', '+$scope.offer.zip + ' ' + $scope.offer.city);
+					marker.addTo(map);
+					marker.openPopup();
+					turnOff();
+				}
+			}, 500);
+		}
+		function turnOff() {
+		    clearInterval(automessage);
+		}
+
+		turnON();
+    };
 }]);

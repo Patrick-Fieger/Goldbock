@@ -28,7 +28,7 @@
                 </div>
             </div>
         </div>
-        <div class="columns large-4">
+        <div class="columns large-4" ng-class="{sticky:sticky}" scroll>
             <div id="pricing">
                 <p class="fl">{{offer.offer.price}} €</p>
                 <p class="fr">{{offer.offer.per}}</p>
@@ -70,9 +70,9 @@
             <p>{{offer.offer.reqirements}}</p>
             <h1>Bilder</h1>
             <div class="offer_pictures" itemscope itemtype="http://schema.org/ImageGallery">
-                <figure on-finish-render="initPhotos()" ng-repeat="p in offer.offer.photos" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+                <figure style="background-image:url({{p}})" on-finish-render="initPhotos()" ng-repeat="p in offer.offer.photos" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
                     <a ng-href="{{p}}" itemprop="contentUrl" data-size="600x400">
-                    	<img ng-src="{{p}}" itemprop="thumbnail" alt="Image description" />
+                    	<img style="display:none" ng-src="{{p}}" itemprop="thumbnail" alt="Image description" />
                     </a>
                 </figure>
             </div>
@@ -82,7 +82,7 @@
             </div>
             
         </div>
-
-
     </div>
 </div>
+
+<mapbox callback="callback"></mapbox>

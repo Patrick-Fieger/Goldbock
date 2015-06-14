@@ -417,6 +417,7 @@ function offer(req, res, next){
             	zip : user.zip,
             	id : user.id,
             	email : user.email,
+            	geo : user.geo,
             	street : user.street,
             	isown : false,
             	offer : {}
