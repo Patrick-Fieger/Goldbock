@@ -22,6 +22,6 @@ var ProviderSchema = mongoose.Schema({
 });
 
 ProviderSchema.pre('save', geo.setGeo, salt.salt);
-ProviderSchema.pre('create', salt.salt , idgenerator.generateId);
+ProviderSchema.pre('create', salt.salt , geo.setGeo ,idgenerator.generateId);
 var Provider = mongoose.model('Providers', ProviderSchema);
 module.exports = Provider;
