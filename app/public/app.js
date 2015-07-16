@@ -15,8 +15,10 @@ angular.module('myApp', [
   'app.provider_create_offer',
   'app.provider_dashboard',
   'app.user_dashboard',
+  'app.categories',
   'app.provider_edit_offer',
   'app.offer',
+  'app.offers',
   'app.verify_email',
   'app.list',
   'app.messageService',
@@ -52,6 +54,134 @@ config(['$locationProvider','$routeProvider','$animateProvider', function($locat
     $rootScope.closeNotification = function(){
       MessageService.hideMessage();
     }
+
+    $rootScope.kat = [{
+            "name": "Gemeinsames / Verabreden",
+            "id": "gemeinsames",
+            "list": [
+                {
+                    "href":  "kochen",
+                    "title": "Kochen / Backen"
+                },
+                {
+                    "href":  "diskutieren",
+                    "title": "Diskutieren"
+                },
+                {
+                    "href":  "aktivitaeten",
+                    "title": "Aktivitäten"
+                },
+                {
+                    "href": "/buchung",
+                    "title": "Außerhaus Meeting"
+                }
+            ]
+        }, {
+            "name": "Wocheneinkauf",
+            "id": "wocheneinkauf",
+            "list": []
+        }, {
+            "name": "Schönes <br>&<br> Leckeres",
+            "id": "schoenlecker",
+            "list": [
+                {
+                    "href":  "region",
+                    "title": "Aus der Region"
+                },
+                {
+                    "href":  "stuffpicks",
+                    "title": "Von Goldbock gewählt"
+                }
+            ]
+        }, {
+            "name": "Me & Service",
+            "id": "service",
+            "list": [
+                {
+                    "href":  "buegeln",
+                    "title": "Bügeln"
+                },
+                {
+                    "href":  "lesen",
+                    "title": "Lesen"
+                },
+                {
+                    "href":  "geschenke",
+                    "title": "Geschenke"
+                },
+                {
+                    "href":  "energievericherungen",
+                    "title": "Energie & Versicherung"
+                },
+                {
+                    "href":  "favorites",
+                    "title": "My Favorites"
+                },
+                {
+                    "href": "/myassi",
+                    "title": "My Assistant"
+                }
+            ]
+        }, {
+            "name": "Schwarzes Brett Dies & Das",
+            "id": "tauschen",
+            "list": []
+        },{
+            "name": "Mettings",
+            "id": "buchen",
+            "list": []
+        }, {
+            "name": "Interessantes für's Business",
+            "id": "business",
+            "list": []
+        },
+        {
+            "name": "Fortschritt <br> Privat und Beruf",
+            "id": "fortschritt",
+            "list": [
+                {
+                    "href": "coaches",
+                    "title":"Coaches"
+                },
+                {
+                    "href": "berater",
+                    "title":"Berater"
+                },
+                {
+                    "href": "therapeuten",
+                    "title":"Therapeuten"
+                },
+                {
+                    "href": "trainer",
+                    "title":"Trainer"
+                },
+                {
+                    "href": "spezial",
+                    "title":"Spezial"
+                }
+
+            ]
+        },
+        {
+            "name": "Kunst & Kultur",
+            "id": "kunstkultur",
+            "list": [
+                {
+                    "href":  "unterhaltung",
+                    "title": "Unterhaltung"
+                },
+
+                {
+                    "href":  "kuenstler",
+                    "title": "Künstler"
+                },
+                {
+                    "href":  "theater",
+                    "title": "Theater"
+                }
+            ]
+        }];
+    
 
 }).directive('onFinishRender', function ($timeout) {
     return {

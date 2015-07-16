@@ -1,0 +1,10 @@
+<div class="row">
+    <h1 style="text-align:center">Angebote zu {{title}}</h1>
+    <div ng-show="list">
+        <h2>Bitte wählen sie eine Unterkategorie</h2>
+        <select>
+            <option>Alle</option>
+            <option ng-repeat="item in list">{{item.title}}</option>
+        </select>
+    </div>
+</div>
