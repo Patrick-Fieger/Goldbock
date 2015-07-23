@@ -410,8 +410,14 @@ function offer(req, res, next){
             console.log(err)
         }
         if (user) {
+        	var avatar;
+        	if(user.avatar){
+				avatar = user.avatar.small
+        	}
+
+
             var offer = {
-            	avatar : user.avatar.small,
+            	avatar : avatar,
             	name : user.firstname + ' ' + user.lastname,
             	city : user.city,
             	zip : user.zip,
