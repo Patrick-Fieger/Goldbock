@@ -6,8 +6,15 @@ angular.module('app.categories', ['ngRoute', 'ngAnimate']).config(['$routeProvid
             controller: 'CategoriesCtrl'
         });
     }
-]).controller('CategoriesCtrl', ['$scope', '$timeout','$location','$rootScope',
-    function($scope, $timeout,$location,$rootScope) {
+]).controller('CategoriesCtrl', ['$scope', '$timeout','$location','$rootScope','UserService',
+    function($scope, $timeout,$location,$rootScope,UserService) {
+
+        UserService.categories().success(buildView)
+
+
+        function buildView (data, status, headers, config){
+            $scope.categories = data
+        }
 
         $scope.positioning = function() {
             var elems = $('.item')

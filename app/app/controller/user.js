@@ -1,5 +1,6 @@
 var User = require('../models/user'),
 Login = require('../models/onlylogin'),
+Categories = require('../models/categories'),
 create = require('./create'),
 Email = require('../emailtemplates/sender')
 
@@ -31,8 +32,17 @@ var update = function (req, res, next){
 	User.update({email: req.user.email}, {$set: req.body}, {upsert: true}, function(err){if(!err){res.status(200).end();}})
 }
 
+
+var categories = function(req, res, next){
+      Categories.find({},function(err,cat){
+            res.send(cat).status(200).end();
+      });
+}
+
+
 module.exports = {
 	register : register,
 	verifyEmail : verifyEmail,
-	update : update
+	update : update,
+      categories : categories
 }

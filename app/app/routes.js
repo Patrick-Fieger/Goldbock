@@ -24,6 +24,7 @@ module.exports = function(app){
 	app.get('/offer', pass.isLoggedInNext , provider.offer);
 	app.post('/update/provider', pass.isAuthenticatedToMakeRequest , provider.update);
 	app.post('/update/user', pass.isAuthenticatedToMakeRequest , user.update);
+	app.get('/categories', pass.isAuthenticatedToMakeRequest , user.categories);
 	app.get('/getProviders', pass.isAuthenticatedToMakeRequest , admin.getProviders) 
 	app.get('/getUsers', pass.isAuthenticatedToMakeRequest , admin.getUsers) 
 	app.get('/getCompanys', pass.isAuthenticatedToMakeRequest , admin.getCompanys)

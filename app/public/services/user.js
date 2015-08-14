@@ -8,6 +8,10 @@ angular.module('app.userService', [])
 
 	};
 
+	var categories = function(){
+		return $http.get('/categories');
+	}
+
 	var updateProfile = function(data){
 		var data_ = data;
 		delete data_.role;
@@ -22,6 +26,7 @@ angular.module('app.userService', [])
 	return{
 		register : register,
 		deleteAccount : deleteAccount,
-		updateProfile : updateProfile
+		updateProfile : updateProfile,
+		categories : categories
 	}
 })
