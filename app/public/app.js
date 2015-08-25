@@ -12,6 +12,7 @@ angular.module('myApp', [
   'app.forgot_enter',
   'app.admin',
   'app.admin_provider',
+  'app.admin_edit_categories',
   'app.provider_create_offer',
   'app.provider_dashboard',
   'app.user_dashboard',
@@ -227,4 +228,16 @@ config(['$locationProvider','$routeProvider','$animateProvider', function($locat
             }
         };
     }
-]);
+]).directive('ngEnter', function() {
+        return function(scope, element, attrs) {
+            element.bind("keydown keypress", function(event) {
+                if(event.which === 13) {
+                    scope.$apply(function(){
+                        scope.$eval(attrs.ngEnter, {'event': event});
+                    });
+
+                    event.preventDefault();
+                }
+            });
+        };
+    });

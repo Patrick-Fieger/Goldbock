@@ -42,3 +42,41 @@
 	margin-top: 5px;
 	margin-left: 10px;
 }
+
+.admin_categories .mainkat{
+	font-weight: bolder;
+	font-size: 18px;
+}
+
+.admin_categories .mainkat,
+.admin_categories ul,.admin_categories li{
+	float: left;
+	width: 100%;
+}
+
+
+.admin_categories li,.mainkat{
+	list-style:none;
+	position: relative;
+	width: 100%
+}
+
+.admin_categories ul li ul li{
+	margin-bottom: 10px;
+}
+
+.admin_categories .icon-trash:hover{
+	cursor: pointer;
+}
+
+.admin_categories .icon-trash{
+	position: absolute;
+	right: 0;
+	top: 0;
+	opacity: 0;
+}
+
+.admin_categories li ul li:hover .icon-trash,
+.mainkat:hover .icon-trash{
+	opacity: 1
+}

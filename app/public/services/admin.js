@@ -20,12 +20,17 @@ angular.module('app.adminService', [])
 	}
 
 	var updateProfile = function(data){
-		return $http.post('/admin/update/profile',data)
+		return $http.post('/admin/update/profile' , data)
+	}
+
+	var saveCategories = function(data){
+		return $http.post('/admin/update/categories' , data)	
 	}
 
 	return{
 		getAllUsers : getAllUsers,
 		getProviders : getProviders,
-		updateProfile : updateProfile
+		updateProfile : updateProfile,
+		saveCategories : saveCategories
 	}
 })

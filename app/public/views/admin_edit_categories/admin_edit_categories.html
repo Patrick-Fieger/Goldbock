@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="columns large-3">&nbsp;</div>
+    <div class="columns large-6 admin_categories">
+        <h1 class="tac">Kategorien verwalten</h1>
+        <form class="form-group">
+            <ul>
+                <li ng-repeat="category in categories">
+                    <span class="mainkat">{{category.category}} <div class="icon-trash" ng-click="deleteMain(category.id,category.category)"></div></span>
+                    <ul>
+                        <li ng-repeat="subcategory in category.subcategory">{{subcategory}} <div class="icon-trash" ng-click="deleteSub(subcategory,category.id)"></div></li>
+                        <li><input class="form-control" type="text" ng-keypress="addSub($event,category.id)" placeholder="Unterkategorie hinzufügen"></li>
+                    </ul>
+                </li>
+            </ul>
+            <li><input class="form-control" type="text" ng-keypress="addMain($event)" placeholder="Hauptkategorie hinzufügen"></li>
+        </form>
+
+        <a class="btn fl cb wd100 btn-lg btn-primary mb20 mt30" href="" ng-click="saveCategories()">Speichern</a>
+        <a class="btn fl cb wd100 btn-lg btn-danger" href="#/admin">Abbrechen</a>
+
+    </div>
+    <div class="columns large-5">&nbsp;</div>
+</div>

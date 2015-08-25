@@ -1,7 +1,9 @@
 var create = require('./create'),
+uuid = require('uuid')
 Provider = require('../models/provider')
 User = require('../models/user')
 Company = require('../models/company')
+Categories = require('../models/categories')
 
 function createProvider(req, res, next){
 	var provider = new Provider(req.body);
@@ -58,6 +60,27 @@ var updateProfile = function(req, res, next){
 
 }
 
+
+function updateCategories (req, res, next){
+    var d = req.body
+
+    Categories.remove({}, function(err) {
+        for (var i = 0; i < d.length; i++) {
+            if(d[i].id == null){
+                    d[i].id = uuid.v4();
+                    d[i].href = d[i].category.replace(/\//,'').replace(/\s/g,'-').replace('ö','oe').replace('--','-').replace('-und-','-').toLowerCase();
+            }
+        }
+        Categories.create(d,function(err){
+            if(!err){
+                res.status(200).end();
+            }
+        });
+    });
+}
+
+
+
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
@@ -67,5 +90,6 @@ module.exports = {
 	getProviders : getProviders,
 	getUsers : getUsers,
 	getCompanys : getCompanys,
-    updateProfile : updateProfile
+    updateProfile : updateProfile,
+    updateCategories : updateCategories
 }

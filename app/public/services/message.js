@@ -10,7 +10,8 @@ angular.module('app.messageService', [])
 		"Passwort erfolgreich zurückgesetzt",
 		"Angebot erfolgreich angelegt",
 		"Angebot erfolgreich gespeichert",
-		"Profil erfolgreich aktuallisiert"
+		"Profil erfolgreich aktuallisiert",
+		"Daten erfolgreich aktuallisiert"
 	]
 	var danger_ = [
 		"Fehler",
