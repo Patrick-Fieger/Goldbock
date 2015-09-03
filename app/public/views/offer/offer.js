@@ -11,7 +11,7 @@ angular.module('app.offer', ['ngRoute','ngAnimate'])
 
 .controller('OfferCtrl', ['$scope','$routeParams','$location','$timeout','ProviderService','AllService','$rootScope','PhotoService','MessageService',function($scope,$routeParams,$location,$timeout,ProviderService,AllService,$rootScope,PhotoService,MessageService) {
 	ProviderService.offer($routeParams.id).success(buildOfferView);
-
+	$scope.innerover = false;
 	function buildOfferView(data, status, headers, config){
 		$scope.offer = data;
 
@@ -55,7 +55,24 @@ angular.module('app.offer', ['ngRoute','ngAnimate'])
 	}
 
 	$scope.sendRequest = function(){
-		MessageService.danger(1)
+		// MessageService.danger(1)
+
+		$scope.innerover = true
+		$scope.spinner = true
+		$timeout(function(){
+			$scope.spinner = false;
+			$scope.check = true;
+
+			$timeout(function(){
+				$scope.booking = false;
+				$timeout(function(){
+					$scope.innerover = false;
+					$scope.spinner = false;
+					$scope.check = false;
+				},1000)
+			},3000)
+		},3000)
+
 	}
 
 	$scope.initPhotos = function(){
@@ -128,4 +145,15 @@ angular.module('app.offer', ['ngRoute','ngAnimate'])
 
 		turnON();
     };
+
+
+    $scope.showBooking = function(){
+    	$scope.booking = true
+    }
+
+    $scope.hideBooking = function(){
+    	if(!$scope.innerover)
+    		$scope.booking = false;
+    }
+    
 }]);

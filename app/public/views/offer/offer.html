@@ -4,7 +4,7 @@
 </div>
 <div class="offer">
     <div class="row">
-        <div class="columns large-8">
+        <div class="columns large-12">
             <div class="columns large-3">
                 <img class="o_avatar" ng-src="{{offer.avatar}}">
                 <p class="o_name tac">{{offer.name}}</p>
@@ -28,7 +28,7 @@
                 </div>
             </div>
         </div>
-        <div class="columns large-4" ng-class="{sticky:sticky}" scroll>
+<!--         <div class="columns large-4" ng-class="{sticky:sticky}" scroll>
             <div id="pricing">
                 <p class="fl">{{offer.offer.price}} €</p>
                 <p class="fr">{{offer.offer.per}}</p>
@@ -41,7 +41,6 @@
                         <hr>
                         <li><span>Summe :</span> <span>{{offer.offer.endPrice}} €</span></li>
                     </ul>
-
                     <fieldset>
                         <div class="o_picker">
                             <p></p>
@@ -49,40 +48,88 @@
                         </div>
                         <input required class="timepicker form-control mb10" placeholder="Uhrzeit">
                     </fieldset>
-
                     <div class="o_accept">
                         <input required type="checkbox" id="accept">
                         <label for="accept">Beim checken der Box, akzeptieren sie die Bedingungen des Anbieters und bestellen kostenpflichtig.</label>
                     </div>
-
                     <input class="btn btn-block btn-lg btn-primary mt30"  type="submit" value="Buchung anfragen"></input>
                 </form>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
 <div class="row">
-    <div class="large-8">
-        <div class="offer_content">
+    <div class="offer_content">
+        <div class="large-6 columns">
             <h1>Über das Angebot</h1>
             <p>{{offer.offer.description}}</p>
+        </div>
+        <div class="large-6 columns">
             <h1>Bedingungen / Next Steps</h1>
             <p>{{offer.offer.reqirements}}</p>
+        </div>
+        <div class="large-12 columns">
             <h1>Bilder</h1>
             <div class="offer_pictures" itemscope itemtype="http://schema.org/ImageGallery">
                 <figure style="background-image:url({{p}})" on-finish-render="initPhotos()" ng-repeat="p in offer.offer.photos" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
                     <a ng-href="{{p}}" itemprop="contentUrl" data-size="600x400">
-                    	<img style="display:none" ng-src="{{p}}" itemprop="thumbnail" alt="Image description" />
+                    <img style="display:none" ng-src="{{p}}" itemprop="thumbnail" alt="Image description" />
                     </a>
                 </figure>
             </div>
             <div class="offer_video_wrapper" ng-show="offerVideo">
-            	<h1>Video</h1>
-            	<video class="wd100" ng-src="{{offer.offer.video}}" controls></video>
-            </div>
-            
+                <h1>Video</h1>
+            <video class="wd100" ng-src="{{offer.offer.video}}" controls></video>
         </div>
     </div>
 </div>
-
+</div>
 <mapbox callback="callback"></mapbox>
+<div class="bookoverlay" ng-class="{booking:booking}" ng-click="hideBooking()"></div>
+<div class="bookover" ng-class="{booking:booking}">
+
+    <div class="inneroverlay" ng-class="{active:innerover,changebg : check}"></div>
+
+    <svg class="checkmark" ng-class="{active:check}">
+        <path d="m31.5,46.5l15.3,-23.2"></path>
+        <path d="m31.5,46.5l-8.5,-7.1"></path>
+    </svg>
+
+    <div class="spinner_" ng-class="{active:spinner}">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+    </div>
+
+
+    <div id="pricing">
+        <p class="fl">{{offer.offer.price}} €</p>
+        <p class="fr">{{offer.offer.per}}</p>
+    </div>
+    <div id="book_it">
+        <form class="form-group mb0" ng-submit="sendRequest()">
+            <ul>
+                <li><span>Kosten Anbieter:</span> <span>{{offer.offer.price}} €</span></li>
+                <li><span>Übernahme Arbeitgeber:</span> <span>{{offer.offer.companyAmount}}</span></li>
+                <hr>
+                <li><span>Summe :</span> <span>{{offer.offer.endPrice}} €</span></li>
+            </ul>
+            <fieldset>
+                <div class="o_picker">
+                    <p></p>
+                    <input required class="datepicker form-control mb10" placeholder="Datum">
+                </div>
+                <input required class="timepicker form-control mb10" placeholder="Uhrzeit">
+            </fieldset>
+            <div class="o_accept">
+                <input required type="checkbox" id="accept">
+                <label for="accept">Beim checken der Box, akzeptieren sie die Bedingungen des Anbieters und bestellen kostenpflichtig.</label>
+            </div>
+            <input class="btn btn-block btn-lg btn-primary mt30"  type="submit" value="Buchung anfragen"></input>
+        </form>
+    </div>
+</div>
+
+<div class="showofferbutton" ng-click="showBooking()">
+    Jetzt Buchen!
+</div>
+
