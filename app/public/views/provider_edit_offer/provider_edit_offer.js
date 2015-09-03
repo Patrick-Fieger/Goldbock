@@ -12,8 +12,6 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 .controller('ProviderEditOfferCtrl', ['$scope','$routeParams','$location','$timeout','ProviderService','AllService','AuthService','UploadService','$rootScope','MessageService',function($scope,$routeParams,$location,$timeout,ProviderService,AllService,AuthService,UploadService,$rootScope,MessageService) {
 	ProviderService.offer($routeParams.id).success(buildOfferView);
 
-
-
 	var progressInterval;
 	$scope.toggleTitleImage = false;
 	$scope.togglePhotos = false;
@@ -109,6 +107,8 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 		$scope.new.title = $scope.offer.title;
 		$scope.new.price = $scope.offer.price;
 
+		console.log($scope.offer.category)
+
 		if($scope.new.video !== "" || $scope.new.photos !== "" || $scope.new.titleimage !== "" || changed > 0){
 			$scope.progressMessage = "Daten werden gespeichert";
 			$timeout(function(){
@@ -148,10 +148,15 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 
 	function buildOfferView(data, status, headers, config){
 		$scope.offer = data.offer;
+		$scope.categories = data.categories
 		$scope.delete.id = data.offer.id;
 		$.cookie('email',data.email);
 		if(data.offer.category == undefined){
-			$scope.offer.category = "Kochen / Backen"
+			$scope.offer.category = $scope.categories[0].subcategory[0]
+		}else{
+			$timeout(function(){
+				$('body').find('select').eq(1).val(data.offer.category)
+			},100)
 		}
 
 		$scope.images = data.offer.photos
@@ -220,28 +225,6 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 		}
 	}
 
-	// $scope.checkImages = function(){
-	// 	$scope.images = [];
-	// 	var images = $("#images")[0].files;
-	// 	if($("#images")[0].files.length <= max){
-	// 		for (var i = 0; i < images.length; i++) {
-	// 			if (images && images[i]) {
-	// 				var reader = new FileReader();
-	// 				reader.onload = function (e) {
-	// 					$scope.$apply(function() {
-	// 						$scope.photosApplied = true;
-	// 						$scope.images.push(e.target.result)
-	// 					});
-	// 				}
-	// 				reader.readAsDataURL(images[i]);
-	// 			}
-	// 		};
- //    	}else{
- //    		alert('Sie können höchstens ' + max + ' Bild(er) auswählen');
- //    		var input = $("#images");
- //    		input.replaceWith(input.val('').clone(true));
- //    	}
-	// }
 	$scope.checkImages = function(that){
 		$scope.images = [];
 		images = [];

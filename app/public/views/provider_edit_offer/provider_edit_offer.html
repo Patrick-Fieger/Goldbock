@@ -20,7 +20,10 @@
         </select>
 
         <select ng-model="offer.category" class="mb10">
-          <optgroup label="Gemeinsames / Verabreden">
+            <optgroup ng-repeat="cat in categories" label="{{cat.category}}">
+                <option ng-repeat="subcat in cat.subcategory" value="{{subcat}}">{{subcat}}</option>
+            </optgroup>
+          <!-- <optgroup label="Gemeinsames / Verabreden">
             <option value="Kochen / Backen">Kochen / Backen</option>
             <option value="Diskutieren">Diskutieren</option>
             <option value="Aktivitäten">Aktivitäten</option>
@@ -46,7 +49,7 @@
             <option value="Unterhaltung">Unterhaltung</option>
             <option value="Künstler">Künstler</option>
             <option value="Theater">Theater</option>
-          </optgroup>
+          </optgroup> -->
         </select>
 
 

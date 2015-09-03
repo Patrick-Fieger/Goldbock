@@ -8,7 +8,7 @@ angular.module('app.provider_create_offer', ['ngRoute','ngAnimate'])
     controller: 'ProviderCreateOfferCtrl'
   });
 }])
-.controller('ProviderCreateOfferCtrl', ['$scope','UploadService','$location','$timeout','MessageService','AuthService', function ($scope,UploadService,$location,$timeout,MessageService,AuthService) {
+.controller('ProviderCreateOfferCtrl', ['$scope','UploadService','$location','$timeout','MessageService','AuthService','ProviderService', function ($scope,UploadService,$location,$timeout,MessageService,AuthService,ProviderService) {
 	var title;
 	var photos;
 	var imagecopy = $('.copyimage').html();
@@ -19,10 +19,7 @@ angular.module('app.provider_create_offer', ['ngRoute','ngAnimate'])
 	$scope.showProgress = false;
 	$scope.headerImageApplied = false;
 	$scope.progressMessage = "";
-	$scope.offer = {
-		category : "Kochen / Backen",
-		per : "pro Buchung"
-	};
+	
 	var path;
 	AuthService.isAdmin().success(function(data, status, headers, config){
 		if(data.admin){
@@ -31,6 +28,18 @@ angular.module('app.provider_create_offer', ['ngRoute','ngAnimate'])
 			path = "/provider/dashboard"
 		}
 	});
+
+	ProviderService.categories().success(buildCategories)
+
+
+	function buildCategories(data, status, headers, config){
+		$scope.categories = data
+
+		$scope.offer = {
+			category : data[0].subcategory[0],
+			per : "pro Buchung"
+		};
+	}
 
 	$scope.uploadForm = function(){
 		if($scope.images.length !== 0){

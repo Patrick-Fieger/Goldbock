@@ -5,6 +5,7 @@ var uuid = require('uuid'),
     newLocation = 'public/uploads/',
     options = require('../../config/uploads'),
     Provider = require('../models/provider'),
+    Categories = require('../models/categories'),
     gm = require('gm'),
     progress_ = {};
 
@@ -437,7 +438,11 @@ function offer(req, res, next){
 		    	if( id == obj.id) {
 		    		offer.offer = user.offers[i];
 		    		offer.offer.date = dateFormat(offer.offer.date, format);
-		    		res.send(offer).status(200).end();
+
+		    		Categories.find({},function(err,categories){
+		    			offer.categories = categories
+		    			res.send(offer).status(200).end();
+		    		});
 		    	}
 			}
         }
