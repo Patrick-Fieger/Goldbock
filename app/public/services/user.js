@@ -23,10 +23,15 @@ angular.module('app.userService', [])
 		return $http.post('/update/user', data_)
 	}
 
+	var alloffers = function(){
+		return $http.get('/alloffers');
+	}
+
 	return{
 		register : register,
 		deleteAccount : deleteAccount,
 		updateProfile : updateProfile,
-		categories : categories
+		categories : categories,
+		alloffers : alloffers
 	}
 })

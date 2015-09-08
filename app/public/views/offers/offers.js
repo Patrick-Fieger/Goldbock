@@ -6,21 +6,54 @@ angular.module('app.offers', ['ngRoute', 'ngAnimate']).config(['$routeProvider',
             controller: 'OffersCtrl'
         });
     }
-]).controller('OffersCtrl', ['$scope', '$timeout','$location','$rootScope','$routeParams','UserService',
-    function($scope, $timeout,$location,$rootScope,$routeParams,UserService) {
+]).controller('OffersCtrl', ['$scope', '$timeout','$location','$rootScope','$routeParams','UserService','MessageService',
+    function($scope, $timeout,$location,$rootScope,$routeParams,UserService,MessageService) {
         var id = $routeParams.id
+        $scope.category = "Alle";
+        UserService.categories().success(buildCategories)
 
-        UserService.categories().success(buildView)
 
-
-        function buildView (data, status, headers, config){
+        function buildCategories (data, status, headers, config){
             for (var i = 0; i < data.length; i++) {
                  if(data[i].href == id){
                     $scope.cat = data[i]
-                    console.log($scope.cat)
                  }
-                 
              };
+        }
+
+        UserService.alloffers().success(buildOffers)
+
+        function buildOffers (data, status, headers, config){
+            $scope.offers = data;
+
+            console.log(data)
+        }
+
+        $scope.checkCat = function(){
+            if($scope.category == "Außerhaus Meeting"){
+                $scope.showmeeting = true
+            }else{
+                $scope.showmeeting = false
+            }
+        }
+
+        $('.datepicker').pickadate(
+            {
+                today: '',
+                clear: '',
+                close: '',
+                min:true,
+                onOpen: function() {
+                  //console.log('Opened up')
+                },
+                onClose: function() {
+                  //console.log('Closed now')
+                }
+            }
+        );
+
+        $scope.submitMeeting = function(){
+            MessageService.info(8)
         }
 
         // for (var i = 0; i < $rootScope.kat.length; i++) {

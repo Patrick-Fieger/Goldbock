@@ -38,4 +38,7 @@ module.exports = function(app){
 	app.get('/authenticated',pass.isAuthenticatedToSeeContent);
 	app.get('/isloggedin', pass.isLoggedIn);
 	app.get('/isadmin', pass.isAdmin);
+
+
+	app.get('/alloffers',pass.isAuthenticatedToMakeRequest,all.allOffers)
 }

@@ -11,7 +11,8 @@ angular.module('app.messageService', [])
 		"Angebot erfolgreich angelegt",
 		"Angebot erfolgreich gespeichert",
 		"Profil erfolgreich aktuallisiert",
-		"Daten erfolgreich aktuallisiert"
+		"Daten erfolgreich aktuallisiert",
+		"Anfrage erfolgreich versendet"
 	]
 	var danger_ = [
 		"Fehler",

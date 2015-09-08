@@ -138,7 +138,21 @@ function deletePrevAvatar(avatars){
 			fs.remove(avatars.small, function (err) {});
 		}
 	}
-	
+}
+
+function allOffers(req, res, next){
+	Provider.find({},function(err, offers){
+		var offersAll = [];
+
+		for (var i = 0; i < offers.length; i++) {
+			for (var k = 0; k < offers[i].offers.length; k++) {
+				offersAll.push(offers[i].offers[k])
+			};
+		};
+
+		res.send(offersAll).status(200).end();
+
+	});
 }
 
 function emailToFolder(email){
@@ -153,5 +167,6 @@ module.exports = {
 	getAvatarInfos : getAvatarInfos,
 	profile : profile,
 	updatePassword : updatePassword,
+	allOffers : allOffers,
 	avatar : avatar
 };

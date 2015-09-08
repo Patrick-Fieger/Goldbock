@@ -1,10 +1,42 @@
 <div class="row">
-    <h1 style="text-align:center">Angebote zu {{cat.category}}</h1>
-    <div>
+    <h1 style="text-align:center;margin-bottom:80px">Angebote zu {{cat.category}}</h1>
+    <div style="margin-bottom:80px">
         <h2>Bitte wählen sie eine Unterkategorie</h2>
-        <select>
+        <select ng-change="checkCat()" ng-model="category">
             <option>Alle</option>
-            <option ng-repeat="item in cat.subcategory">{{item}}</option>
+            <option ng-repeat="item in cat.subcategory" value="{{item}}">{{item}}</option>
         </select>
+    </div>
+    <div class="large-12 columns" ng-hide="showmeeting">
+        <div ng-repeat="offer in offers" class="large-4 medium-6 small-12 columns category_offers">
+            <figure class="effect-ruby">
+                <a ng-href="#/offer/{{offer.id}}">
+                <img ng-src="{{offer.photos[0]}}">
+                <figcaption>
+                    <h4><span class="ng-binding">{{offer.title}}</span></h4>
+                </figcaption>
+                </a>
+            </figure>
+        </div>
+    </div>
+    <div class="meetingform_" ng-show="showmeeting">
+        <form class="form-group" ng-submit="submitMeeting()">
+            <input class="form-control mb10 wd100" required placeholder="Personenanzahl" type="number"><br>
+            <input required type="text" placeholder="Datum" class="datepicker form-control mb10 wd100"><br>
+            <select class="form-control mb10 wd100">
+                <option value="" disabled selected>Art der Verabredung</option>
+                <option>Meeting Geschäfsabschluss</option>
+                <option>Meeting Personal / Kollegen</option>
+                <option>Stadtnah</option>
+                <option>Im Grünen</option>
+                <option>Mit Essen</option>
+                <option>Schulung</option>
+                <option>Besprechung</option>
+                <option>Feier</option>
+                <option>Lockeres Treffen</option>
+            </select>
+            <textarea class="form-control mb10 wd100" require placeholder="Besondere Wünsche?"></textarea><br>
+            <input class="btn btn-primary mt30" type="submit" value="Buchungsanfrage senden"></input>
+        </form>
     </div>
 </div>
