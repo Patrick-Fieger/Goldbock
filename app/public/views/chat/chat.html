@@ -36,9 +36,9 @@
 
             <textarea placeholder="Text eingeben und mit Enter bestätigen" ng-keydown="sendMessage($event,bigChat.id)" class="form-control" ng-model="chattext"></textarea>
         </div>
-        <div class="columns large-12">
+        <div class="columns large-12 chatinner">
             <ul>
-                <li class="large-6 columns" ng-repeat="message in bigChat.messages" ng-class="{ 'own': message.from.email == user , 'notown': message.from.email !== user  }">
+                <li class="large-6 columns" ng-repeat="message in bigChat.messages | reverse" ng-class="{ 'own': message.from.email == user , 'notown': message.from.email !== user  }">
 
                     <img ng-src="{{message.from.avatar}}" alt="{{message.from.firstname}} {{message.from.lastname}}">
 

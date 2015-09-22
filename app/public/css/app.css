@@ -3399,6 +3399,14 @@ img-crop canvas {
     margin-bottom: 15px;
 }
 
+#bigchat .own{
+    float: left;
+}
+
+#bigchat .notown{
+    float: right;
+}
+
 
 
 #bigchat img{
@@ -3415,11 +3423,6 @@ img-crop canvas {
     background: #fff;
 }
 
-
-#bigchat .notown p,
-#bigchat .notown img{
-    float: right !important;
-}
 
 #bigchat .date{
     color: #ccc;
@@ -3441,4 +3444,10 @@ img-crop canvas {
     resize: none;
     height: 100px;
     margin-bottom: 50px;
+}
+
+
+.chatinner{
+    height: calc(100% - 150px);
+    overflow: scroll;
 }

@@ -17,11 +17,24 @@ module.exports = function(io){
   				}
   			};
 
-
   			callback(data_)
 
     	});
-  	})
+  	});
+
+
+    socket.on('new message',function(data){
+      var message = {
+        from : data.from,
+        text : data.message,
+        date : Date.now()
+      }
+
+      Chats.update({id : data.id},{$push: {messages: message}},function(err,done){
+        io.to(data.id).emit('new message',{message : message, id : data.id})
+      });
+
+    });
 
   });
 }
