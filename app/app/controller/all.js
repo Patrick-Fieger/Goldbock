@@ -42,6 +42,75 @@ var profile = function(req, res, next){
     });
 }
 
+
+function getAllUsers(req, res){
+	var anbieter = [];
+	var nutzer = [];
+
+	Provider.find({},function(err,all1){
+		
+
+		for (var i = 0; i < all1.length; i++) {
+			var add = {}
+
+			if(all1[i].avatar){
+				add.avatar = all1[i].avatar.small.replace('public/','')
+			}else{
+				add.avatar = 'img/avatar/avatar.png'
+			}
+
+			add.email = all1[i].email
+			add.firstname = all1[i].firstname
+			add.lastname = all1[i].lastname
+			add.id = all1[i].id
+			add.role = all1[i].role
+			add.cat = "Anbieter"
+			anbieter.push(add)
+		};
+    
+
+		User.find({},function(err,all2){
+
+			for (var i = 0; i < all2.length; i++) {
+				var add_ = {}
+	
+				if(all2[i].avatar){
+					add_.avatar = all2[i].avatar.small.replace('public/','')
+				}else{
+					add_.avatar = 'img/avatar/avatar.png'
+				}
+				add_.email = all2[i].email
+				add_.firstname = all2[i].firstname
+				add_.lastname = all2[i].lastname
+				add_.id = all2[i].id
+				add_.role = all2[i].role
+				add_.cat = "Nutzer"
+				nutzer.push(add_)
+			};
+
+			var data = {
+				anbieter : anbieter,
+				nutzer : nutzer
+			}
+
+			res.send(data).status(200).end();
+		})
+
+	})
+	
+}
+
+
+function compare(a,b) {
+  if (a.last_nom < b.last_nom)
+    return -1;
+  if (a.last_nom > b.last_nom)
+    return 1;
+  return 0;
+}
+
+
+
 var avatar = function(req, res, next){
 	var _uuid = uuid.v4();
 	var data = req.body.data
@@ -164,6 +233,7 @@ function capitalizeFirstLetter(string) {
 }
 
 module.exports = {
+	getAllUsers : getAllUsers,
 	getAvatarInfos : getAvatarInfos,
 	profile : profile,
 	updatePassword : updatePassword,

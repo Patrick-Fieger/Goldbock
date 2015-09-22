@@ -1,0 +1,54 @@
+<div class="row" id="chat" style="margin-top:100px;">
+    <div class="large-4 columns autoheight">
+        <div class="chatlist_menu">
+            <ul>
+                <li ng-click="toggleChatView()" ng-class="{active : showAnbieter}">Anbieter</li>
+                <li ng-click="toggleChatView()" ng-class="{active : !showAnbieter}">Nutzer</li>
+                <li>Goldbock</li>
+            </ul>
+        </div>
+        <div class="searchwrapper">
+            <input type="search" name="" value="" placeholder="Suchen" ng-model="searchText"  ng-focus="showList()" ng-blur="hideList()" ng-keydown="keypress($event)" id="searchText" class="form-control">
+            <div class="userslist" ng-show="userslist">
+                <ul>
+                    <li ng-show="showAnbieter" ng-click="openChatWith(anbiet.id)" ng-class='{active:$first}' ng-repeat="anbiet in anbieter | filter:searchText" id="{{anbieter.id}}">
+                        <img src="{{anbiet.avatar}}" alt="">
+                        <p>{{anbiet.firstname}} {{anbiet.lastname}} - <span class="italic chatsearch">{{anbiet.cat}}</span></p>
+                    </li>
+                    <li ng-show="!showAnbieter" ng-click="openChatWith(nutz.id)" ng-class='{active:$first}' ng-repeat="nutz in nutzer | filter:searchText" id="{{nutz.id}}">
+                        <img src="{{nutz.avatar}}" alt="">
+                        <p>{{nutz.firstname}} {{nutz.lastname}} - <span class="italic chatsearch">{{nutz.cat}}</span></p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="chatlist_wrapper">
+            <ul class="chatlist">
+                <li ng-click="openChat(chat.id)" ng-repeat="chat in chats" id="{{chat.id}}">
+                    <img src="{{chat.display.avatar}}" alt="">
+                    <p>{{chat.display.firstname}} {{chat.display.lastname}}</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="large-8 columns autoheight" id="bigchat">
+        <div class="columns large-12">
+
+            <textarea placeholder="Text eingeben und mit Enter bestätigen" ng-keydown="sendMessage($event,bigChat.id)" class="form-control" ng-model="chattext"></textarea>
+        </div>
+        <div class="columns large-12">
+            <ul>
+                <li class="large-6 columns" ng-repeat="message in bigChat.messages" ng-class="{ 'own': message.from.email == user , 'notown': message.from.email !== user  }">
+
+                    <img ng-src="{{message.from.avatar}}" alt="{{message.from.firstname}} {{message.from.lastname}}">
+
+
+
+                    <p class="text">{{message.text}}</p>
+
+                    <p class="date">{{message.date | amDateFormat:'dddd, Do MMMM YYYY, H:mm:ss'}} </p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -6,6 +6,7 @@ angular.module('myApp', [
   'ngAnimate',
   'ngSanitize',
   'ng-currency',
+  'angularMoment',
   'app.login',
   'app.register',
   'app.forgot',
@@ -30,12 +31,15 @@ angular.module('myApp', [
   'ngImgCrop',
   'app.uploadService',
   'app.adminService',
-  'app.providerService'
+  'app.providerService',
+  'app.chat'
 ]).
 config(['$locationProvider','$routeProvider','$animateProvider', function($locationProvider,$routeProvider,$animateProvider) {
   $routeProvider.otherwise({redirectTo: '/'});
 }])
-.run(function($rootScope,$http,AuthService,AllService,$timeout,MessageService) {
+.run(function($rootScope,$http,AuthService,AllService,$timeout,MessageService,amMoment) {
+    amMoment.changeLocale('de');
+    
     $rootScope.$on('$routeChangeSuccess', function(ev, to, toParams, from, fromParams) {
         var path = to.$$route.originalPath
         $(window).unbind("scroll");
@@ -228,7 +232,29 @@ config(['$locationProvider','$routeProvider','$animateProvider', function($locat
             }
         };
     }
-]).directive('ngEnter', function() {
+]).factory('socket', function ($rootScope) {
+  var socket = io.connect();
+  return {
+    on: function (eventName, callback) {
+      socket.on(eventName, function () {  
+        var args = arguments;
+        $rootScope.$apply(function () {
+          callback.apply(socket, args);
+        });
+      });
+    },
+    emit: function (eventName, data, callback) {
+      socket.emit(eventName, data, function () {
+        var args = arguments;
+        $rootScope.$apply(function () {
+          if (callback) {
+            callback.apply(socket, args);
+          }
+        });
+      })
+    }
+  };
+}).directive('ngEnter', function() {
         return function(scope, element, attrs) {
             element.bind("keydown keypress", function(event) {
                 if(event.which === 13) {
@@ -240,4 +266,8 @@ config(['$locationProvider','$routeProvider','$animateProvider', function($locat
                 }
             });
         };
-    });
+}).filter('reverse', function() {
+  return function(items) {
+    return items.slice().reverse();
+  };
+})

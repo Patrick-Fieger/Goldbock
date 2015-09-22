@@ -25,10 +25,12 @@ angular.module('app.provider_dashboard', ['ngRoute','ngAnimate'])
 
 	function updateProfileView(data, status, headers, config){
 		$scope.user = data;
-
-		if(data.offers.length >= 3){
-			$scope.hideAddOffer = true
+		if(data.offers){
+			if(data.offers.length >= 3){
+				$scope.hideAddOffer = true
+			}	
 		}
+		
 
 		if (data.avatar !== undefined) {
         	$scope.user.avatar.big = data.avatar.big.replace('public/','')
@@ -38,6 +40,9 @@ angular.module('app.provider_dashboard', ['ngRoute','ngAnimate'])
         	$scope.user.avatar.big = 'img/avatar/avatar.png';
         }
 
+
+        localStorage.setItem('user',data.email)
+        localStorage.setItem('role',data.role) 
         checkAboutText();
 	}
 

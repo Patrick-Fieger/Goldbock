@@ -3,6 +3,7 @@ var pass = require('../config/passport')
 	, user = require('./controller/user')
 	, admin = require('./controller/admin')
 	, all = require('./controller/all')
+	, chat = require('./controller/chat')
 
 module.exports = function(app){
 	app.post('/login', pass.login);
@@ -39,6 +40,10 @@ module.exports = function(app){
 	app.get('/isloggedin', pass.isLoggedIn);
 	app.get('/isadmin', pass.isAdmin);
 
-
 	app.get('/alloffers',pass.isAuthenticatedToMakeRequest,all.allOffers)
+
+	app.get('/chats',pass.isAuthenticatedToMakeRequest,chat.chats)
+
+	app.get('/getallusers', pass.isAuthenticatedToMakeRequest, all.getAllUsers)
+
 }

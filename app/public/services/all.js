@@ -50,7 +50,12 @@ angular.module('app.allService', [])
 		$rootScope.avatar = {};
 	}
 
+	function getAllUsers(){
+		return $http.get('/getallusers')
+	}
+
 	return {
+		getAllUsers : getAllUsers,
 		checkAvatarInfos: checkAvatarInfos,
 		profile : profile,
 		updateName : updateName,

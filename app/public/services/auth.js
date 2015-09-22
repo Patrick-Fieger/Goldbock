@@ -1,5 +1,5 @@
 angular.module('app.authService', [])
-.service('AuthService', function($http,$location,$rootScope){
+.service('AuthService', function($http,$location,$rootScope,$timeout){
 	var isAuth = function(){
 		$http.get('/authenticated',{params: { path: $location.path()}})
     	.error(function (data, status, headers, config) {
@@ -15,6 +15,9 @@ angular.module('app.authService', [])
 		$http.post('/logout')
 		$rootScope.isLogged = false;
 		$location.path('/');
+		$timeout(function(){
+			$window.location.reload();
+		},100)
 	};
 
 	var register = function(user){

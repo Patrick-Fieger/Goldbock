@@ -101,6 +101,10 @@ img {
     -ms-interpolation-mode: bicubic
 }
 
+.italic{
+    font-style:italic !important;
+}
+
 #map_canvas img, #map_canvas embed, #map_canvas object, .map_canvas img, .map_canvas embed, .map_canvas object {
     max-width: none !important
 }
@@ -1214,7 +1218,7 @@ select {
     line-height: 16px;
 }
 
-#login, .spinner, .grid figure, .kategorien h1, .angebote li, .closeangebot, .closeall, .large, .small, .content, .angebot_loader, .item, .opennoti:after, .inbox, .noti, .overlay, .meetingform, .morekrit, .firstnoti, .changeavatar, .progress_wrapper, .offer-list li span, .delete_wrapper .delete_, .notify, .list_users li, .bookoverlay, .bookover, .showofferbutton, svg.checkmark, .inneroverlay {
+.chatlist_menu ul li,.chatlist li,.userslist li,#login, .spinner, .grid figure, .kategorien h1, .angebote li, .closeangebot, .closeall, .large, .small, .content, .angebot_loader, .item, .opennoti:after, .inbox, .noti, .overlay, .meetingform, .morekrit, .firstnoti, .changeavatar, .progress_wrapper, .offer-list li span, .delete_wrapper .delete_, .notify, .list_users li, .bookoverlay, .bookover, .showofferbutton, svg.checkmark, .inneroverlay {
     -webkit-transition: all 0.3s;
     -moz-transition: all 0.3s;
     -o-transition: all 0.3s;
@@ -3262,4 +3266,179 @@ img-crop canvas {
 
 .meetingform_ textarea {
   resize: none;
+}
+
+
+
+
+
+/* CHAT */
+
+
+.userslist{
+    position: absolute;
+    width: 295px;
+    max-height: 400px;
+    height: 400px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border: 1px solid #ccc;
+    background: #fff;
+    margin-left: 4px;
+    margin-top: 10px;
+}
+
+.chatlist_wrapper,
+.searchwrapper{
+    margin-top: 40px;
+}
+
+.userslist ul,
+.chatlist{
+    margin:0;
+    padding: 0;
+}
+
+
+.userslist li img, .userslist li p,
+.chatlist li img, .chatlist li p {
+    float: left;
+}
+
+
+
+.userslist li,
+.chatlist li{
+    padding: 10px;
+    list-style: none;
+    float: left;
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+}
+
+.userslist li p,
+.chatlist li p{
+    margin: 12px 0 0 15px;
+}
+
+.userslist li img,
+.chatlist li img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.userslist li.active,
+.chatlist_menu ul li.active,
+.userslist li:hover,
+.chatlist li:hover,
+.chatlist_menu ul li:hover{
+    background: #595959;
+    color: #fff
+}
+
+.userslist li:hover,
+.chatlist li:hover,
+.chatlist_menu ul li:hover{
+    cursor: pointer;
+}
+
+#searchText{
+    box-sizing: inherit !important;
+}
+
+
+#chat .autoheight{
+    height: calc(100vh - 200px)
+}
+
+#chat .large-4{
+    border-right: 1px solid #ccc;
+}
+
+
+
+.chatsearch{
+    color: #ccc;
+    font-size: 12px;
+    margin-top: -2px;
+}
+
+
+.chatlist_menu ul{
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin: 0;
+    padding: 0;
+    float: left;
+
+}
+
+.chatlist_menu ul li{
+    border-right: 1px solid #ccc;
+    float: left;
+    list-style: none;
+    text-align: center;
+    width: 33.333%;
+}
+
+.chatlist_menu ul li:last-child{
+    border-right: none;
+}
+
+
+
+
+#bigchat .own,
+#bigchat .notown{
+    height: auto;
+    list-style: none;
+    clear: both;
+    padding: 0;
+    margin-bottom: 15px;
+}
+
+
+
+#bigchat img{
+    width: 70px;
+    float: left;
+    border-radius: 50%;
+    margin-right: 10px;
+    margin-bottom: 2px;
+}
+
+#bigchat .info{
+    float: left;
+    width: 100%;
+    background: #fff;
+}
+
+
+#bigchat .notown p,
+#bigchat .notown img{
+    float: right !important;
+}
+
+#bigchat .date{
+    color: #ccc;
+    font-style: italic;
+    font-size: 12px;
+    padding: 5px;
+    margin: 0px;
+    float: left;
+    clear: both;
+}
+
+#bigchat .text{
+    padding: 0px 10px 10px 10px;
+    margin: 0;
+}
+
+#bigchat textarea{
+    width: 100%;
+    resize: none;
+    height: 100px;
+    margin-bottom: 50px;
 }
