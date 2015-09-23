@@ -24,6 +24,10 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
         function searchTerms(data, status, headers, config) {
             $scope.anbieter = data.anbieter;
             $scope.nutzer = data.nutzer;
+
+            console.log($scope.anbieter)
+            console.log($scope.nutzer)
+
             for (var i = 0; i < $scope.anbieter.length; i++) {
                 AllUsers.push($scope.anbieter[i])
             };
@@ -37,6 +41,9 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
 
         function buildChats(data, status, headers, config) {
             var chats = data
+
+            console.log(data)
+
             for (var i = 0; i < chats.length; i++) {
                 if (chats[i].from == user) {
                     chats[i].display = getUserData(chats[i].to)
@@ -87,15 +94,69 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
             $scope.showAnbieter = !$scope.showAnbieter
         }
 
+
+        $scope.typing = false;
+        $scope.whosTyping = "";
+        var timeout = undefined;
+
         $scope.sendMessage = function(e, id) {
             if (e.which === 13) {
+                e.preventDefault();
                 socket.emit('new message',{
                     id : id,
                     from : user,
                     message : $scope.chattext
                 })
+                $scope.chattext = "";
+            }else{
+                socket.emit('typing',{
+                    id : id,
+                    user : user,
+                    typing : true
+                });
+                clearTimeout(timeout);
+                timeout = setTimeout(noMoreTyping(id), 5000);
             }
+
         }
+
+
+        function noMoreTyping(id){
+            socket.emit('typing',{
+                id : id,
+                user : user,
+                typing : false
+            });
+        }
+
+
+        socket.on('typing',function(data){
+            var me = checkSelf(data.user)
+
+            if(!me){
+                $scope.typing = true;
+                $scope.whosTyping = getUserData(data.user)
+            }else{
+                $scope.typing = false;
+            }
+
+        });
+
+        function checkSelf(){
+            var me = false;
+
+            for (var i = 0; i < AllUsers.length; i++) {
+                if (AllUsers[i].email == user) {
+                    me = true
+                }
+            };
+
+            return me
+        }
+
+
+
+
 
         $scope.openChat = function(id) {
             for (var i = 0; i < $scope.chats.length; i++) {
@@ -104,6 +165,11 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
                 }
             };
         }
+
+
+
+
+
 
 
         socket.on('new message',function(data){
@@ -120,7 +186,7 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
                     }
                 }
             };
-            
+
         })
 
     }

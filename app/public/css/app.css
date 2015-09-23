@@ -3450,4 +3450,7 @@ img-crop canvas {
 .chatinner{
     height: calc(100% - 150px);
     overflow: scroll;
+    -moz-box-shadow: inset 0 -10px 10px -10px #ccc;
+    -webkit-box-shadow: inset 0 -10px 10px -10px #ccc;
+    box-shadow: inset 0 -10px 10px -10px #ccc;
 }

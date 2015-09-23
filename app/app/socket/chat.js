@@ -16,9 +16,7 @@ module.exports = function(io){
             data_.push(chats_[i])
   				}
   			};
-
   			callback(data_)
-
     	});
   	});
 

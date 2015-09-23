@@ -23,7 +23,7 @@ module.exports = Chat;
 // var test = {
 //   id : uuid.v4(),
 //   from : "patrickfieger90@gmail.com",
-//   to : "oliver.bock@goldbock.com",
+//   to : "oliver.bock@steinbock.info",
 //   messages : [
 //     {
 //       from : "patrickfieger90@gmail.com",
@@ -31,7 +31,7 @@ module.exports = Chat;
 //       date : Date.now()
 //     },
 //     {
-//       from : "oliver.bock@goldbock.com",
+//       from : "oliver.bock@steinbock.info",
 //       text : "This is a text",
 //       date : Date.now() + -5*24*3600*1000
 //     }
@@ -46,3 +46,5 @@ module.exports = Chat;
 //     console.log('created!!!!');
 //   }
 // })
+ 
+//Chat.findOne({ id:"0004456b-9dbb-465a-85af-b6f0ac369485" }).remove().exec();
