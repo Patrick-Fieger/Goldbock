@@ -25,9 +25,6 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
             $scope.anbieter = data.anbieter;
             $scope.nutzer = data.nutzer;
 
-            console.log($scope.anbieter)
-            console.log($scope.nutzer)
-
             for (var i = 0; i < $scope.anbieter.length; i++) {
                 AllUsers.push($scope.anbieter[i])
             };
@@ -39,22 +36,52 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
             }, buildChats)
         }
 
-        function buildChats(data, status, headers, config) {
+        function buildChats(data) {
             var chats = data
 
-            console.log(data)
 
             for (var i = 0; i < chats.length; i++) {
                 if (chats[i].from == user) {
-                    chats[i].display = getUserData(chats[i].to)
+                    chats[i].display = getUserData(chats[i].to);
+
+                    if(chats[i].unreadFrom){
+                        $('.chatlist #' + chats[i].id).addClass('unread')
+                    }
+
                 } else {
                     chats[i].display = getUserData(chats[i].from)
                 }
                 for (var k = 0; k < chats[i].messages.length; k++) {
                     chats[i].messages[k].from = getUserData(chats[i].messages[k].from)
                 };
+
+                if(chats[i].isArchieved.indexOf(user) > -1){
+                    chats[i].hideChat = true
+                }
+
+
+
             };
-            $scope.chats = chats
+
+            $scope.chats = chats;
+
+            checkUnreadedMessages();
+        }
+
+        function checkUnreadedMessages(){
+            console.log($scope.chats)
+            for (var i = 0; i < $scope.chats.length; i++) {
+                
+
+                if ($scope.chats[i].unreaded.indexOf(user) > -1){
+                    var id = $scope.chats[i].id
+                    console.log($scope.chats[i].id)
+                    $timeout(function(){
+                        $('.chatlist #' + id).addClass('unread')
+                    },0)
+                    
+                }
+            }
         }
 
         function getUserData(email) {
@@ -88,7 +115,29 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
             }
         }
         
-        $scope.openChatWith = function(id) {}
+        $scope.openChatWith = function(email) {
+
+            socket.emit('open new chat',{
+                from : user,
+                to : email
+            },addNewChatToList)
+
+        }
+
+
+        function addNewChatToList(data){
+            var newchat = data
+
+            if (newchat.from == user) {
+                newchat.display = getUserData(newchat.to)
+            } else {
+                newchat.display = getUserData(newchat.from)
+            }
+
+            newchat.messages = [];
+            $scope.chats.push(newchat)
+        }
+
 
         $scope.toggleChatView = function() {
             $scope.showAnbieter = !$scope.showAnbieter
@@ -100,7 +149,7 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
         var timeout = undefined;
 
         $scope.sendMessage = function(e, id) {
-            if (e.which === 13) {
+            if (e.which === 13 && $scope.chattext !== "") {
                 e.preventDefault();
                 socket.emit('new message',{
                     id : id,
@@ -109,15 +158,19 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
                 })
                 $scope.chattext = "";
             }else{
+                clearTimeout(timeout)
+                timeout = setTimeout(function(){
+                    noMoreTyping(id)
+                }, 2000);
+                
+
                 socket.emit('typing',{
                     id : id,
                     user : user,
                     typing : true
                 });
-                clearTimeout(timeout);
-                timeout = setTimeout(noMoreTyping(id), 5000);
+                
             }
-
         }
 
 
@@ -132,8 +185,9 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
 
         socket.on('typing',function(data){
             var me = checkSelf(data.user)
+            
 
-            if(!me){
+            if(!me && data.typing){
                 $scope.typing = true;
                 $scope.whosTyping = getUserData(data.user)
             }else{
@@ -142,47 +196,77 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
 
         });
 
-        function checkSelf(){
+        function checkSelf(typingUser){
             var me = false;
 
-            for (var i = 0; i < AllUsers.length; i++) {
-                if (AllUsers[i].email == user) {
-                    me = true
-                }
-            };
+            if(user === typingUser){
+                me = true
+            }
 
             return me
         }
 
-
-
-
-
         $scope.openChat = function(id) {
             for (var i = 0; i < $scope.chats.length; i++) {
                 if ($scope.chats[i].id == id) {
-                    $scope.bigChat = $scope.chats[i]
+                    $scope.bigChat = $scope.chats[i];
+                    markAsReaded(id);
                 }
             };
         }
 
 
+        $scope.archiveChat = function(id){
+            if(confirm('Wollen sie diesen Chat wirklich löschen?')){
+                socket.emit('delete chat',{
+                    id : id,
+                    email : user
+                },deleteChat)    
+            }
+        }
+
+        function deleteChat(data){
+            if(data.isDeleted){
+                for (var i = 0; i < $scope.chats.length; i++) {
+                    if($scope.chats[i].id == data.id){
+                        if($scope.bigChat.id == data.id){
+                            $scope.bigChat = [];
+                        }
+
+                        $scope.chats.splice(i,1);
+                    }
+                };
+            }
+        }
+
+        function markAsReaded(id){
+            socket.emit('message readed',{
+                from : user,
+                id : id   
+            });
+
+            $('.chatlist #' + id).removeClass('unread');
+        }
 
 
-
-
+        var ping = new Audio("../../sound/sound.mp3");
 
         socket.on('new message',function(data){
             var newmessage = data
             newmessage.message.from = getUserData(newmessage.message.from)
 
+            //ping.play();
+
             for (var i = 0; i < $scope.chats.length; i++) {
+
                 if($scope.chats[i].id == newmessage.id){
-                        $scope.chats[i].messages.push(newmessage.message)
+                    $scope.chats[i].messages.push(newmessage.message)
+                    
                     if($scope.bigChat.id == newmessage.id){
-                        $scope.openChat(newmessage.id)
+                        $scope.openChat(newmessage.id);
+                        markAsReaded(newmessage.id)
                     }else{
-                        // show new message arrived! in sidebar
+                        $('.chatlist #' + newmessage.id).addClass('unread')
                     }
                 }
             };

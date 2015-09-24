@@ -9,7 +9,7 @@ angular.module('app.provider_dashboard', ['ngRoute','ngAnimate'])
   });
 }])
 
-.controller('ProviderDashboardCtrl', ['$scope','$location','$timeout','ProviderService','AllService','AuthService','UploadService','$rootScope','MessageService',function($scope,$location,$timeout,ProviderService,AllService,AuthService,UploadService,$rootScope,MessageService) {
+.controller('ProviderDashboardCtrl', ['$scope','$location','$timeout','ProviderService','AllService','AuthService','UploadService','$rootScope','MessageService','socket',function($scope,$location,$timeout,ProviderService,AllService,AuthService,UploadService,$rootScope,MessageService,socket) {
 	$scope.user = {};
 	$scope.avatar;
 	$scope.showAboutTextarea = false;
@@ -20,8 +20,29 @@ angular.module('app.provider_dashboard', ['ngRoute','ngAnimate'])
 	$scope.about;
 	$scope.count = 400;
 	$scope.password = {};
+	var user = localStorage.getItem('user');
+
+	$scope.counter = [];
 
 	AllService.profile().success(updateProfileView);
+
+	socket.emit('get unreaded messages',{email : user},unreadedCount)
+
+	socket.on('new message',function(data){
+		
+		if($scope.counter.indexOf(data.id) == -1){
+			$scope.counter.push(data.id);
+
+			console.log($scope.counter)
+		}
+
+	})
+
+	function unreadedCount(data){
+		$scope.counter = data;
+
+		console.log($scope.counter)
+	}	
 
 	function updateProfileView(data, status, headers, config){
 		$scope.user = data;

@@ -4,6 +4,10 @@ angular.module('app.allService', [])
 		return $http.get('/profile');
 	}
 
+	var checkUnreadedMessages = function(){
+		return $http.get('/unreadedmessages')
+	}
+
 	var checkAvatarInfos = function(){
 		isLoggedIn().success(getAvatarInfos).error(hideAvatarInfos)
 	}
@@ -35,6 +39,7 @@ angular.module('app.allService', [])
         	$rootScope.avatar.small = 'img/avatar/avatar.png';
         }
 	}
+
 
 	function updateName(name){
 		$rootScope.fullname = name;

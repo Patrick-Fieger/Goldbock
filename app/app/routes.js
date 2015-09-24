@@ -42,7 +42,9 @@ module.exports = function(app){
 
 	app.get('/alloffers',pass.isAuthenticatedToMakeRequest,all.allOffers)
 
-	app.get('/chats',pass.isAuthenticatedToMakeRequest,chat.chats)
+	app.get('/unreadedmessages',pass.isAuthenticatedToMakeRequest,chat.unreadedmessages)
+
+	
 
 	app.get('/getallusers', pass.isAuthenticatedToMakeRequest, all.getAllUsers)
 

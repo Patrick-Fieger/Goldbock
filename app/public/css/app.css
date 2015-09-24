@@ -1218,7 +1218,7 @@ select {
     line-height: 16px;
 }
 
-.chatlist_menu ul li,.chatlist li,.userslist li,#login, .spinner, .grid figure, .kategorien h1, .angebote li, .closeangebot, .closeall, .large, .small, .content, .angebot_loader, .item, .opennoti:after, .inbox, .noti, .overlay, .meetingform, .morekrit, .firstnoti, .changeavatar, .progress_wrapper, .offer-list li span, .delete_wrapper .delete_, .notify, .list_users li, .bookoverlay, .bookover, .showofferbutton, svg.checkmark, .inneroverlay {
+.deletechat,.chatlist_menu ul li,.chatlist li,.userslist li,#login, .spinner, .grid figure, .kategorien h1, .angebote li, .closeangebot, .closeall, .large, .small, .content, .angebot_loader, .item, .opennoti:after, .inbox, .noti, .overlay, .meetingform, .morekrit, .firstnoti, .changeavatar, .progress_wrapper, .offer-list li span, .delete_wrapper .delete_, .notify, .list_users li, .bookoverlay, .bookover, .showofferbutton, svg.checkmark, .inneroverlay {
     -webkit-transition: all 0.3s;
     -moz-transition: all 0.3s;
     -o-transition: all 0.3s;
@@ -3286,6 +3286,7 @@ img-crop canvas {
     background: #fff;
     margin-left: 4px;
     margin-top: 10px;
+    z-index: 1000;
 }
 
 .chatlist_wrapper,
@@ -3309,6 +3310,7 @@ img-crop canvas {
 
 .userslist li,
 .chatlist li{
+    position: relative;
     padding: 10px;
     list-style: none;
     float: left;
@@ -3443,14 +3445,93 @@ img-crop canvas {
     width: 100%;
     resize: none;
     height: 100px;
-    margin-bottom: 50px;
 }
 
 
 .chatinner{
+    margin-top: 50px;
     height: calc(100% - 150px);
     overflow: scroll;
     -moz-box-shadow: inset 0 -10px 10px -10px #ccc;
     -webkit-box-shadow: inset 0 -10px 10px -10px #ccc;
     box-shadow: inset 0 -10px 10px -10px #ccc;
 }
+
+.istyping{
+    color: #aaa;
+    font-style: italic;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+
+.deletechat{
+    opacity: 0;
+    position: absolute;
+    right: 13px;
+    font-size: 18px;
+    top: 25px;
+}
+
+.chatlist li:hover .deletechat{
+    opacity: 1;
+}
+
+.unread:after{
+    content: "";
+    position: absolute;
+    right: 40px;
+    top: 24px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #e74c3c;
+}
+
+
+.showcounter{
+    position: absolute;
+    right: -9px;
+    top: -9px;
+    background: red;
+    color: #fff;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    line-height: 19px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

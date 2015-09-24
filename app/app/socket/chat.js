@@ -1,38 +1,141 @@
-var Chats = require('../models/chat')
+var Chats = require('../models/chat'),
+    uuid = require('uuid')
+module.exports = function(io) {
+    var chats = [];
+    io.sockets.on('connection', function(socket) {
+        
+        // setTimeout(function(){
+        //   console.log(socket.request.session.passport.user)
+        // },10000)
 
-module.exports = function(io){
-  var chats = [];
-
-  io.sockets.on('connection', function (socket) {
-    
-
-  	socket.on('get chats',function(data,callback){
-  		Chats.find({},function(err,chats_){
-  			var data_ = [];
-
-  			for (var i = 0; i < chats_.length; i++) {
-  				if(chats_[i].from == data.email || chats_[i].to == data.email){
-            socket.join(chats_[i].id);
-            data_.push(chats_[i])
-  				}
-  			};
-  			callback(data_)
-    	});
-  	});
+        
+        // io.sockets.sockets['nickname'] = socket.id;
 
 
-    socket.on('new message',function(data){
-      var message = {
-        from : data.from,
-        text : data.message,
-        date : Date.now()
-      }
+        // var clients = io.sockets.sockets.map(function(e) {
+        //   return e.username;
+        // });
 
-      Chats.update({id : data.id},{$push: {messages: message}},function(err,done){
-        io.to(data.id).emit('new message',{message : message, id : data.id})
-      });
+        // console.log(clients)
 
+
+
+        socket.on('get chats', function(data, callback) {
+            Chats.find({}, function(err, chats_) {
+                var data_ = [];
+                for (var i = 0; i < chats_.length; i++) {
+                    if ((chats_[i].from == data.email || chats_[i].to == data.email) && chats_[i].isArchieved.indexOf(data.email) !== 0) {
+                        socket.join(chats_[i].id);
+                        data_.push(chats_[i])
+                    }
+                };
+                callback(data_);
+            });
+        });
+
+
+        socket.on('typing', function(data) {
+            io.to(data.id).emit('typing', data)
+        });
+
+
+        socket.on('open new chat', function(data, callback) {
+            var newchat = data;
+            newchat.id = uuid.v4();
+            Chats.create(newchat, function(err) {
+                if (!err) {
+                    socket.join(newchat.id);
+                    callback(newchat)
+                } else {
+                    console.log(err)
+                }
+            });
+        });
+
+
+        socket.on('get unreaded messages', function(data, callback) {
+            Chats.find({}, function(err, chats_) {
+                var ids = [];
+                for (var i = 0; i < chats_.length; i++) {
+                    if ((chats_[i].from == data.email || chats_[i].to == data.email) && chats_[i].isArchieved.indexOf(data.email) !== 0) {
+                        socket.join(chats_[i].id);
+                        if ((chats_[i].from == data.email && chats_[i].unreaded.indexOf(data.email) > -1) || (chats_[i].to == data.email && chats_[i].unreaded.indexOf(data.email) > -1)) {
+                            if (ids.indexOf(chats_[i].id) == -1) {
+                                ids.push(chats_[i].id)
+                            }
+                        }
+                    }
+                };
+                callback(ids);
+            });
+        })
+
+
+        socket.on('delete chat', function(data, callback) {
+            Chats.findOne({
+                id: data.id
+            }, function(err, chat) {
+                if (!err) {
+                    chat.isArchieved.push(data.email)
+                    chat.save(function(err) {
+                        if (!err) {
+                            callback({
+                                isDeleted: true,
+                                id: data.id
+                            });
+                        }
+                    });
+                }
+            })
+        });
+
+
+        socket.on('message readed', function(data) {
+            Chats.findOne({
+                id: data.id
+            }, function(err, chat) {
+                if (chat.unreaded.length > 0) {
+                    for (var i = 0; i < chat.unreaded.length; i++) {
+                        if (chat.unreaded == data.from) {
+                            chat.unreaded.splice(i, 1);
+                        }
+                    };
+                }
+                chat.save(function(err) {
+                    if (err) {
+                        console.log(err)
+                    }
+                });
+            });
+        });
+
+
+        socket.on('new message', function(data) {
+            var message = {
+                    from: data.from,
+                    text: data.message,
+                    date: Date.now()
+                }
+            Chats.findOne({
+                id: data.id
+            }, function(err, chat) {
+                chat.messages.push(message)
+                if (message.from == chat.from && chat.unreaded.indexOf(chat.to) == -1) {
+                    chat.unreaded.push(chat.to);
+                } else if (chat.unreaded.indexOf(chat.from) == -1) {
+                    chat.unreaded.push(chat.from);
+                }
+                chat.save(function(err) {
+                    if (!err) {
+                        io.to(data.id).emit('new message', {
+                            message: message,
+                            id: data.id
+                        })
+                    } else {
+                        console.log(err)
+                    }
+                })
+            });
+        });
     });
-
-  });
 }
