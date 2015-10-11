@@ -11,10 +11,19 @@ angular.module('app.login', ['ngRoute','ngAnimate'])
 }])
 
 .controller('LoginCtrl', ['$scope','$location','$timeout','AuthService','AllService','MessageService',function($scope,$location,$timeout,AuthService,AllService,MessageService) {
-	$scope.userData = {
-		"email":"patrickfieger90@gmail.com",
-		"password":"1234"
-	}
+  var ua = navigator.userAgent.toLowerCase();
+
+  if (ua.indexOf('chrome') > -1) {
+    $scope.userData = {
+      "email":"patrickfieger90@gmail.com",
+      "password":"1234"
+    }
+  }else{
+    $scope.userData = {
+      "email":"oliver.bock@steinbock.info",
+      "password":"kleine"
+    }
+  }
 
 	$scope.sendLogin = function(){
 		AuthService.login($scope.userData).success(checklogin).error(faillogin);

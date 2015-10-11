@@ -14,10 +14,6 @@
                     <li ng-show="showAnbieter" ng-click="openChatWith(anbiet.email)" ng-class='{active:$first}' ng-repeat="anbiet in anbieter | filter:searchText" id="{{anbieter.id}}">
                         <img src="{{anbiet.avatar}}" alt="">
                         <p>{{anbiet.firstname}} {{anbiet.lastname}} - <span class="italic chatsearch">{{anbiet.cat}}</span></p>
-
-
-
-
                     </li>
                     <li ng-show="!showAnbieter" ng-click="openChatWith(anbiet.email)" ng-class='{active:$first}' ng-repeat="nutz in nutzer | filter:searchText" id="{{nutz.id}}">
                         <img src="{{nutz.avatar}}" alt="">
@@ -28,7 +24,7 @@
         </div>
         <div class="chatlist_wrapper">
             <ul class="chatlist">
-                <li ng-hide="chat.hideChat" ng-click="openChat(chat.id)" ng-repeat="chat in chats" id="{{chat.id}}">
+                <li ng-hide="chat.hideChat" data-email="{{chat.to}}" ng-click="openChat(chat.id)" ng-repeat="chat in chats" id="{{chat.id}}">
                     <img src="{{chat.display.avatar}}" alt="">
                     <p>{{chat.display.firstname}} {{chat.display.lastname}}</p>
 
@@ -37,7 +33,7 @@
             </ul>
         </div>
     </div>
-    <div class="large-8 columns autoheight" id="bigchat">
+    <div class="large-8 columns autoheight" id="bigchat" ng-show="bigChat_input">
         <div class="columns large-12">
 
             <textarea placeholder="Text eingeben und mit Enter bestätigen" ng-keydown="sendMessage($event,bigChat.id)" class="form-control" ng-model="chattext"></textarea>

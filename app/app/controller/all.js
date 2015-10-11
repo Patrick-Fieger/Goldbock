@@ -209,6 +209,7 @@ function deletePrevAvatar(avatars){
 	}
 }
 
+
 function allOffers(req, res, next){
 	Provider.find({},function(err, offers){
 		var offersAll = [];
@@ -216,8 +217,8 @@ function allOffers(req, res, next){
 		for (var i = 0; i < offers.length; i++) {
 			for (var k = 0; k < offers[i].offers.length; k++) {
 				offersAll.push(offers[i].offers[k])
-			};
-		};
+			}
+		}
 
 		res.send(offersAll).status(200).end();
 

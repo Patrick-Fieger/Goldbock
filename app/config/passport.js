@@ -165,7 +165,7 @@ function isNotAdmin(req,res,next){
 }
 
 function isAuthenticatedToMakeRequest(req, res, next) {
-  var path = req._parsedOriginalUrl.path;
+  var path = req.url;
   var split = path.indexOf('?');
   path = path.substring(0, split != -1 ? split : path.length);
   if (req.isAuthenticated() && allowedrequest[req.user.role].indexOf(path) > -1)

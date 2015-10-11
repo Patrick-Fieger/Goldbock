@@ -26,17 +26,15 @@ angular.module('app.provider_dashboard', ['ngRoute','ngAnimate'])
 
 	AllService.profile().success(updateProfileView);
 
-	socket.emit('get unreaded messages',{email : user},unreadedCount)
 
-	socket.on('new message',function(data){
-		
+
+	socket.emit('join',{email : user})
+	socket.emit('get unreaded messages',{email : user},unreadedCount)
+	socket.on('new chat opened',function(data){
 		if($scope.counter.indexOf(data.id) == -1){
 			$scope.counter.push(data.id);
-
-			console.log($scope.counter)
 		}
-
-	})
+	});
 
 	function unreadedCount(data){
 		$scope.counter = data;

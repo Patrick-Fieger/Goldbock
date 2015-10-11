@@ -1,4 +1,10 @@
 /app/node_modules/
+/app/.idea/
+/app/.idea
+app/config/.idea/
+/app/app/.idea/
+/app/public/views/login/
 /app/public/bower_components/
+/app/public/views/login/
 /app/public/uploads/
 npm-debug.log

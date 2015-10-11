@@ -40,9 +40,9 @@ module.exports = function(app){
 	app.get('/isloggedin', pass.isLoggedIn);
 	app.get('/isadmin', pass.isAdmin);
 
-	app.get('/alloffers',pass.isAuthenticatedToMakeRequest,all.allOffers)
+	app.get('/alloffers',pass.isAuthenticatedToMakeRequest,all.allOffers);
 
-	app.get('/unreadedmessages',pass.isAuthenticatedToMakeRequest,chat.unreadedmessages)
+	app.get('/unreadedmessages',pass.isAuthenticatedToMakeRequest,chat.unreadedmessages);
 
 	
 

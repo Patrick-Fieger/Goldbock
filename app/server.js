@@ -9,4 +9,4 @@
   , io = require('socket.io').listen(server)
   , chat = require('./app/socket/chat')(io)
 
-  app.use(express.static(__dirname + '/public')); 
+  app.use(express.static(__dirname + '/public'));

@@ -9,6 +9,7 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
 ]).controller('ChatCtrl', ['$scope', '$timeout', '$location', '$rootScope', 'AllService', 'socket',
     function($scope, $timeout, $location, $rootScope, AllService, socket) {
         $scope.userslist = false;
+        $scope.bigChat_input = false;
         $scope.chats = []
         $scope.showAnbieter = true;
         var AllUsers = []
@@ -20,7 +21,7 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
 
         AllService.getAllUsers().success(searchTerms)
 
-            //AllService.getMyChats().success(buildChats)
+
         function searchTerms(data, status, headers, config) {
             $scope.anbieter = data.anbieter;
             $scope.nutzer = data.nutzer;
@@ -116,17 +117,36 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
         }
         
         $scope.openChatWith = function(email) {
-
-            socket.emit('open new chat',{
-                from : user,
-                to : email
-            },addNewChatToList)
-
+            var chatsToEmails = []
+            if($scope.chats.length > 0){
+                for (var i = 0; i < $scope.chats.length; i++) {
+                    chatsToEmails.push($scope.chats[i].to)
+                    if(i == $scope.chats.length - 1){
+                        if(email.indexOf(chatsToEmails) == -1){
+                            socket.emit('open new chat',{
+                                from : user,
+                                to : email
+                            },addNewChatToList);
+                        }else{
+                            $timeout(function(){
+                                $('.chatlist li[data-email="'+email+'"]').trigger('click');
+                            });
+                        }
+                    }
+                };
+            }else{
+                socket.emit('open new chat',{
+                    from : user,
+                    to : email
+                },addNewChatToList);
+            }
         }
 
 
-        function addNewChatToList(data){
+        function addNewChatToList(data,self_){
             var newchat = data
+
+
 
             if (newchat.from == user) {
                 newchat.display = getUserData(newchat.to)
@@ -135,8 +155,25 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
             }
 
             newchat.messages = [];
-            $scope.chats.push(newchat)
+            $scope.chats.push(newchat);
+
+            $timeout(function(){
+
+                if(self_){
+                    $('.chatlist li#' + data.id).addClass('unread')
+                }else{
+                    $('.chatlist li#' + data.id).addClass('active') 
+                }
+
+                
+            });
         }
+
+
+        socket.on('new chat opened',function(data){
+            addNewChatToList(data,true);
+            socket.emit('sign to new chat',{id : data.id})
+        });
 
 
         $scope.toggleChatView = function() {
@@ -209,6 +246,9 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
         $scope.openChat = function(id) {
             for (var i = 0; i < $scope.chats.length; i++) {
                 if ($scope.chats[i].id == id) {
+                    $scope.bigChat_input = true;
+                    $('.chatlist li').removeClass('active');
+                    $('.chatlist li#' + id).addClass('active')
                     $scope.bigChat = $scope.chats[i];
                     markAsReaded(id);
                 }

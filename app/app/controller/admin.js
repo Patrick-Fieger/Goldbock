@@ -1,9 +1,9 @@
-var create = require('./create'),
-uuid = require('uuid')
-Provider = require('../models/provider')
-User = require('../models/user')
-Company = require('../models/company')
-Categories = require('../models/categories')
+var create = require('./create')
+    , uuid = require('uuid')
+    , Provider = require('../models/provider')
+    , User = require('../models/user')
+    , Company = require('../models/company')
+    , Categories = require('../models/categories')
 
 function createProvider(req, res, next){
 	var provider = new Provider(req.body);
@@ -15,7 +15,8 @@ var getProviders = function(req, res, next){
     	if(!err){
     		res.send(provider).status(200).end();
     	}
-    }); 
+    });
+
 }
 
 var getUsers = function(req, res, next){
@@ -62,7 +63,7 @@ var updateProfile = function(req, res, next){
 
 
 function updateCategories (req, res, next){
-    var d = req.body
+    var d = req.body;
 
     Categories.remove({}, function(err) {
         for (var i = 0; i < d.length; i++) {

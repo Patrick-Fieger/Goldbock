@@ -7,6 +7,7 @@
 .btn-primary:hover, .btn-primary.hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
     background-color: #ceab5e;
     border-color: #ceab5e;
+
 }
 
 fieldset {
@@ -3334,7 +3335,8 @@ img-crop canvas {
 .chatlist_menu ul li.active,
 .userslist li:hover,
 .chatlist li:hover,
-.chatlist_menu ul li:hover{
+.chatlist_menu ul li:hover,
+.chatlist li.active{
     background: #595959;
     color: #fff
 }

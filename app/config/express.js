@@ -4,7 +4,7 @@
  , bodyParser = require('body-parser')
  , session = require('express-session')
  , uuid = require('uuid')
- , passport = require('passport');
+ , passport = require('passport')
 
 
 module.exports = function(app){

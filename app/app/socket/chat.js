@@ -1,24 +1,18 @@
 var Chats = require('../models/chat'),
-    uuid = require('uuid')
+    uuid = require('uuid');
+
 module.exports = function(io) {
     var chats = [];
     io.sockets.on('connection', function(socket) {
         
-        // setTimeout(function(){
-        //   console.log(socket.request.session.passport.user)
-        // },10000)
 
-        
-        // io.sockets.sockets['nickname'] = socket.id;
+        socket.on('join',function(data){
+            socket.join(data.email);
+        });
 
-
-        // var clients = io.sockets.sockets.map(function(e) {
-        //   return e.username;
-        // });
-
-        // console.log(clients)
-
-
+        socket.on('sign to new chat',function(data){
+            socket.join(data.id);
+        });
 
         socket.on('get chats', function(data, callback) {
             Chats.find({}, function(err, chats_) {
@@ -34,6 +28,8 @@ module.exports = function(io) {
         });
 
 
+
+
         socket.on('typing', function(data) {
             io.to(data.id).emit('typing', data)
         });
@@ -45,6 +41,7 @@ module.exports = function(io) {
             Chats.create(newchat, function(err) {
                 if (!err) {
                     socket.join(newchat.id);
+                    io.to(newchat.to).emit('new chat opened',newchat)
                     callback(newchat)
                 } else {
                     console.log(err)
@@ -65,10 +62,10 @@ module.exports = function(io) {
                             }
                         }
                     }
-                };
+                }
                 callback(ids);
-            });
-        })
+            })
+        });
 
 
         socket.on('delete chat', function(data, callback) {
@@ -99,7 +96,7 @@ module.exports = function(io) {
                         if (chat.unreaded == data.from) {
                             chat.unreaded.splice(i, 1);
                         }
-                    };
+                    }
                 }
                 chat.save(function(err) {
                     if (err) {
@@ -119,7 +116,7 @@ module.exports = function(io) {
             Chats.findOne({
                 id: data.id
             }, function(err, chat) {
-                chat.messages.push(message)
+                chat.messages.push(message);
                 if (message.from == chat.from && chat.unreaded.indexOf(chat.to) == -1) {
                     chat.unreaded.push(chat.to);
                 } else if (chat.unreaded.indexOf(chat.from) == -1) {
@@ -138,4 +135,4 @@ module.exports = function(io) {
             });
         });
     });
-}
+};
