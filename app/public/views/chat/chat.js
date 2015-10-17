@@ -18,7 +18,7 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
         $scope.chattext = ""
         $scope.bigChat = []
 
-
+        socket.emit('join',{email : user});
         AllService.getAllUsers().success(searchTerms)
 
 
@@ -32,14 +32,22 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
             for (var i = 0; i < $scope.nutzer.length; i++) {
                 AllUsers.push($scope.nutzer[i])
             };
+            getChats();
+        }
+
+        socket.on('open old chat',function(chat){
+            $scope.chats = [];
+            getChats();
+        });
+
+        function getChats(){
             socket.emit('get chats', {
                 email: user
-            }, buildChats)
+            }, buildChats);    
         }
 
         function buildChats(data) {
             var chats = data
-
 
             for (var i = 0; i < chats.length; i++) {
                 if (chats[i].from == user) {
@@ -59,24 +67,16 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
                 if(chats[i].isArchieved.indexOf(user) > -1){
                     chats[i].hideChat = true
                 }
-
-
-
             };
 
             $scope.chats = chats;
-
             checkUnreadedMessages();
         }
 
         function checkUnreadedMessages(){
-            console.log($scope.chats)
             for (var i = 0; i < $scope.chats.length; i++) {
-                
-
                 if ($scope.chats[i].unreaded.indexOf(user) > -1){
                     var id = $scope.chats[i].id
-                    console.log($scope.chats[i].id)
                     $timeout(function(){
                         $('.chatlist #' + id).addClass('unread')
                     },0)
@@ -274,6 +274,7 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
                         }
 
                         $scope.chats.splice(i,1);
+                        $scope.bigChat_input = false;
                     }
                 };
             }

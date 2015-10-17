@@ -3384,7 +3384,8 @@ img-crop canvas {
     float: left;
     list-style: none;
     text-align: center;
-    width: 33.333%;
+    /*width: 33.333%;*/
+    width: 50%;
 }
 
 .chatlist_menu ul li:last-child{

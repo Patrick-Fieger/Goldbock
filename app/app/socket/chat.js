@@ -27,13 +27,9 @@ module.exports = function(io) {
             });
         });
 
-
-
-
         socket.on('typing', function(data) {
             io.to(data.id).emit('typing', data)
         });
-
 
         socket.on('open new chat', function(data, callback) {
             var newchat = data;
@@ -91,12 +87,8 @@ module.exports = function(io) {
             Chats.findOne({
                 id: data.id
             }, function(err, chat) {
-                if (chat.unreaded.length > 0) {
-                    for (var i = 0; i < chat.unreaded.length; i++) {
-                        if (chat.unreaded == data.from) {
-                            chat.unreaded.splice(i, 1);
-                        }
-                    }
+                if (chat.unreaded.length > 0 && chat.unreaded.indexOf(data.from) > -1) {
+                    chat.unreaded.splice(chat.unreaded.indexOf(data.from), 1);
                 }
                 chat.save(function(err) {
                     if (err) {
@@ -106,6 +98,9 @@ module.exports = function(io) {
             });
         });
 
+        function selfMessage(from,from_){
+            return from == from_
+        }
 
         socket.on('new message', function(data) {
             var message = {
@@ -122,6 +117,18 @@ module.exports = function(io) {
                 } else if (chat.unreaded.indexOf(chat.from) == -1) {
                     chat.unreaded.push(chat.from);
                 }
+
+                if(chat.isArchieved.length > 0){
+                    if(selfMessage(data.from,chat.from) && chat.unreaded.indexOf(chat.to) > -1){
+                        io.to(chat.to).emit('open old chat',chat);
+                    }else if(selfMessage(data.from,chat.to) && chat.unreaded.indexOf(chat.from) > -1){
+                        io.to(chat.from).emit('open old chat',chat);
+                    }
+                    chat.isArchieved = [];
+                }
+
+                
+
                 chat.save(function(err) {
                     if (!err) {
                         io.to(data.id).emit('new message', {
