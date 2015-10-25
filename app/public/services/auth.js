@@ -15,6 +15,7 @@ angular.module('app.authService', [])
 		$http.post('/logout')
 		$rootScope.isLogged = false;
 		$location.path('/');
+		localStorage.clear();
 		$timeout(function(){
 			$window.location.reload();
 		},100)

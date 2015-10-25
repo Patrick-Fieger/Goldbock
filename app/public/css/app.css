@@ -1796,6 +1796,14 @@ input {
     font-size: 25px;
 }
 
+.o_icon-offer.icon-heart:hover{
+    cursor: pointer;
+}
+
+.o_icon-offer.icon-heart.active{
+    color: red;
+}
+
 .offer .o_avatar {
     border-radius: 50%;
     margin: 0 auto;

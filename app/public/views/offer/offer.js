@@ -9,14 +9,12 @@ angular.module('app.offer', ['ngRoute','ngAnimate'])
   });
 }])
 
-.controller('OfferCtrl', ['$scope','$routeParams','$location','$timeout','ProviderService','AllService','$rootScope','PhotoService','MessageService',function($scope,$routeParams,$location,$timeout,ProviderService,AllService,$rootScope,PhotoService,MessageService) {
+.controller('OfferCtrl', ['$scope','$routeParams','$location','$timeout','ProviderService','AllService','$rootScope','PhotoService','MessageService','UserService',function($scope,$routeParams,$location,$timeout,ProviderService,AllService,$rootScope,PhotoService,MessageService,UserService) {
 	ProviderService.offer($routeParams.id).success(buildOfferView);
 	$scope.innerover = false;
 	function buildOfferView(data, status, headers, config){
 		$scope.offer = data;
-
 		$scope.offer.offer.companyAmount = "10%";
-
 		if(isPercentage($scope.offer.offer.companyAmount)){
 			var amount = $scope.offer.offer.price / 100 * removeCurrencyAndParseInt($scope.offer.offer.companyAmount)
 			$scope.offer.offer.endPrice = $scope.offer.offer.price - amount
@@ -24,7 +22,11 @@ angular.module('app.offer', ['ngRoute','ngAnimate'])
 			$scope.offer.offer.endPrice = $scope.offer.offer.price - removeCurrencyAndParseInt($scope.offer.offer.companyAmount)
 		}
 
-		$scope.offer.avatar = AllService.removePublicInLink($scope.offer.avatar);
+		if($scope.offer.avatar !== undefined){
+			$scope.offer.avatar = AllService.removePublicInLink($scope.offer.avatar);
+		}
+
+		
 		if($scope.offer.offer.video !== undefined && $scope.offer.offer.video !== ""){
 			$scope.offerVideo = true
 		}
@@ -145,6 +147,26 @@ angular.module('app.offer', ['ngRoute','ngAnimate'])
 
 		turnON();
     };
+
+
+
+
+    $scope.addRemoveFromFavorites = function(){
+    	var fav = {
+    		id : $scope.offer.offer.id
+    	}
+
+    	if($scope.offer.isfavoriteOfUser){
+    		$scope.offer.offer.likes--;
+    		fav.addOrRemove = true;
+    	}else{
+    		$scope.offer.offer.likes++;
+    		fav.addOrRemove = false;
+    	}
+
+    	$scope.offer.isfavoriteOfUser = !$scope.offer.isfavoriteOfUser;
+    	ProviderService.favorites(fav);
+    }
 
 
     $scope.showBooking = function(){

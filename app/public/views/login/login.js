@@ -14,10 +14,18 @@ angular.module('app.login', ['ngRoute','ngAnimate'])
   var ua = navigator.userAgent.toLowerCase();
 
   if (ua.indexOf('chrome') > -1) {
+    // $scope.userData = {
+    //   "email":"patrickfieger90@gmail.com",
+    //   "password":"1234"
+    // }
+
     $scope.userData = {
-      "email":"patrickfieger90@gmail.com",
-      "password":"1234"
+      "email":"p@jpy.io",
+      "password":"123456"
     }
+
+    
+
   }else{
     $scope.userData = {
       "email":"oliver.bock@steinbock.info",

@@ -38,8 +38,6 @@ angular.module('app.provider_dashboard', ['ngRoute','ngAnimate'])
 
 	function unreadedCount(data){
 		$scope.counter = data;
-
-		console.log($scope.counter)
 	}	
 
 	function updateProfileView(data, status, headers, config){

@@ -46,6 +46,7 @@
 		</div>
 
 		<div ng-hide="editstate || passstate">
+			<a style="position:relative" class="btn btn-primary wd100 fl mb10" href="#/chat">Nachrichten <span class="showcounter" ng-show="counter.length > 0">{{counter.length}}</span></a>
 			<a class="btn btn-primary wd100 fl mb10" href="" ng-click="editProfile()">Profil bearbeiten</a>
 			<a class="btn btn-primary wd100 fl mb10" href="" ng-click="editPass()">Passwort ändern</a>
 			<a class="btn btn-danger wd100 fl" href="" ng-click="logout()">Logout</a>
@@ -55,6 +56,17 @@
 	<div class="large-9 columns">
 
 	<a href="#/categories">Categories</a>
+
+	<div ng-show="user.liked.length > 0">
+		<h2 class="mt0">Meine Favoriten</h2>
+		<ul class="offer-list">
+			<li ng-repeat="offer in user.liked">
+				<a ng-href="#/offer/{{offer.id}}">{{offer.title}}</a>
+				<!-- <span class="icon-pencil" ng-click="redirectEdit(offer.id)"></span> -->
+				<span ng-click="deleteFav(offer.id)" class="icon-cup"></span>
+			</li>
+		</ul>
+	</div>
 
 		<!-- <section ng-class="{'showforms': showAboutTextarea}">
 

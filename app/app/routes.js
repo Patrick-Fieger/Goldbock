@@ -18,6 +18,7 @@ module.exports = function(app){
 	app.post('/provider/upload/offer/video', pass.isAuthenticatedToMakeRequest , provider.uploadOfferVideo);
 	app.post('/provider/upload/offer/data', pass.isAuthenticatedToMakeRequest , provider.uploadOfferData);
 	app.post('/provider/edit/offer/data', pass.isAuthenticatedToMakeRequest , provider.updateOfferData);
+	app.post('/favorites', pass.isAuthenticatedToMakeRequest , provider.favorites);
 	app.post('/clear/upload', provider.clearProgress);
 	app.get('/offers', pass.isAuthenticatedToMakeRequest , provider.offers);
 	app.delete('/offer', pass.isAuthenticatedToMakeRequest , provider.deleteOffer);

@@ -37,7 +37,37 @@ var profile = function(req, res, next){
       if (!user) {
         res.status(404).end();
       }else {
-      	res.send(user).status(200).end();
+      	if(role == "User"){
+      		if(user.liked.length !== 0){
+      			Provider.find({}, 'offers -_id lastname firstname', function(err, results){
+      				if(err) return next(err);
+      				var likedposts = [];
+
+
+      				for (var i = 0; i < results.length; i++) {
+      					for (var k = 0; k < results[i].offers.length; k++) {
+      						if(user.liked.indexOf(results[i].offers[k].id) > -1){
+      							console.log(results[i].offers[k]);
+
+      							likedposts.push({
+      								id : results[i].offers[k].id,
+      								name : results[i].offers[k].firstname + ' ' +  results[i].offers[k].lastname,
+      								title : results[i].offers[k].title
+      							})
+      						}
+      					};
+      				};
+
+      				var data = user;
+					    data.liked = likedposts;
+					    res.send(data).status(200).end();
+    			});
+      		}else{
+				res.send(user).status(200).end();      			
+      		}
+      	}else{
+      		res.send(user).status(200).end();	
+      	}
       }
     });
 }

@@ -23,6 +23,10 @@ angular.module('app.providerService', [])
 		return $http.get('/categories');
 	}
 
+	var favorites = function(data){
+		return $http.post('/favorites', data);
+	}
+
 	var offer = function(id){
 		return $http.get('/offer',{params: { id : id}})
 	}
@@ -46,6 +50,7 @@ angular.module('app.providerService', [])
 		offer : offer,
 		deleteOffer : deleteOffer,
 		updateProfile : updateProfile,
-		categories : categories
+		categories : categories,
+		favorites : favorites
 	}
 })

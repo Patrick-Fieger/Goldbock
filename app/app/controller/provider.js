@@ -5,6 +5,7 @@ var uuid = require('uuid'),
     newLocation = 'public/uploads/',
     options = require('../../config/uploads'),
     Provider = require('../models/provider'),
+    User = require('../models/user'),
     Categories = require('../models/categories'),
     gm = require('gm'),
     progress_ = {};
@@ -406,49 +407,98 @@ function removePublicFromLink(link){
 
 function offer(req, res, next){
 	var id = req.query.id;
-	Provider.findOne({offers: {$elemMatch: {id : id}}}, function (err, user) {
-        if (err){
-            console.log(err)
-        }
-        if (user) {
-        	var avatar;
-        	if(user.avatar){
-				avatar = user.avatar.small
-        	}
+	var isfavorite = false;
+	User.findOne({email : req.user.email},function(err,user_){
+		if(user_.liked.indexOf(id) > -1){
+			isfavorite = true;
+		}
 
 
-            var offer = {
-            	avatar : avatar,
-            	name : user.firstname + ' ' + user.lastname,
-            	city : user.city,
-            	zip : user.zip,
-            	id : user.id,
-            	email : user.email,
-            	geo : user.geo,
-            	street : user.street,
-            	isown : false,
-            	offer : {}
-            }
-            if(user.email == req.user.email || req.user.role == "admin"){
-            	offer.isown = true;
-            }
-
-            for(var i = 0; i < user.offers.length; i++) {
-		    	var obj = user.offers[i];
-		    	if( id == obj.id) {
-		    		offer.offer = user.offers[i];
-		    		offer.offer.date = dateFormat(offer.offer.date, format);
-
-		    		Categories.find({},function(err,categories){
-		    			offer.categories = categories
-		    			res.send(offer).status(200).end();
-		    		});
+		Provider.findOne({offers: {$elemMatch: {id : id}}}, function (err, user) {
+		    if (err){
+		        console.log(err)
+		    }
+		    if (user) {
+		    	var avatar;
+		    	if(user.avatar){
+					avatar = user.avatar.small
 		    	}
-			}
-        }
-    });
+
+		        var offer = {
+		        	avatar : avatar,
+		        	name : user.firstname + ' ' + user.lastname,
+		        	city : user.city,
+		        	zip : user.zip,
+		        	id : user.id,
+		        	email : user.email,
+		        	geo : user.geo,
+		        	street : user.street,
+		        	isown : false,
+		        	isfavoriteOfUser : isfavorite,
+		        	offer : {}
+		        }
+		        if(user.email == req.user.email || req.user.role == "admin"){
+		        	offer.isown = true;
+		        }
+
+		        for(var i = 0; i < user.offers.length; i++) {
+			    	var obj = user.offers[i];
+			    	if( id == obj.id) {
+			    		offer.offer = user.offers[i];
+			    		offer.offer.date = dateFormat(offer.offer.date, format);
+
+			    		Categories.find({},function(err,categories){
+			    			offer.categories = categories
+			    			res.send(offer).status(200).end();
+			    		});
+			    	}
+				}
+		    }
+		});
+	});
 }
 
+
+function favorites(req, res, next){
+	var fav = req.body;
+
+
+	User.findOne({email : req.user.email},function(err,user){
+		if(user.liked.indexOf(fav.id) == -1 && !fav.addOrRemove){
+			user.liked.push(fav.id);
+		}else if(user.liked.indexOf(fav.id) > -1 && fav.addOrRemove){
+			user.liked.splice(user.liked.indexOf(fav.id),1);
+		}
+
+		user.save();
+
+		Provider.findOne({offers: {$elemMatch: {id : fav.id}}}, function (err, offer) {
+		    if (err){
+		        console.log(err)
+		    }else{
+				var alloffer = offer.offers;
+
+		        for(var i = 0; i < alloffer.length; i++) {
+			    	if( fav.id == alloffer[i].id) {
+			    		if(!fav.addOrRemove){
+			    			alloffer[i].likes++;
+			    		}else{
+			    			alloffer[i].likes--;
+			    		}
+
+			    		Provider.update({email: offer.email}, {$set: { offers: alloffer }}, {upsert: true}, function(err){if(!err){res.status(200).end();}})
+
+			    		// offer.save(function(err){
+			    		// 	if(!err){
+			    		// 		res.status(200).end();
+			    		// 	}
+			    		// });
+			    	}
+				}
+		    }
+		});
+	});
+}
 
 
 function clearProgress(req, res, next){
@@ -479,5 +529,6 @@ module.exports = {
 	deleteOfferData : deleteOfferData,
 	updateOfferData : updateOfferData,
 	progress : progress,
-	update : update
+	update : update,
+	favorites : favorites
 }
