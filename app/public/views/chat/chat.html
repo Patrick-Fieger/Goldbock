@@ -15,7 +15,7 @@
                         <img src="{{anbiet.avatar}}" alt="">
                         <p>{{anbiet.firstname}} {{anbiet.lastname}} - <span class="italic chatsearch">{{anbiet.cat}}</span></p>
                     </li>
-                    <li ng-show="!showAnbieter" ng-click="openChatWith(anbiet.email)" ng-class='{active:$first}' ng-repeat="nutz in nutzer | filter:searchText" id="{{nutz.id}}">
+                    <li ng-show="!showAnbieter" ng-click="openChatWith(nutz.email)" ng-class='{active:$first}' ng-repeat="nutz in nutzer | filter:searchText" id="{{nutz.id}}">
                         <img src="{{nutz.avatar}}" alt="">
                         <p>{{nutz.firstname}} {{nutz.lastname}} - <span class="italic chatsearch">{{nutz.cat}}</span></p>
                     </li>

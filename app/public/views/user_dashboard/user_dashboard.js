@@ -34,6 +34,8 @@ angular.module('app.user_dashboard', ['ngRoute','ngAnimate'])
 	}	
 
 	function updateProfileView(data, status, headers, config){
+		localStorage.setItem('user',data.email);
+		localStorage.setItem('role',data.role);
 		$scope.user = data;
 		if (data.avatar !== undefined) {
         	$scope.user.avatar.big = data.avatar.big.replace('public/','')
