@@ -26,9 +26,9 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
         function searchTerms(data, status, headers, config) {
             $scope.anbieter = data.anbieter;
             $scope.nutzer = data.nutzer;
-
+            $scope.role = data.role;
             
-            if(data.role == "user"){
+            if($scope.role == "user"){
                 getAdvertising();
             }
 
@@ -54,7 +54,6 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
         function buildAds(data){
             $scope.displayAds = true;
             $scope.adds_ = data.ads;
-            console.log($scope.adds_)
 
         }
 

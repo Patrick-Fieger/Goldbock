@@ -22,7 +22,7 @@
                 </ul>
             </div>
         </div>
-        <button class="btn btn-primary wd100 mt20" ng-click="showAdds()">Inspiration</button>
+        <button ng-if="role == 'user'" class="btn btn-primary wd100 mt20" ng-click="showAdds()">Inspiration</button>
         <div class="chatlist_wrapper">
             <ul class="chatlist">
                 <li ng-hide="chat.hideChat" data-email="{{chat.to}}" ng-click="openChat(chat.id)" ng-repeat="chat in chats" id="{{chat.id}}">
