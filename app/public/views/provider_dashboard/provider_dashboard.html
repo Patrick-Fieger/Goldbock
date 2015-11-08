@@ -48,6 +48,7 @@
 		<div ng-hide="editstate || passstate">
 			<a style="position:relative" class="btn btn-primary wd100 fl mb10" href="#/chat">Nachrichten <span class="showcounter" ng-show="counter.length > 0">{{counter.length}}</span></a>
 			<a class="btn btn-primary wd100 fl mb10" href="" ng-click="editProfile()">Profil bearbeiten</a>
+			<a class="btn btn-primary wd100 fl mb10" href="" ng-click="addAdvertising()">Werbung schalten</a>
 			<a class="btn btn-primary wd100 fl mb10" href="" ng-click="editPass()">Passwort ändern</a>
 			<a class="btn btn-danger wd100 fl" href="" ng-click="logout()">Logout</a>
 		</div>
@@ -83,6 +84,18 @@
 
 	</div>
 </div>
+
+<div class="addvertising_bg" ng-show="advert" ng-click="addAdvertising()"></div>
+<div class="addvertising" ng-show="advert">
+	<h1>Wählen sie bitte ein Angebot das sie bewerben wollen!</h1>
+	<ul>
+		<li ng-click="toggleClassActive($event,$index)" ng-class="{active : $index == 0}" ng-repeat="offer in user.offers">{{offer.title}}</li>
+	</ul>
+
+	<button class="btn btn-primary wd100 fl mb10" ng-click="sendAdd()">Werbung setzen</button>
+
+</div>
+
 
 
 <div class="crop_wrapper" ng-show="showCrop">

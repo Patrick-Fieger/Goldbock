@@ -35,6 +35,10 @@ angular.module('app.providerService', [])
 		return $http.delete('/offer',{params: { id : id}})
 	};
 
+	var addAdvertising = function(data){
+		return $http.post('/add/advertising', data);
+	}
+
 	var updatePassword = function(oldpassword, newpassword){
 
 	};
@@ -51,6 +55,7 @@ angular.module('app.providerService', [])
 		deleteOffer : deleteOffer,
 		updateProfile : updateProfile,
 		categories : categories,
-		favorites : favorites
+		favorites : favorites,
+		addAdvertising : addAdvertising
 	}
 })

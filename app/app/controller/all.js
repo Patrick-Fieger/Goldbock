@@ -78,8 +78,6 @@ function getAllUsers(req, res){
 	var nutzer = [];
 
 	Provider.find({},function(err,all1){
-		
-
 		for (var i = 0; i < all1.length; i++) {
 			var add = {}
 
@@ -120,7 +118,8 @@ function getAllUsers(req, res){
 
 			var data = {
 				anbieter : anbieter,
-				nutzer : nutzer
+				nutzer : nutzer,
+				role : req.user.role
 			}
 
 			res.send(data).status(200).end();

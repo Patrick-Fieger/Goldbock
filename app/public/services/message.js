@@ -12,7 +12,8 @@ angular.module('app.messageService', [])
 		"Angebot erfolgreich gespeichert",
 		"Profil erfolgreich aktuallisiert",
 		"Daten erfolgreich aktuallisiert",
-		"Anfrage erfolgreich versendet"
+		"Anfrage erfolgreich versendet",
+		"Werbung erfolgreich geschalten"
 	]
 	var danger_ = [
 		"Fehler",
@@ -20,7 +21,8 @@ angular.module('app.messageService', [])
 		"Email oder Passwort inkorrekt",
 		"Angebot erfolgreich gelöscht",
 		"Es gab einen Fehler bei der Registrierung",
-		"Es gab einen Fehler bei der Verifizierung"
+		"Es gab einen Fehler bei der Verifizierung",
+		"Sie dürfen nur einmal pro Woche eine Anzeige schalten!"
 	]
 
 	var info = function(messageIndex){

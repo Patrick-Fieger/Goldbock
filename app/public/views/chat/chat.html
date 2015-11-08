@@ -22,6 +22,7 @@
                 </ul>
             </div>
         </div>
+        <button class="btn btn-primary wd100 mt20" ng-click="showAdds()">Inspiration</button>
         <div class="chatlist_wrapper">
             <ul class="chatlist">
                 <li ng-hide="chat.hideChat" data-email="{{chat.to}}" ng-click="openChat(chat.id)" ng-repeat="chat in chats" id="{{chat.id}}">
@@ -32,6 +33,9 @@
                 </li>
             </ul>
         </div>
+
+
+
     </div>
     <div class="large-8 columns autoheight" id="bigchat" ng-show="bigChat_input">
         <div class="columns large-12">
@@ -57,3 +61,27 @@
         </div>
     </div>
 </div>
+
+    
+
+<div id="bigadd_wrap" ng-show="toggleAds"></div>
+<div id="bigadds" ng-if="displayAds" ng-show="toggleAds">
+    <p ng-click="closeAds()" class="icon-cross close_ad"></p>
+
+    <div class="row">
+        <div class="ads__" ng-repeat="ad in adds_">
+            <div class="bg_big" style="background-image:url({{ad.titleimage.normal}})">
+                
+                <p class="price_">{{ad.price}}€ {{ad.per}}</p>
+            </div>
+            <div class="content">
+                <h1>{{ad.title}}</h1>
+                <p><b>Beschreibung:</b></p>
+                <p>{{ad.description}}</p>
+            </div>
+            <a href="#/offer/{{ad.id}}" class="btn btn-primary mb30 fl" title="">Zum Angebot</a>
+        </div>
+    </div>
+</div>
+
+

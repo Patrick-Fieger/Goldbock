@@ -5,6 +5,7 @@ var uuid = require('uuid'),
     newLocation = 'public/uploads/',
     options = require('../../config/uploads'),
     Provider = require('../models/provider'),
+    Ad = require('../models/ad'),
     User = require('../models/user'),
     Categories = require('../models/categories'),
     gm = require('gm'),
@@ -516,6 +517,74 @@ function checkAdmin(req){
 }
 
 
+function addAdvertising (req,res){
+	var d = req.body.ad;
+	var u = req.user.email;
+	d.timestamp = new Date().getTime();
+	d.addedBy = u;
+
+
+	Ad.find({},function(err,advertisment){
+
+		var timestamp = new Date().getTime() - (7 * 24 * 60 * 60 * 1000);
+		var ok = false;
+
+		var users = [];
+		var addds = [];
+
+
+		if(advertisment[0].ads.length !== 0){
+			for (var i = 0; i < advertisment[0].ads.length; i++) {
+				users.push(advertisment[0].ads[i].addedBy);
+				addds.push(advertisment[0].ads[i].timestamp);
+			};
+
+			if(users.indexOf(u) > -1){
+				if(advertisment[0].ads[users.indexOf(u)].timestamp < timestamp){
+					ok = true;
+				}
+			}else{
+				ok = true;
+			}
+
+			if(ok){
+				advertisment[0].ads.unshift(d);
+				advertisment[0].save(function(err){
+					if(!err){
+						res.send(200).end();
+					}else{
+						console.log(err);
+						res.send(500).end();
+					}
+				});
+			}else{
+				res.send(500).end();
+			}
+
+
+		}else{
+			advertisment[0].ads.unshift(d);
+			advertisment[0].save(function(err){
+				if(!err){
+					res.send(200).end();
+				}else{
+					console.log(err);
+					res.send(500).end();
+				}
+			})
+		}
+	});
+
+
+	// Post.find({'email': curPage}).sort('-date').limit(1).exec(function(err, posts){
+ //    	console.log("Emitting Update...");
+ //    	socket.emit("Update", posts.length);       
+ //    	console.log("Update Emmited");
+	// });
+
+}
+
+
 
 module.exports = {
 	uploadOfferTitleImage : uploadOfferTitleImage,
@@ -530,5 +599,6 @@ module.exports = {
 	updateOfferData : updateOfferData,
 	progress : progress,
 	update : update,
-	favorites : favorites
+	favorites : favorites,
+	addAdvertising : addAdvertising
 }

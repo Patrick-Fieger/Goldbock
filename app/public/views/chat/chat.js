@@ -6,8 +6,8 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
             controller: 'ChatCtrl'
         });
     }
-]).controller('ChatCtrl', ['$scope', '$timeout', '$location', '$rootScope', 'AllService', 'socket',
-    function($scope, $timeout, $location, $rootScope, AllService, socket) {
+]).controller('ChatCtrl', ['$scope', '$timeout', '$location', '$rootScope', 'AllService', 'socket','UserService',
+    function($scope, $timeout, $location, $rootScope, AllService, socket,UserService) {
         $scope.userslist = false;
         $scope.bigChat_input = false;
         $scope.chats = []
@@ -16,7 +16,8 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
         var user = localStorage.getItem('user');
         $scope.user = localStorage.getItem('user');
         $scope.chattext = ""
-        $scope.bigChat = []
+        $scope.bigChat = [];
+        $scope.displayAds = false;
 
         socket.emit('join',{email : user});
         AllService.getAllUsers().success(searchTerms)
@@ -25,6 +26,12 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
         function searchTerms(data, status, headers, config) {
             $scope.anbieter = data.anbieter;
             $scope.nutzer = data.nutzer;
+
+            
+            if(data.role == "user"){
+                getAdvertising();
+            }
+
 
             for (var i = 0; i < $scope.anbieter.length; i++) {
                 AllUsers.push($scope.anbieter[i])
@@ -39,6 +46,27 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
             $scope.chats = [];
             getChats();
         });
+
+        function getAdvertising(){
+            UserService.getAds().success(buildAds);
+        };
+
+        function buildAds(data){
+            $scope.displayAds = true;
+            $scope.adds_ = data.ads;
+            console.log($scope.adds_)
+
+        }
+
+        $scope.toggleAds = false;
+
+        $scope.showAdds = function(){
+            $scope.toggleAds = true;
+        }
+
+        $scope.closeAds = function(){
+            $scope.toggleAds = false;   
+        }
 
         function getChats(){
             socket.emit('get chats', {

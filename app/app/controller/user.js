@@ -1,6 +1,7 @@
 var User = require('../models/user'),
 Login = require('../models/onlylogin'),
 Categories = require('../models/categories'),
+Ad = require('../models/ad'),
 create = require('./create'),
 Email = require('../emailtemplates/sender')
 
@@ -39,10 +40,30 @@ var categories = function(req, res, next){
       });
 }
 
+var getAds = function(req,res){
+      var return_ads = [];
+
+      Ad.find({},function(err,ads){
+            for (var i = 0; i < 10; i++) {
+                  
+                  if(ads[0].ads[i]){
+                        return_ads.push(ads[0].ads[i]);
+                  }
+                  
+            };
+
+            res.send({
+                  ads : return_ads
+            }).status(200).end();
+
+      });
+}
+
 
 module.exports = {
 	register : register,
 	verifyEmail : verifyEmail,
 	update : update,
-      categories : categories
+      categories : categories,
+      getAds : getAds
 }

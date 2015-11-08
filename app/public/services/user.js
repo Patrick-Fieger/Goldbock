@@ -26,12 +26,17 @@ angular.module('app.userService', [])
 	var alloffers = function(){
 		return $http.get('/alloffers');
 	}
+	var getAds = function(){
+		return $http.get('/adds');
+	}
+	
 
 	return{
 		register : register,
 		deleteAccount : deleteAccount,
 		updateProfile : updateProfile,
 		categories : categories,
-		alloffers : alloffers
+		alloffers : alloffers,
+		getAds : getAds
 	}
 })

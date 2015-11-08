@@ -3512,13 +3512,130 @@ img-crop canvas {
     line-height: 19px;
 }
 
+.addvertising_bg{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1001;
+    background: rgba(0,0,0,0.89);
+}
+
+.addvertising{
+    z-index: 100000;
+    width: 500px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 4px;
+    position: fixed;
+    top: 200px;
+    left: 50%;
+    margin-left: -250px;
+}
+
+.addvertising ul{
+    margin: 30px 0;
+    padding: 0
+}
+
+.addvertising ul li{
+    list-style: none;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.addvertising ul li.active{
+    color: #fff;
+    background: #000
+}
+
+#bigadd_wrap{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.96);
+    z-index: 1000;
+}
+
+#bigadds .row{
+    width:500px !important;
+}
+
+.ads__{
+    width: 100%;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    background: #fff;
+    margin: 50px auto;
+    float: left;
+    clear: both
+}
 
 
 
+.ads__ .bg_big{
+    width: 100%;
+    float: left;
+    height: 200px;
+    background-size: cover;
+    background-position: center center;
+    position: relative;
+}
+
+.ads__ a{
+    width: 90%;
+    margin: 0 5%
+}
 
 
+.ads__ .price_{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: #000;
+    border-top-left-radius: 3px;
+    color: #fff;
+    padding: 5px 10px;
+    margin: 0;
+}
+
+.ads__ .content{
+    float: left;
+    width: 100%;
+}
 
 
+.ads__ .content{
+    padding: 20px;
+}
+
+#bigadds{
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10000;
+}
+
+
+#bigadds .close_ad{
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    font-size: 50px;
+    margin: 0;
+    padding: 0;
+}
+
+#bigadds .close_ad:hover{
+    cursor: pointer;
+}
 
 
 

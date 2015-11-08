@@ -16,6 +16,7 @@ angular.module('app.provider_dashboard', ['ngRoute','ngAnimate'])
 	$scope.editstate = false;
 	$scope.hideAddOffer = false;
 	$scope.passstate = false;
+	$scope.advert = false;
 	$scope.showAboutTextareaText;
 	$scope.about;
 	$scope.count = 400;
@@ -180,5 +181,33 @@ angular.module('app.provider_dashboard', ['ngRoute','ngAnimate'])
 
 	$scope.uploadAvatar = function(){
 		UploadService.avatar({data:$scope.myCroppedImage}).success(updateAvatarsView)	
+	}
+
+	$scope.addAdvertising = function(){
+		$scope.advert = !$scope.advert;
+	}
+
+	$scope.addindex = 0;
+
+	$scope.toggleClassActive = function(e,index){
+		$scope.addindex = index;
+
+		$('.addvertising li').removeClass('active')
+		$(e.target).addClass('active');
+	}
+
+	$scope.sendAdd = function(){
+		ProviderService.addAdvertising({
+			ad : $scope.user.offers[$scope.addindex]
+		}).success(addSuccess).error(onlyOnWeek)
+	}
+
+	function addSuccess(){
+		MessageService.info(9);
+		$scope.advert = !$scope.advert;
+	}
+
+	function onlyOnWeek(){
+		MessageService.danger(6);
 	}
 }]);
