@@ -410,8 +410,10 @@ function offer(req, res, next){
 	var id = req.query.id;
 	var isfavorite = false;
 	User.findOne({email : req.user.email},function(err,user_){
-		if(user_.liked.indexOf(id) > -1){
-			isfavorite = true;
+		if(user_){
+			if(user_.liked.indexOf(id) > -1){
+				isfavorite = true;
+			}
 		}
 
 
