@@ -2,7 +2,7 @@
 
 angular.module('app.profile', ['ngRoute','ngAnimate'])
 
-.controller('ProfileCtrl', ['$scope','$location','$timeout','ProviderService','AllService','AuthService','UploadService','$rootScope','MessageService','socket',function($scope,$location,$timeout,ProviderService,AllService,AuthService,UploadService,$rootScope,MessageService,socket) {
+.controller('ProfileCtrl', ['$scope','$location','$timeout','ProviderService','AllService','AuthService','UploadService','$rootScope','MessageService','socket','UserService',function($scope,$location,$timeout,ProviderService,AllService,AuthService,UploadService,$rootScope,MessageService,socket,UserService) {
 	$scope.profile = {};
 	$scope.avatar;
 	$scope.showAboutTextarea = false;
@@ -104,7 +104,11 @@ angular.module('app.profile', ['ngRoute','ngAnimate'])
 	$scope.save = function(){
 		if($scope.userdata.$valid && $scope.editstate) {
 			var data = angular.copy($scope.profile);
-       		ProviderService.updateProfile(data).success(updateProfileSuccess);
+			if($scope.profile.role == "provider"){
+				ProviderService.updateProfile(data).success(updateProfileSuccess);
+			}else{
+				UserService.updateProfile(data).success(updateProfileSuccess);
+			}       		
      	}else if ($scope.pass.$valid && $scope.passstate){
      		var data = angular.copy($scope.password);
      		AllService.updatePassword(data).success(changePasswordSuccess);
