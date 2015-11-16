@@ -14,7 +14,6 @@
         <link rel="stylesheet" href="bower_components/html5-boilerplate/css/normalize.css">
         <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">
         <link rel="stylesheet" href="css/fonts.css">
-
         <link rel="stylesheet" href="css/flat.css">
         <link rel="stylesheet" href="css/admin.css">
         <link rel="stylesheet" href="css/fancy.css">
@@ -24,40 +23,130 @@
         <link rel="stylesheet" type="text/css" href="css/photoswipe.css"/>
         <link rel="stylesheet" type="text/css" href="css/default-skin.css"/>
         <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
-        
+
         <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.css' rel='stylesheet' />
         <link href='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css' rel='stylesheet' />
         <link href='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.Default.css' rel='stylesheet' />
         <style type="text/css">
-        #map,
-        .leaflet-container {
-          height: 500px;
-          margin: 50px 0;
-          box-shadow: 0px -1px 5px #ccc, 0px 1px 5px #ccc;
-        }
-        
-        .leaflet-popup-content {
-          padding: 20px 10px 18px;
-          margin: 0;
-          line-height: inherit;
-        }
-    </style>
+                #map,
+                .leaflet-container {
+                height: 500px;
+                margin: 50px 0;
+                box-shadow: 0px -1px 5px #ccc, 0px 1px 5px #ccc;
+                }
+                
+                .leaflet-popup-content {
+                padding: 20px 10px 18px;
+                margin: 0;
+                line-height: inherit;
+                }
+        </style>
     </head>
     <body>
         <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+                    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        <div ng-show="isLogged" class="avatar">
-            <a ng-href="{{einstellungen}}">
-            <img ng-src="{{avatar.small}}">
-            <p ng-cloak>{{fullname}}</p>
-            </a>
+
+        <div ng-cloak ng-if="isLogged && role !== 'admin'" id="profile" ng-controller="ProfileCtrl">
+            
+            <div ng-click="openMenu()" class="profileavatar" style="background-image:url({{profile.avatar.small}})"></div>
+                
+            
+
+            <!-- <li>
+
+            <a href="#/chat" title="" class="chat_icon"></a></li>
+                    <li ng-if="profile.role == 'provider'" ><a ng-click="addAdvertising()" href="#profile" title="" class="megaphone_icon"></a></li> 
+
+                pencil_icon
+                    -->
+
+
+            <div class="profile" ng-class="{active : showmenu}">
+                <div class="avatar_wrapper mb20">
+                    <img ng-src="{{profile.avatar.big}}">
+                    <span class="changeavatar">
+                    <span class="icon-camera"></span>
+                    <span class="inhide"><input type="file" id="fileInput"></span>
+                    </span>
+                </div>
+                <div>
+                    <a href="#/{{profile.role}}/dashboard" class="mb10 fullnamebig">{{profile.firstname}} {{profile.lastname}}</p>
+                    <ul ng-hide="editstate || passstate" class="big_menu">
+                        <li><a ng-click="editProfile()" href="" title="" class="pencil_icon">Profil bearbeiten</a></li>
+                        <li><a ng-click="editPass()" href="" title="" class="lock_icon">Passwort ändern</a></li>
+                        <li ng-if="profile.role == 'provider'" ><a ng-click="addAdvertising()" href="" title="" class="megaphone_icon">Werbung schalten</a></li>
+                        <li><a style="position:relative" ng-click="" href="#/chat" title="" class="chat_icon">Chat <span class="showcounter" ng-show="counter.length > 0"><!-- {{counter.length}} --></span></a></li>
+
+                        <li><a href="" title="" class="notebook_icon">Kontakte</a></li>
+                        <li><a href="" title="" class="telescope_icon">Beobachtung</a></li>
+                    </ul>
+
+                </div>
+                <a href="" ng-hide="editstate" ng-click="logout()" class="icon-logout logout"></a>
+
+                <div ng-show="editstate">
+                    <form class="form-group" name="userdata">
+                        <fieldset>
+                            <textarea maxlength="400" ng-maxlength="400" ng-trim="5" class="form-control mb10 wd100" ng-model="profile.about" value="profile.about" placeholder="Über Dich">{{profile.about}}</textarea>
+
+
+                            <input required type="text" class="form-control mb10" ng-model="profile.company" value="profile.company" placeholder="Unternehmen">
+                            <input required type="text" class="form-control mb10" ng-model="profile.firstname" value="profile.firstname" placeholder="Vorname">
+                            <input required type="text" class="form-control mb10" ng-model="profile.lastname" value="profile.lastname" placeholder="Nachname">
+                            <input required type="text" class="form-control mb10" ng-model="profile.street" value="profile.street" placeholder="Straße">
+                            <input required type="text" class="form-control mb10" ng-model="profile.zip" value="profile.zip" placeholder="PLZ">
+                            <input required type="text" class="form-control mb10" ng-model="profile.city" value="profile.city" placeholder="Stadt">
+                            <input required type="text" class="form-control" ng-model="profile.tel" value="profile.tel" placeholder="Telefon">
+                        </fieldset>
+                    </form>
+                </div>
+                <div ng-show="passstate">
+                    <form class="form-group" style="float:left" name="pass">
+                        <fieldset>
+                            <input required placeholder="Altes Passwort" type="password" class="form-control mb10" ng-model="password.old" value="password.old">
+                            <input required placeholder="Neues Passwort" type="password" class="form-control mb10" ng-model="password.new" value="password.new">
+                        </fieldset>
+                    </form>
+                </div>
+                <div ng-show="editstate || passstate">
+                    <fieldset>
+                        <a class="btn btn-primary wd100 fl mb10" href="" ng-click="save()">Speichern</a>
+                        <a class="btn btn-danger wd100 fl mb10" href="" ng-click="cancel()">Abbrechen</a>
+                    </fieldset>
+                </div>
+            </div>
+            <div style="display:none" ng-if="profile.role == 'provider'" class="addvertising_bg" ng-show="advert" ng-click="addAdvertising()"></div>
+            <div style="display:none" ng-if="profile.role == 'provider'" class="addvertising" ng-show="advert">
+                <h1>Wählen sie bitte ein Angebot das sie bewerben wollen!</h1>
+                <ul>
+                    <li ng-click="toggleClassActive($event,$index)" ng-class="{active : $index == 0}" ng-repeat="offer in profile.offers">{{offer.title}}</li>
+                </ul>
+
+                <button class="btn btn-primary wd100 fl mb10" ng-click="sendAdd()">Werbung setzen</button>
+
+            </div>
+
+
+
+            <div class="crop_wrapper" style="display:none" ng-show="showCrop">
+                <div class="cropArea">
+                    <img-crop result-image-quality="1.0" area-min-size="200" image="myImage" area-type="square" result-image="myCroppedImage"></img-crop>
+                </div>
+
+                <div class="decision_wrapper">
+                    <span ng-click="uploadAvatar()" class="icon-checkmark"></span>
+                    <span ng-click="cancelCrop()" class="icon-cross"></span>
+                </div>
+
+            </div>
         </div>
         <div ng-class="{'active' : showNotify , 'danger' : notifyDanger}" class="notify">
             <p>{{notifyText}}</p>
         </div>
-        <div class="container">
+        <div class="container" ng-class="{active : showmenu}">
             <div ng-view></div>
+            <div class="menu_overlay" ng-show="showmenu" ng-click="closeMenu()"></div>
         </div>
         <div class="spinner">
             <div class="bounce1"></div>
@@ -67,7 +156,6 @@
         <!-- <div class="overlay"></div> -->
         <div class="icon-cross closeall"></div>
         <script src="bower_components/angular/angular.js"></script>
-
         <script src="bower_components/jquery/dist/jquery.js"></script>
         <script src="bower_components/jquery.cookie/jquery.cookie.js"></script>
         <script src="bower_components/angular-route/angular-route.js"></script>
@@ -87,10 +175,9 @@
         <script src="js/photoswipe-ui-default.min.js"></script>
         <script src="https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.js"></script>
         <script src="//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js"></script>
-
         <script src="https://cdn.socket.io/socket.io-1.3.6.js"></script>
-
-
+        <!-- PROFILE CONTROLLER -->
+        <script src="controller/profile.js"></script>
         <!-- VIEWS CONTROLLER -->
         <script src="views/login/login.js"></script>
         <script src="views/admin/admin.js"></script>
@@ -121,42 +208,28 @@
         <script src="app.js"></script>
         <!-- Root element of PhotoSwipe. Must have class pswp. -->
         <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-
             <!-- Background of PhotoSwipe.
             It's a separate element as animating opacity is faster than rgba(). -->
             <div class="pswp__bg"></div>
-
             <!-- Slides wrapper with overflow:hidden. -->
             <div class="pswp__scroll-wrap">
-
                 <!-- Container that holds slides.
-                                        PhotoSwipe keeps only 3 of them in the DOM to save memory.
+                                                        PhotoSwipe keeps only 3 of them in the DOM to save memory.
                 Don't modify these 3 pswp__item elements, data is added later on. -->
                 <div class="pswp__container">
                     <div class="pswp__item"></div>
                     <div class="pswp__item"></div>
                     <div class="pswp__item"></div>
                 </div>
-
                 <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
                 <div class="pswp__ui pswp__ui--hidden">
-
                     <div class="pswp__top-bar">
-
                         <!--  Controls are self-explanatory. Order can be changed. -->
-
                         <div class="pswp__counter"></div>
-
                         <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-
                         <button class="pswp__button pswp__button--share" title="Share"></button>
-
                         <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-
                         <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-
-                        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                        <!-- element will get class pswp__preloader--active when preloader is running -->
                         <div class="pswp__preloader">
                             <div class="pswp__preloader__icn">
                                 <div class="pswp__preloader__cut">
@@ -165,26 +238,18 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
                         <div class="pswp__share-tooltip"></div>
                     </div>
-
                     <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
                     </button>
-
                     <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
                     </button>
-
                     <div class="pswp__caption">
                         <div class="pswp__caption__center"></div>
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
     </body>
 </html>

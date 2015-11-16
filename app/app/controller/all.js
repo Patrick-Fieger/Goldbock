@@ -31,7 +31,6 @@ var getAvatarInfos = function (req, res, next){
 
 var profile = function(req, res, next){
 	var role = capitalizeFirstLetter(req.user.role);
-	// console.log(role)
 	eval(role).findOne({ email: req.user.email }, function(err, user) {
       if (err) { console.log(err) }
       if (!user) {
@@ -147,8 +146,7 @@ var avatar = function(req, res, next){
 
 	var bitmap = new Buffer(data, 'base64');
 	folderNameByEmail = emailToFolder(req.user.email)
-	var filename = _uuid + '.jpg'
-
+	var filename = _uuid + '.jpg';
 	fs.writeFileSync(filename, bitmap)
 	fs.move(filename, 'public/uploads/' + folderNameByEmail + filename, function(err) {
 		if (err) {
@@ -179,7 +177,7 @@ function updatePassword (req, res, next){
 			    }
 			});
 		  } else {
-		    console.log('NOOOO!')
+		    res.status(500).end();
 		  }
 		});
     });
@@ -196,12 +194,14 @@ function resizeAvatar(req,res,folderNameByEmail,filename){
 		big : path_[0] + '_big.' + path_[1],
 		small : path_[0] + '_small.' + path_[1]
 	}
+
 	
 	gm(path)
 	.resize(200, 200)
 	.autoOrient()
 	.write(avatar.big, function (err) {
 	  if (!err){
+
 	  	gm(path)
 	  	.resize(70, 70)
 		.autoOrient()
@@ -214,9 +214,10 @@ function resizeAvatar(req,res,folderNameByEmail,filename){
 			      	deletePrevAvatar(user.avatar)
 			      }
 			      user.avatar = avatar;
+
 			      user.save(function (err) {
 			          if(err) {
-			              console.error('ERROR!');
+			            res.status(500).end();  
 			          }else{
 			          	res.send(avatar).status(200).end();
 			          }

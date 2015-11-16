@@ -32,162 +32,38 @@ angular.module('myApp', [
   'app.uploadService',
   'app.adminService',
   'app.providerService',
-  'app.chat'
+  'app.chat',
+  'app.profile'
 ]).
 config(['$locationProvider','$routeProvider','$animateProvider', function($locationProvider,$routeProvider,$animateProvider) {
   $routeProvider.otherwise({redirectTo: '/'});
 }])
 .run(function($rootScope,$http,AuthService,AllService,$timeout,MessageService,amMoment) {
     amMoment.changeLocale('de');
-    
     $rootScope.$on('$routeChangeSuccess', function(ev, to, toParams, from, fromParams) {
         var path = to.$$route.originalPath
         $(window).unbind("scroll");
         $('body').scrollTop(0);
         $('.spinner').removeClass('active');
-
+        $rootScope.showmenu = false;
         if(path !== '/' && path !== "/register" && path.split('/')[1] !== "forgot" && path.split('/')[1] !== "verify"){
             AuthService.isAuth();
-            AllService.checkAvatarInfos();
+            //AllService.checkAvatarInfos();
         }
     });
 
     $(document).on('click', '.disabled input', function(event) {
         event.preventDefault();
     });
+    $rootScope.showmenu = false;
+
+    $rootScope.closeMenu = function(){
+        $rootScope.showmenu = false;        
+    }
 
     $rootScope.closeNotification = function(){
       MessageService.hideMessage();
     }
-
-    // $rootScope.kat = [{
-    //         "name": "Gemeinsames / Verabreden",
-    //         "id": "gemeinsames",
-    //         "list": [
-    //             {
-    //                 "href":  "kochen",
-    //                 "title": "Kochen / Backen"
-    //             },
-    //             {
-    //                 "href":  "diskutieren",
-    //                 "title": "Diskutieren"
-    //             },
-    //             {
-    //                 "href":  "aktivitaeten",
-    //                 "title": "Aktivitäten"
-    //             },
-    //             {
-    //                 "href": "/buchung",
-    //                 "title": "Außerhaus Meeting"
-    //             }
-    //         ]
-    //     }, {
-    //         "name": "Wocheneinkauf",
-    //         "id": "wocheneinkauf",
-    //         "list": []
-    //     }, {
-    //         "name": "Schönes <br>&<br> Leckeres",
-    //         "id": "schoenlecker",
-    //         "list": [
-    //             {
-    //                 "href":  "region",
-    //                 "title": "Aus der Region"
-    //             },
-    //             {
-    //                 "href":  "stuffpicks",
-    //                 "title": "Von Goldbock gewählt"
-    //             }
-    //         ]
-    //     }, {
-    //         "name": "Me & Service",
-    //         "id": "service",
-    //         "list": [
-    //             {
-    //                 "href":  "buegeln",
-    //                 "title": "Bügeln"
-    //             },
-    //             {
-    //                 "href":  "lesen",
-    //                 "title": "Lesen"
-    //             },
-    //             {
-    //                 "href":  "geschenke",
-    //                 "title": "Geschenke"
-    //             },
-    //             {
-    //                 "href":  "energievericherungen",
-    //                 "title": "Energie & Versicherung"
-    //             },
-    //             {
-    //                 "href":  "favorites",
-    //                 "title": "My Favorites"
-    //             },
-    //             {
-    //                 "href": "/myassi",
-    //                 "title": "My Assistant"
-    //             }
-    //         ]
-    //     }, {
-    //         "name": "Schwarzes Brett Dies & Das",
-    //         "id": "tauschen",
-    //         "list": []
-    //     },{
-    //         "name": "Mettings",
-    //         "id": "buchen",
-    //         "list": []
-    //     }, {
-    //         "name": "Interessantes für's Business",
-    //         "id": "business",
-    //         "list": []
-    //     },
-    //     {
-    //         "name": "Fortschritt <br> Privat und Beruf",
-    //         "id": "fortschritt",
-    //         "list": [
-    //             {
-    //                 "href": "coaches",
-    //                 "title":"Coaches"
-    //             },
-    //             {
-    //                 "href": "berater",
-    //                 "title":"Berater"
-    //             },
-    //             {
-    //                 "href": "therapeuten",
-    //                 "title":"Therapeuten"
-    //             },
-    //             {
-    //                 "href": "trainer",
-    //                 "title":"Trainer"
-    //             },
-    //             {
-    //                 "href": "spezial",
-    //                 "title":"Spezial"
-    //             }
-
-    //         ]
-    //     },
-    //     {
-    //         "name": "Kunst & Kultur",
-    //         "id": "kunstkultur",
-    //         "list": [
-    //             {
-    //                 "href":  "unterhaltung",
-    //                 "title": "Unterhaltung"
-    //             },
-
-    //             {
-    //                 "href":  "kuenstler",
-    //                 "title": "Künstler"
-    //             },
-    //             {
-    //                 "href":  "theater",
-    //                 "title": "Theater"
-    //             }
-    //         ]
-    //     }];
-    
-
 }).directive('onFinishRender', function ($timeout) {
     return {
         restrict: 'A',

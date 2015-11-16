@@ -152,8 +152,7 @@ function isAuthenticatedToSeeContent(req, res, next) {
   }
 
   if (req.isAuthenticated() && allowedpath[req.user.role].indexOf(path) > -1)
-    res.status(200).end();
-    // return next();
+    res.status(200).send(req.user.role).end();
   else
     res.status(401).end();
 }

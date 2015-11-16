@@ -4,6 +4,9 @@ angular.module('app.authService', [])
 		$http.get('/authenticated',{params: { path: $location.path()}})
     	.error(function (data, status, headers, config) {
     		$location.path('/');
+    	}).success(function(data, status, headers, config){
+    		$rootScope.isLogged = true;
+    		$rootScope.role = data;
     	});	
 	}
 

@@ -6,14 +6,15 @@ angular.module('app.messageService', [])
 	var info_ = [
 		"Eine Email wurde an sie versendet",
 		"Registrierung war erfolgreich",
-		"Benutzer erfolgreich angelegt!",
+		"Benutzer erfolgreich angelegt",
 		"Passwort erfolgreich zurückgesetzt",
 		"Angebot erfolgreich angelegt",
 		"Angebot erfolgreich gespeichert",
 		"Profil erfolgreich aktuallisiert",
 		"Daten erfolgreich aktuallisiert",
 		"Anfrage erfolgreich versendet",
-		"Werbung erfolgreich geschalten"
+		"Werbung erfolgreich geschalten",
+		"Ihr Passwort wurde erfolgreich geändert"
 	]
 	var danger_ = [
 		"Fehler",
@@ -22,7 +23,7 @@ angular.module('app.messageService', [])
 		"Angebot erfolgreich gelöscht",
 		"Es gab einen Fehler bei der Registrierung",
 		"Es gab einen Fehler bei der Verifizierung",
-		"Sie dürfen nur einmal pro Woche eine Anzeige schalten!"
+		"Sie dürfen nur einmal pro Woche eine Anzeige schalten"
 	]
 
 	var info = function(messageIndex){

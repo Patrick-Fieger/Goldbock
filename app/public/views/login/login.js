@@ -10,7 +10,7 @@ angular.module('app.login', ['ngRoute','ngAnimate'])
 
 }])
 
-.controller('LoginCtrl', ['$scope','$location','$timeout','AuthService','AllService','MessageService',function($scope,$location,$timeout,AuthService,AllService,MessageService) {
+.controller('LoginCtrl', ['$scope','$location','$timeout','AuthService','AllService','MessageService','$rootScope',function($scope,$location,$timeout,AuthService,AllService,MessageService,$rootScope) {
   var ua = navigator.userAgent.toLowerCase();
 
   if (ua.indexOf('chrome') > -1) {
@@ -43,8 +43,9 @@ angular.module('app.login', ['ngRoute','ngAnimate'])
 	}
 
 	function checklogin(data, status, headers, config) {
+    $rootScope.isLogged = true;
     $location.path(data);
-    AllService.checkAvatarInfos();
+    //AllService.checkAvatarInfos();
   }
 
   function faillogin(data, status, headers, config) {
