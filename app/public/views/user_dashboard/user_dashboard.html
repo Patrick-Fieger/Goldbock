@@ -1,5 +1,5 @@
 <div class="row dashboard">
-	<h1 class="tac mb30">Dashboard</h1>
+	<h1 class="tac mb30">Meine Favoriten</h1>
 <!-- 	<div class="large-3 columns userinfo">
 		<div class="avatar_wrapper mb20">
 			<img ng-src="{{user.avatar.big}}">
@@ -55,10 +55,7 @@
 	</div> -->
 	<div class="large-12 columns">
 
-	<a href="#/categories">Categories</a>
-
 	<div ng-show="user.liked.length > 0">
-		<h2 class="mt0">Meine Favoriten</h2>
 		<ul class="offer-list">
 			<li ng-repeat="offer in user.liked">
 				<a ng-href="#/offer/{{offer.id}}">{{offer.title}}</a>
@@ -66,6 +63,11 @@
 				<span ng-click="deleteFav(offer.id)" class="icon-cup"></span>
 			</li>
 		</ul>
+	</div>
+
+	<div ng-show="user.liked.length == 0">
+		<h2>Sie haben bisher noch keine Favoriten gespeichert</h2>
+		<p>Favoriten speichern sie, indem Sie auf das Herz innerhalb eines Angebotes klicken!</p>
 	</div>
 
 		<!-- <section ng-class="{'showforms': showAboutTextarea}">
@@ -94,12 +96,11 @@
 			</ul>
 		</section>
  -->
-
 	</div>
 </div>
 
 
-<div class="crop_wrapper" ng-show="showCrop">
+<!-- <div class="crop_wrapper" ng-show="showCrop">
 	<div class="cropArea">
 		<img-crop result-image-quality="1.0" area-min-size="200" image="myImage" area-type="square" result-image="myCroppedImage"></img-crop>
 	</div>
@@ -109,6 +110,8 @@
 		<span ng-click="cancelCrop()" class="icon-cross"></span>
 	</div> 
 
-</div>
+</div> -->
+
+
 
 

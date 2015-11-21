@@ -46,9 +46,9 @@ config(['$locationProvider','$routeProvider','$animateProvider', function($locat
         $('body').scrollTop(0);
         $('.spinner').removeClass('active');
         $rootScope.showmenu = false;
+        clearInterval($rootScope.intervallAdvertisingSlider);
         if(path !== '/' && path !== "/register" && path.split('/')[1] !== "forgot" && path.split('/')[1] !== "verify"){
             AuthService.isAuth();
-            //AllService.checkAvatarInfos();
         }
     });
 
@@ -56,6 +56,7 @@ config(['$locationProvider','$routeProvider','$animateProvider', function($locat
         event.preventDefault();
     });
     $rootScope.showmenu = false;
+    
 
     $rootScope.closeMenu = function(){
         $rootScope.showmenu = false;        

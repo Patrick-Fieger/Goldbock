@@ -32,13 +32,10 @@ angular.module('app.profile', ['ngRoute','ngAnimate'])
 
 	function unreadedCount(data){
 		$scope.counter = data;
-
-		console.log(data)
 	}	
 
 	function updateProfileView(data, status, headers, config){
 		$scope.profile = data;
-		console.log(data)
 
 		setTimeout(function(){
 			$('.addvertising_bg,.addvertising,.crop_wrapper').removeAttr('style')	

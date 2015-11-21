@@ -20,6 +20,8 @@ angular.module('app.userService', [])
 		delete data_._id;
 		delete data_.avatar;
 		delete data_.offers;
+		delete data_.password;
+		delete data_.liked;
 		return $http.post('/update/user', data_)
 	}
 

@@ -71,12 +71,15 @@
                     </span>
                 </div>
                 <div>
-                    <a href="#/{{profile.role}}/dashboard" class="mb10 fullnamebig">{{profile.firstname}} {{profile.lastname}}</p>
+                    <a ng-if="profile.role == 'provider'" href="#/{{profile.role}}/dashboard" class="mb10 fullnamebig">{{profile.firstname}} {{profile.lastname}}</p>
+                    <a ng-if="profile.role == 'user'" href="#/categories" class="mb10 fullnamebig">{{profile.firstname}} {{profile.lastname}}</p>
                     <ul ng-hide="editstate || passstate" class="big_menu">
                         <li><a ng-click="editProfile()" href="" title="" class="pencil_icon">Profil bearbeiten</a></li>
                         <li><a ng-click="editPass()" href="" title="" class="lock_icon">Passwort ändern</a></li>
                         <li ng-if="profile.role == 'provider'" ><a ng-click="addAdvertising()" href="" title="" class="megaphone_icon">Werbung schalten</a></li>
                         <li><a style="position:relative" ng-click="" href="#/chat" title="" class="chat_icon">Chat <span class="showcounter" ng-show="counter.length > 0"><!-- {{counter.length}} --></span></a></li>
+
+                        <li><a href="#/user/dashboard" title="" class="heart_icon">Favoriten</a></li>
 
                         <li><a href="" title="" class="notebook_icon">Kontakte</a></li>
                         <li><a href="" title="" class="telescope_icon">Beobachtung</a></li>

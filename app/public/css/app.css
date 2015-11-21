@@ -3676,7 +3676,8 @@ img-crop canvas {
 .pencil_icon,
 .lock_icon,
 .notebook_icon,
-.telescope_icon {
+.telescope_icon,
+.heart_icon {
     font-family: 'profile';
     speak: none;
     font-style: normal;
@@ -3710,6 +3711,10 @@ img-crop canvas {
 }
 .telescope_icon:before {
     content: "\e02a";
+}
+
+.heart_icon:before {
+    content: "\e04a";
 }
 
 
@@ -3820,7 +3825,70 @@ img-crop canvas {
     background: rgba(255,255,255,0.5);   
 }
 
+.user_advertising li{
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
+}
 
+.user_advertising{
+    position: fixed;
+    bottom: 0;
+    right: 10px;
+    width: 250px;
+    height: 350px;
+}
+
+.user_advertising ul{
+    padding: 0;
+    margin: 0;
+    float: left;
+    width: 100%;
+}
+
+.user_advertising li{
+    opacity: 0;
+    visibility: hidden;
+    background: #f4f4f4;
+    list-style: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.user_advertising li a{
+    float: left;
+    width: 100%;
+    height: 350px;
+}
+
+.user_advertising li.active{
+    visibility: visible;
+    opacity: 1;
+}
+
+.user_advertising li h1{
+    font-size: 16px;
+    text-align: center;
+    float: left;
+    width: 100%;
+}
+
+.user_advertising li p{
+    text-align: center;
+    font-size: 14px;
+}
+
+.teaser_photo{
+    width: 100%;
+    float: left;
+    height: 120px;
+    background-size: cover;
+    background-position: center center;
+    border-radius: 2px;
+}
 
 
 
