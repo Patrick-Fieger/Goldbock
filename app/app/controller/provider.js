@@ -81,7 +81,7 @@ function uploadOfferImages(req, res, next){
 	var form = new formidable.IncomingForm(options.images)
 	, imageList = []
     , folderNameByEmail = emailToFolder(checkAdmin(req));
-    
+
     form.on('end', function() {
 		setTimeout(function(){
 			res.send(imageList).status(200).end();
@@ -327,7 +327,7 @@ function updateOfferData(req, res, next){
       			}
       		}
       	}
-      	
+
 
 		Provider.update({email: checkAdmin(req)}, {$set: { offers: alloffer }}, {upsert: true}, function(err){if(!err){res.status(200).end()}})
       }
@@ -383,7 +383,7 @@ function deleteOfferFiles(links){
 
 	if(links.titleimage !== undefined && links.titleimage.normal !== "" && links.titleimage.black !== ""){
 		var titimages;
-		
+
 		if(typeof(links.titleimage) == "string"){
 			titimages = JSON.parse(links.titleimage);
 		}else {
@@ -395,11 +395,11 @@ function deleteOfferFiles(links){
 			fs.remove(public + titimages.black, function (err) {});
 		};
 	}
-	
+
 	if(links.video !== "" && links.video !== undefined){
 		fs.remove(public + links.video, function (err) {});
 	}
-	
+
 }
 
 function removePublicFromLink(link){
@@ -438,7 +438,8 @@ function offer(req, res, next){
 		        	street : user.street,
 		        	isown : false,
 		        	isfavoriteOfUser : isfavorite,
-		        	offer : {}
+		        	offer : {},
+		        	sameCategory : []
 		        }
 		        if(user.email == req.user.email || req.user.role == "admin"){
 		        	offer.isown = true;
@@ -450,10 +451,23 @@ function offer(req, res, next){
 			    		offer.offer = user.offers[i];
 			    		offer.offer.date = dateFormat(offer.offer.date, format);
 
-			    		Categories.find({},function(err,categories){
-			    			offer.categories = categories
-			    			res.send(offer).status(200).end();
+			    		Provider.find({offers: {$elemMatch: {category : offer.offer.category}}}, function (err, offers_) {
+			    			for (var i = 0; i < offers_.length; i++) {
+			    				for (var k = 0; k < offers_[i].offers.length; k++) {
+			    					if(offers_[i].offers[k].category == offer.offer.category && offers_[i].offers[k].id !== id){
+			    						offer.sameCategory.push(offers_[i].offers[k]);
+			    					}
+			    				};
+			    			};
+
+			    			Categories.find({},function(err,categories){
+			    				offer.categories = categories
+			    				res.send(offer).status(200).end();
+			    			});
+
 			    		});
+
+
 			    	}
 				}
 		    }
@@ -580,7 +594,7 @@ function addAdvertising (req,res){
 
 	// Post.find({'email': curPage}).sort('-date').limit(1).exec(function(err, posts){
  //    	console.log("Emitting Update...");
- //    	socket.emit("Update", posts.length);       
+ //    	socket.emit("Update", posts.length);
  //    	console.log("Update Emmited");
 	// });
 

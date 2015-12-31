@@ -18,7 +18,8 @@ var ProviderSchema = mongoose.Schema({
   about : { type: String},
   avatar : { type: Object},
   offers : { type: Array},
-  geo : { type: Object}
+  geo : { type: Object},
+  deactivated : false
 });
 
 ProviderSchema.pre('save', geo.setGeo, salt.salt);

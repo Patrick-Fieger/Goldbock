@@ -10,7 +10,8 @@ var LoginSchema = mongoose.Schema({
   role: { type: String, required: true},
   emailVerificationToken: String,
   resetPasswordToken: String,
-  resetPasswordExpires: Date
+  resetPasswordExpires: Date,
+  deactivated : false
 });
 
 LoginSchema.methods.comparePassword = function(candidatePassword, cb) {

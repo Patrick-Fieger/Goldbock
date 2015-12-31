@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
+angular.module('app.provider_edit_offer', ['ngRoute'])
 
-.config(['$routeProvider','$animateProvider', function($routeProvider,$animateProvider) {
+.config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/edit/:id', {
     templateUrl: 'views/provider_edit_offer/provider_edit_offer.html',
     controller: 'ProviderEditOfferCtrl'
@@ -17,7 +17,7 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 	$scope.togglePhotos = false;
 	$scope.toggleVideo = false;
 	$scope.images = [];
-	
+
 
 	var changed = -2;
 	var anydelete = -2;
@@ -65,11 +65,11 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 				UploadService.uploadOfferTitleImage($("#titleimage")[0].files[0]).success(pushTitleFilenameAndUploadImages);
 			}else{
 				pushTitleFilenameAndUploadImages("", "", "", "");
-			}	
+			}
 		}else{
 			alert('Bitte wählen sie mindestens ein Bild aus!')
 		}
-		
+
 	}
 
 
@@ -88,7 +88,7 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 		if($("#video")[0].files[0] !== undefined){
 			UploadService.uploadOfferVideo($("#video")[0].files[0]).success(pushVideoFilenameAndUploadOfferData);
 		}else{
-			pushVideoFilenameAndUploadOfferData("","","","");	
+			pushVideoFilenameAndUploadOfferData("","","","");
 		}
 	}
 
@@ -160,7 +160,7 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 		}
 
 		$scope.images = data.offer.photos
-		
+
 		if(data.offer.photos.length < 3){
 			$scope.togglePhotos = true;
 			max = 3 - data.offer.photos.length
@@ -245,7 +245,7 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 						$scope.photosApplied = true;
 						$timeout(function(){
 							for (var i = 0; i < images.length; i++) {
-								$scope.images[i].name = images[i].name 
+								$scope.images[i].name = images[i].name
 							};
 							console.log($scope.images)
 						},400)
@@ -293,7 +293,7 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 	    clearInterval(progressInterval);
 	}
 
-	
+
 	$scope.$watchGroup(['offer.description', 'offer.title','offer.price','offer.category','offer.per','offer.reqirements'], function(newValues, oldValues, scope) {
 		changed++;
 	});
@@ -305,5 +305,5 @@ angular.module('app.provider_edit_offer', ['ngRoute','ngAnimate'])
 	$scope.$watch('delete.photos' ,function(newValues, oldValues, scope) {
 		anydelete++;
 	},true)
-	
+
 }]);

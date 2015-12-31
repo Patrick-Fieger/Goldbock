@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('app.admin', ['ngRoute','ngAnimate'])
+angular.module('app.admin', ['ngRoute'])
 
-.config(['$routeProvider','$animateProvider', function($routeProvider,$animateProvider) {
+.config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/admin', {
     templateUrl: 'views/admin/admin.html',
     controller: 'AdminCtrl'

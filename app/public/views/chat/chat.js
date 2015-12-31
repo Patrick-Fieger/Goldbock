@@ -1,6 +1,6 @@
 'use strict';
-angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '$animateProvider',
-    function($routeProvider, $animateProvider) {
+angular.module('app.chat', ['ngRoute']).config(['$routeProvider',
+    function($routeProvider) {
         $routeProvider.when('/chat', {
             templateUrl: 'views/chat/chat.html',
             controller: 'ChatCtrl'
@@ -19,15 +19,45 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
         $scope.bigChat = [];
         $scope.displayAds = false;
 
+        var urlParams;
+        (window.onpopstate = function () {
+        var match,
+            pl     = /\+/g,  // Regex for replacing addition symbol with a space
+            search = /([^&=]+)=?([^&]*)/g,
+            decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+            query  = window.location.search.substring(1);
+
+        urlParams = {};
+        while (match = search.exec(query))
+           urlParams[decode(match[1])] = decode(match[2]);
+        })();
+
+
         socket.emit('join',{email : user});
         AllService.getAllUsers().success(searchTerms)
+
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+
+
 
 
         function searchTerms(data, status, headers, config) {
             $scope.anbieter = data.anbieter;
             $scope.nutzer = data.nutzer;
             $scope.role = data.role;
-            
+            $timeout(function(){
+                if(urlParams["email"] !== undefined){
+                    $scope.openChatWith(urlParams["email"]);
+                }
+            },200)
+
+
+
             if($scope.role == "user"){
                 getAdvertising();
             }
@@ -64,13 +94,13 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
         }
 
         $scope.closeAds = function(){
-            $scope.toggleAds = false;   
+            $scope.toggleAds = false;
         }
 
         function getChats(){
             socket.emit('get chats', {
                 email: user
-            }, buildChats);    
+            }, buildChats);
         }
 
         function buildChats(data) {
@@ -107,7 +137,7 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
                     $timeout(function(){
                         $('.chatlist #' + id).addClass('unread')
                     },0)
-                    
+
                 }
             }
         }
@@ -142,7 +172,9 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
                 $scope.openChatWith($(".userslist li.active").attr('id'))
             }
         }
-        
+
+
+
         $scope.openChatWith = function(email) {
             var chatsToEmails = []
             if($scope.chats.length > 0){
@@ -154,11 +186,11 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
                                 from : user,
                                 to : email
                             },addNewChatToList);
-                        }else{
-                            $timeout(function(){
-                                $('.chatlist li[data-email="'+email+'"]').trigger('click');
-                            });
                         }
+                        $timeout(function(){
+                            $('.chatlist li[data-email="'+email+'"]').trigger('click');
+                        },500);
+
                     }
                 };
             }else{
@@ -169,7 +201,7 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
             }
         }
 
-
+        //$scope.openChatWith("dominik.huefner@giant-leap.de");
         function addNewChatToList(data,self_){
             var newchat = data
 
@@ -189,10 +221,10 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
                 if(self_){
                     $('.chatlist li#' + data.id).addClass('unread')
                 }else{
-                    $('.chatlist li#' + data.id).addClass('active') 
+                    $('.chatlist li#' + data.id).addClass('active')
                 }
 
-                
+
             });
         }
 
@@ -226,14 +258,14 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
                 timeout = setTimeout(function(){
                     noMoreTyping(id)
                 }, 2000);
-                
+
 
                 socket.emit('typing',{
                     id : id,
                     user : user,
                     typing : true
                 });
-                
+
             }
         }
 
@@ -249,7 +281,7 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
 
         socket.on('typing',function(data){
             var me = checkSelf(data.user)
-            
+
 
             if(!me && data.typing){
                 $scope.typing = true;
@@ -288,7 +320,7 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
                 socket.emit('delete chat',{
                     id : id,
                     email : user
-                },deleteChat)    
+                },deleteChat)
             }
         }
 
@@ -310,7 +342,7 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
         function markAsReaded(id){
             socket.emit('message readed',{
                 from : user,
-                id : id   
+                id : id
             });
 
             $('.chatlist #' + id).removeClass('unread');
@@ -329,7 +361,7 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
 
                 if($scope.chats[i].id == newmessage.id){
                     $scope.chats[i].messages.push(newmessage.message)
-                    
+
                     if($scope.bigChat.id == newmessage.id){
                         $scope.openChat(newmessage.id);
                         markAsReaded(newmessage.id)
@@ -342,4 +374,8 @@ angular.module('app.chat', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '
         })
 
     }
+
+
+
+
 ]);

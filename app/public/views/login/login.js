@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('app.login', ['ngRoute','ngAnimate'])
+angular.module('app.login', ['ngRoute'])
 
-.config(['$routeProvider','$animateProvider', function($routeProvider,$animateProvider) {
+.config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/', {
     templateUrl: 'views/login/login.html',
     controller: 'LoginCtrl'
@@ -13,18 +13,21 @@ angular.module('app.login', ['ngRoute','ngAnimate'])
 .controller('LoginCtrl', ['$scope','$location','$timeout','AuthService','AllService','MessageService','$rootScope',function($scope,$location,$timeout,AuthService,AllService,MessageService,$rootScope) {
   var ua = navigator.userAgent.toLowerCase();
 
-  if (ua.indexOf('chrome') > -1) {
-    $scope.userData = {
-      "email":"patrickfieger90@gmail.com",
-      "password":"1234"
-    }
+  $scope.showAbout = false;
 
+  if (ua.indexOf('chrome') > -1) {
     // $scope.userData = {
-    //   "email":"p@jpy.io",
-    //   "password":"123456"
+    //   "email":"patrickfieger90@gmail.com",
+    //   "password":"1234"
     // }
 
-    
+    $scope.userData = {
+      "email":"p@jpy.io",
+      "password":"123456"
+    }
+
+
+
 
   }else{
     // $scope.userData = {
@@ -36,6 +39,10 @@ angular.module('app.login', ['ngRoute','ngAnimate'])
       "email":"p@jpy.io",
       "password":"123456"
     }
+  }
+
+  $scope.toggleAboutGoldbock = function(){
+    $scope.showAbout = !$scope.showAbout;
   }
 
 	$scope.sendLogin = function(){

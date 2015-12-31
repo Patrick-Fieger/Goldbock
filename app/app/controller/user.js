@@ -1,6 +1,7 @@
 var User = require('../models/user'),
 Login = require('../models/onlylogin'),
 Categories = require('../models/categories'),
+Provider = require('../models/provider'),
 Ad = require('../models/ad'),
 create = require('./create'),
 Email = require('../emailtemplates/sender')
@@ -13,7 +14,7 @@ function register (req, res, next){
 
 function verifyEmail(req, res, next){
 	var data = req.body;
-	
+
 	Login.findOne({ "emailVerificationToken": data.token }, function(err, user) {
       if (err) { console.log(err) }
 
@@ -21,12 +22,12 @@ function verifyEmail(req, res, next){
       	var emailFromUser = user.email
       	Login.update({email: user.email}, {$set: { emailVerificationToken: "" }}, {upsert: true}, function(err){
       		if(!err){
-      			Email.sendEmail({email:emailFromUser},'register_complete') 
-      			res.status(200).end();		
+      			Email.sendEmail({email:emailFromUser},'register_complete')
+      			res.status(200).end();
       		}
       	})
       }
-    });	
+    });
 }
 
 function checkAdmin(req){
@@ -74,21 +75,27 @@ var categories = function(req, res, next){
 
 var getAds = function(req,res){
       var return_ads = [];
-
-      Ad.find({},function(err,ads){
-            for (var i = 0; i < 10; i++) {
-                  
-                  if(ads[0].ads[i]){
-                        return_ads.push(ads[0].ads[i]);
-                  }
-                  
+      var all_ads = [];
+      Provider.find({},function(err,prov){
+         for (var i = 0; i < prov.length; i++) {
+            for (var k = 0; k < prov[i].offers.length; k++) {
+               all_ads.push(prov[i].offers[k])
             };
+         };
+         Ad.find({},function(err,ads){
+               for (var i = 0; i < 10; i++) {
+                     if(ads[0].ads[i]){
+                           return_ads.push(ads[0].ads[i]);
+                     }
+               };
 
-            res.send({
-                  ads : return_ads
-            }).status(200).end();
+               res.send({
+                     ads : return_ads,
+                     all_ads : all_ads
+               }).status(200).end();
 
-      });
+         });
+      })
 }
 
 

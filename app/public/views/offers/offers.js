@@ -1,6 +1,6 @@
 'use strict';
-angular.module('app.offers', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '$animateProvider',
-    function($routeProvider, $animateProvider) {
+angular.module('app.offers', ['ngRoute']).config(['$routeProvider',
+    function($routeProvider) {
         $routeProvider.when('/offers/:id', {
             templateUrl: 'views/offers/offers.html',
             controller: 'OffersCtrl'

@@ -4,10 +4,11 @@
 </div>
 <div class="offer">
     <div class="row">
-        <div class="columns large-12">
+        <div class="columns large-8">
             <div class="columns large-3">
                 <img class="o_avatar" ng-src="{{offer.avatar}}">
                 <p class="o_name tac">{{offer.name}}</p>
+                <p><a href="?email={{offer.email}}#/chat" title="">Nachricht senden</a></p>
             </div>
             <div class="columns large-9">
                 <div class="columns large-12">
@@ -28,7 +29,8 @@
                 </div>
             </div>
         </div>
-<!--         <div class="columns large-4" ng-class="{sticky:sticky}" scroll>
+        <!-- scroll as atribute to make it sticky! -->
+        <div class="columns large-4" ng-class="{sticky:sticky}">
             <div id="pricing">
                 <p class="fl">{{offer.offer.price}} €</p>
                 <p class="fr">{{offer.offer.per}}</p>
@@ -55,17 +57,32 @@
                     <input class="btn btn-block btn-lg btn-primary mt30"  type="submit" value="Buchung anfragen"></input>
                 </form>
             </div>
-        </div> -->
+        </div>
     </div>
 </div>
 <div class="row">
-    <div class="offer_content">
-        <div class="large-6 columns">
-            <h1>Über das Angebot</h1>
+    <div class="offer_content column large-8">
+        <div ng-if="offer.sameCategory.length !== 0" class="large-12 columns">
+            <h1>Angebote aus der Kategorie {{offer.sameCategory[0].category}}</h1>
+            <div class="user_advertising block_">
+                <ul>
+                    <li ng-class='{active:$first}' ng-repeat="ad in offer.sameCategory">
+                        <a href="#/offer/{{ad.id}}">
+                            <div class="teaser_photo" style="background-image:url({{ad.photos[0]}})"></div>
+                            <h1 class="mt10"><b>{{ad.title}}</b></h1>
+                            <p class="m0">{{ad.description}}</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="columns large-12">
+            <h1>Über dieses Angebot</h1>
             <p>{{offer.offer.description}}</p>
         </div>
-        <div class="large-6 columns">
-            <h1>Bedingungen / Next Steps</h1>
+        <!-- ng-class="{'large-4' : offer.sameCategory.length !== 0 , 'large-6' : offer.sameCategory.length == 0}" -->
+        <div class="columns large-12">
+            <h1>Bedingungen</h1>
             <p>{{offer.offer.reqirements}}</p>
         </div>
         <div class="large-12 columns">
@@ -85,7 +102,7 @@
 </div>
 </div>
 <mapbox callback="callback"></mapbox>
-<div class="bookoverlay" ng-class="{booking:booking}" ng-click="hideBooking()"></div>
+<!-- <div class="bookoverlay" ng-class="{booking:booking}" ng-click="hideBooking()"></div>
 <div class="bookover" ng-class="{booking:booking}">
 
     <div class="inneroverlay" ng-class="{active:innerover,changebg : check}"></div>
@@ -131,5 +148,5 @@
 
 <div class="showofferbutton" ng-click="showBooking()">
     Jetzt Buchen!
-</div>
+</div> -->
 

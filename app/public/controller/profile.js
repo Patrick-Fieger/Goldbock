@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app.profile', ['ngRoute','ngAnimate'])
+angular.module('app.profile', ['ngRoute'])
 
 .controller('ProfileCtrl', ['$scope','$location','$timeout','ProviderService','AllService','AuthService','UploadService','$rootScope','MessageService','socket','UserService',function($scope,$location,$timeout,ProviderService,AllService,AuthService,UploadService,$rootScope,MessageService,socket,UserService) {
 	$scope.profile = {};
@@ -32,24 +32,21 @@ angular.module('app.profile', ['ngRoute','ngAnimate'])
 
 	function unreadedCount(data){
 		$scope.counter = data;
-	}	
+	}
 
 	function updateProfileView(data, status, headers, config){
 		$scope.profile = data;
 
 		setTimeout(function(){
-			$('.addvertising_bg,.addvertising,.crop_wrapper').removeAttr('style')	
+			$('.addvertising_bg,.addvertising,.crop_wrapper').removeAttr('style')
 		},1000)
-
-		
-
 
 		if(data.offers){
 			if(data.offers.length >= 3){
 				$scope.hideAddOffer = true
-			}	
+			}
 		}
-		
+
 
 		if (data.avatar !== undefined) {
         	$scope.profile.avatar.big = data.avatar.big.replace('public/','')
@@ -63,7 +60,7 @@ angular.module('app.profile', ['ngRoute','ngAnimate'])
 
 
         localStorage.setItem('user',data.email)
-        localStorage.setItem('role',data.role) 
+        localStorage.setItem('role',data.role)
         checkAboutText();
 	}
 
@@ -105,7 +102,7 @@ angular.module('app.profile', ['ngRoute','ngAnimate'])
 				ProviderService.updateProfile(data).success(updateProfileSuccess);
 			}else{
 				UserService.updateProfile(data).success(updateProfileSuccess);
-			}       		
+			}
      	}else if ($scope.pass.$valid && $scope.passstate){
      		var data = angular.copy($scope.password);
      		AllService.updatePassword(data).success(changePasswordSuccess);
@@ -124,7 +121,7 @@ angular.module('app.profile', ['ngRoute','ngAnimate'])
 	function changePasswordSuccess(){
 		$scope.cancel();
 		MessageService.info(10);
-	} 
+	}
 
 	function updateAvatarsView(data, status, headers, config){
 		//$rootScope.avatar.small = data.small.replace('public/','');
@@ -188,7 +185,7 @@ angular.module('app.profile', ['ngRoute','ngAnimate'])
 	angular.element(document.querySelector('#fileInput')).on('change',handleFileSelect);
 
 	$scope.uploadAvatar = function(){
-		UploadService.avatar({data:$scope.myCroppedImage}).success(updateAvatarsView)	
+		UploadService.avatar({data:$scope.myCroppedImage}).success(updateAvatarsView)
 	}
 
 	$scope.addAdvertising = function(){
@@ -220,7 +217,7 @@ angular.module('app.profile', ['ngRoute','ngAnimate'])
 	}
 
 	$scope.openMenu = function(){
-		$rootScope.showmenu = true;		
+		$rootScope.showmenu = !$rootScope.showmenu;
 	}
 }]);
 
@@ -238,13 +235,13 @@ angular.module('app.profile', ['ngRoute','ngAnimate'])
 // 	}
 
 // 	$scope.openMenu = function(){
-// 		$rootScope.showmenu = true;		
+// 		$rootScope.showmenu = true;
 // 	}
-	
+
 
 // 	// Edit Profile
-// 	// 
-	
+// 	//
+
 // 	$scope.editProfile = function(){
 // 		$scope.editstate = true;
 // 	}

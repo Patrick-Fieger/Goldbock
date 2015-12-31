@@ -1,6 +1,6 @@
 'use strict';
-angular.module('app.categories', ['ngRoute', 'ngAnimate']).config(['$routeProvider', '$animateProvider',
-    function($routeProvider, $animateProvider) {
+angular.module('app.categories', ['ngRoute']).config(['$routeProvider',
+    function($routeProvider) {
         $routeProvider.when('/categories', {
             templateUrl: 'views/categories/categories.html',
             controller: 'CategoriesCtrl'
@@ -17,7 +17,6 @@ angular.module('app.categories', ['ngRoute', 'ngAnimate']).config(['$routeProvid
 
         function buildView (data, status, headers, config){
             $scope.categories = data;
-            
         }
 
         function shuffle(o){
@@ -27,6 +26,7 @@ angular.module('app.categories', ['ngRoute', 'ngAnimate']).config(['$routeProvid
 
         function buildAds(data, status, headers, config){
             $scope.ads = shuffle(data.ads);
+
             for (var i = 0; i < $scope.ads.length; i++) {
                 if($scope.ads[i].description.length > descriptionMax){
                     $scope.ads[i].description = $scope.ads[i].description.substring(0, descriptionMax) + '...';

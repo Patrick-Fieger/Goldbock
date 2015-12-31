@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('app.admin_edit_categories', ['ngRoute','ngAnimate'])
+angular.module('app.admin_edit_categories', ['ngRoute'])
 
-.config(['$routeProvider','$animateProvider', function($routeProvider,$animateProvider) {
+.config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/categories/edit', {
     templateUrl: 'views/admin_edit_categories/admin_edit_categories.html',
     controller: 'AdminEditCategoriesCtrl'

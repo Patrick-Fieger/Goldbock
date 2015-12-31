@@ -1,5 +1,5 @@
 angular.module('app.authService', [])
-.service('AuthService', function($http,$location,$rootScope,$timeout){
+.service('AuthService', function($http,$location,$rootScope,$timeout,$window){
 	var isAuth = function(){
 		$http.get('/authenticated',{params: { path: $location.path()}})
     	.error(function (data, status, headers, config) {
@@ -7,7 +7,7 @@ angular.module('app.authService', [])
     	}).success(function(data, status, headers, config){
     		$rootScope.isLogged = true;
     		$rootScope.role = data;
-    	});	
+    	});
 	}
 
 	var login = function(data){
@@ -29,7 +29,7 @@ angular.module('app.authService', [])
 	};
 
 	var updatePassword = function(data){
-		return $http.post('/update/forgot/password', data)	
+		return $http.post('/update/forgot/password', data)
 	}
 
 	var forgot = function(user){

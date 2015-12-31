@@ -46,8 +46,6 @@ var profile = function(req, res, next){
       				for (var i = 0; i < results.length; i++) {
       					for (var k = 0; k < results[i].offers.length; k++) {
       						if(user.liked.indexOf(results[i].offers[k].id) > -1){
-      							console.log(results[i].offers[k]);
-
       							likedposts.push({
       								id : results[i].offers[k].id,
       								name : results[i].offers[k].firstname + ' ' +  results[i].offers[k].lastname,
@@ -62,10 +60,10 @@ var profile = function(req, res, next){
 					    res.send(data).status(200).end();
     			});
       		}else{
-				res.send(user).status(200).end();      			
+				res.send(user).status(200).end();
       		}
       	}else{
-      		res.send(user).status(200).end();	
+      		res.send(user).status(200).end();
       	}
       }
     });
@@ -94,13 +92,13 @@ function getAllUsers(req, res){
 			add.cat = "Anbieter"
 			anbieter.push(add)
 		};
-    
+
 
 		User.find({},function(err,all2){
 
 			for (var i = 0; i < all2.length; i++) {
 				var add_ = {}
-	
+
 				if(all2[i].avatar){
 					add_.avatar = all2[i].avatar.small.replace('public/','')
 				}else{
@@ -125,7 +123,7 @@ function getAllUsers(req, res){
 		})
 
 	})
-	
+
 }
 
 
@@ -195,7 +193,7 @@ function resizeAvatar(req,res,folderNameByEmail,filename){
 		small : path_[0] + '_small.' + path_[1]
 	}
 
-	
+
 	gm(path)
 	.resize(200, 200)
 	.autoOrient()
@@ -217,7 +215,7 @@ function resizeAvatar(req,res,folderNameByEmail,filename){
 
 			      user.save(function (err) {
 			          if(err) {
-			            res.status(500).end();  
+			            res.status(500).end();
 			          }else{
 			          	res.send(avatar).status(200).end();
 			          }

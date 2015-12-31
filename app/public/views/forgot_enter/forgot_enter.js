@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('app.forgot_enter', ['ngRoute','ngAnimate'])
+angular.module('app.forgot_enter', ['ngRoute'])
 
-.config(['$routeProvider','$animateProvider', function($routeProvider,$animateProvider) {
+.config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/forgot/:id', {
     templateUrl: 'views/forgot_enter/forgot_enter.html',
     controller: 'ForgotEnterCtrl'

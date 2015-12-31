@@ -10,7 +10,8 @@
                     <div class="admin_prof_btn">
                         <a class="btn fr btn-lg btn-primary" ng-click="showDetails($event)">Profil ansehen</a>
                         <a class="btn fr btn-lg btn-primary" ng-href="mailto:{{user.email}}">Email schreiben</a>
-                        <a class="btn fr btn-lg btn-danger" ng-click="deleteUser(user.id)">Profil deaktivieren</a>
+                        <a class="btn fr btn-lg btn-danger" ng-if="user.deactivated == undefinded || !user.deactivated" ng-click="deleteUser(user.email,'deaktivieren','provider')">Profil deaktivieren</a>
+                        <a class="btn fr btn-lg btn-success" ng-if="user.deactivated" ng-click="deleteUser(user.email,'aktivieren','provider')">Profil aktivieren</a>
                     </div>
                 </div>
             </div>
@@ -21,14 +22,14 @@
                 <div class="large-6 columns">
                     <form ng-submit="sendNewData(user)" class="form-group">
                         <fieldset>
-                            <p><span class="fl mb5">Nachname: </span><input class="form-control" ng-model="user.firstname"></p>
-                            <p><span class="fl mb5">Vorname: </span><input class="form-control" ng-model="user.lastname"></p>
-                            <p><span class="fl mb5">Unternehmen: </span><input class="form-control" ng-model="user.company"></p>
-                            <p><span class="fl mb5">Stadt: </span><input class="form-control" ng-model="user.city"></p>
-                            <p><span class="fl mb5">Straße: </span><input class="form-control" ng-model="user.street"></p>
-                            <p><span class="fl mb5">PLZ: </span><input class="form-control" ng-model="user.zip"></p>
-                            <p><span class="fl mb5">Telefon: </span><input class="form-control" ng-model="user.tel"></p>
-                            <input class="btn btn-block btn-lg btn-primary mt20"  type="submit" value="Profil abspeichern"></input>
+                            <p><span class="fl mb5">Nachname: </span><input readonly class="form-control" ng-model="user.firstname"></p>
+                            <p><span class="fl mb5">Vorname: </span><input readonly class="form-control" ng-model="user.lastname"></p>
+                            <p><span class="fl mb5">Unternehmen: </span><input readonly class="form-control" ng-model="user.company"></p>
+                            <p><span class="fl mb5">Stadt: </span><input readonly class="form-control" ng-model="user.city"></p>
+                            <p><span class="fl mb5">Straße: </span><input readonly class="form-control" ng-model="user.street"></p>
+                            <p><span class="fl mb5">PLZ: </span><input readonly class="form-control" ng-model="user.zip"></p>
+                            <p><span class="fl mb5">Telefon: </span><input readonly class="form-control" ng-model="user.tel"></p>
+                            <!-- <input class="btn btn-block btn-lg btn-primary mt20"  type="submit" value="Profil abspeichern"></input> -->
                         </fieldset>
                     </form>
                 </div>
@@ -47,4 +48,41 @@
             </div>
         </li>
     </ul>
+
+
+    <h1>User</h1>
+    <ul>
+        <li class="list_users" ng-repeat="user in list.user" id="{{user.id}}">
+            <div class="large-12 columns">
+                <div class="large-4 columns">
+                    <p class="mb20 m0"><img src="{{user.avatar.small}}"> <strong>{{user.lastname}} {{user.firstname}}</strong></p>
+                </div>
+                <div class="large-8 columns">
+                    <div class="admin_prof_btn">
+                        <a class="btn fr btn-lg btn-primary" ng-click="showDetails($event)">Profil ansehen</a>
+                        <a class="btn fr btn-lg btn-primary" ng-href="mailto:{{user.email}}">Email schreiben</a>
+                        <a class="btn fr btn-lg btn-danger" ng-if="user.deactivated == undefinded || !user.deactivated" ng-click="deleteUser(user.email,'deaktivieren','user')">Profil deaktivieren</a>
+                        <a class="btn fr btn-lg btn-success" ng-if="user.deactivated" ng-click="deleteUser(user.email,'aktivieren','user')">Profil aktivieren</a>
+                    </div>
+                </div>
+            </div>
+            <div class="large-12 columns">
+                <div class="large-6 columns">
+                    <form ng-submit="sendNewData(user)" class="form-group">
+                        <fieldset>
+                            <p><span class="fl mb5">Nachname: </span><input readonly class="form-control" ng-model="user.firstname"></p>
+                            <p><span class="fl mb5">Vorname: </span><input readonly class="form-control" ng-model="user.lastname"></p>
+                            <p><span class="fl mb5">Unternehmen: </span><input readonly class="form-control" ng-model="user.company"></p>
+                            <p><span class="fl mb5">Stadt: </span><input readonly class="form-control" ng-model="user.city"></p>
+                            <p><span class="fl mb5">Straße: </span><input readonly class="form-control" ng-model="user.street"></p>
+                            <p><span class="fl mb5">PLZ: </span><input readonly class="form-control" ng-model="user.zip"></p>
+                            <p><span class="fl mb5">Telefon: </span><input readonly class="form-control" ng-model="user.tel"></p>
+                            <!-- <input class="btn btn-block btn-lg btn-primary mt20"  type="submit" value="Profil abspeichern"></input> -->
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </li>
+    </ul>
+
 </div>

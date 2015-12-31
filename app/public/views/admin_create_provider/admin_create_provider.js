@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('app.admin_provider', ['ngRoute','ngAnimate'])
+angular.module('app.admin_provider', ['ngRoute'])
 
-.config(['$routeProvider','$animateProvider', function($routeProvider,$animateProvider) {
+.config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/admin/create/provider', {
     templateUrl: 'views/admin_create_provider/admin_create_provider.html',
     controller: 'AdminCreateProviderCtrl'
@@ -26,9 +26,9 @@ angular.module('app.admin_provider', ['ngRoute','ngAnimate'])
 	}
 
 	$scope.registerProvider = function(){
-		ProviderService.register($scope.provider).success(providerIsRegistered).error(providerRegistrationError);	
+		ProviderService.register($scope.provider).success(providerIsRegistered).error(providerRegistrationError);
 	}
-	
+
 	function providerIsRegistered(){
 		MessageService.info(2)
 	}

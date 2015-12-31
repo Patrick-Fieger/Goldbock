@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('app.provider_dashboard', ['ngRoute','ngAnimate'])
+angular.module('app.provider_dashboard', ['ngRoute'])
 
-.config(['$routeProvider','$animateProvider', function($routeProvider,$animateProvider) {
+.config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/provider/dashboard', {
     templateUrl: 'views/provider_dashboard/provider_dashboard.html',
     controller: 'ProviderDashboardCtrl'
@@ -19,11 +19,11 @@ angular.module('app.provider_dashboard', ['ngRoute','ngAnimate'])
 		if(data.offers){
 			if(data.offers.length >= 3){
 				$scope.hideAddOffer = true
-			}	
+			}
 		}
 	}
 
-	
+
 	$scope.redirectEdit = function(id){
 		$location.path('/edit/'+id)
 	}

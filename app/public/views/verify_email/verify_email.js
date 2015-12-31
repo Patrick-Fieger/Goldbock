@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('app.verify_email', ['ngRoute','ngAnimate'])
+angular.module('app.verify_email', ['ngRoute'])
 
-.config(['$routeProvider','$animateProvider', function($routeProvider,$animateProvider) {
+.config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/verify/email/:token', {
     templateUrl: 'views/verify_email/verify_email.html',
     controller: 'VerifyEmailCtrl'

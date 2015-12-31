@@ -23,7 +23,7 @@
         <link rel="stylesheet" type="text/css" href="css/photoswipe.css"/>
         <link rel="stylesheet" type="text/css" href="css/default-skin.css"/>
         <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
-
+        <script src="./js/snap.svg-min.js"></script>
         <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.css' rel='stylesheet' />
         <link href='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css' rel='stylesheet' />
         <link href='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.Default.css' rel='stylesheet' />
@@ -34,7 +34,7 @@
                 margin: 50px 0;
                 box-shadow: 0px -1px 5px #ccc, 0px 1px 5px #ccc;
                 }
-                
+
                 .leaflet-popup-content {
                 padding: 20px 10px 18px;
                 margin: 0;
@@ -48,45 +48,40 @@
         <![endif]-->
 
         <div ng-cloak ng-if="isLogged && role !== 'admin'" id="profile" ng-controller="ProfileCtrl">
-            
-            <div ng-click="openMenu()" class="profileavatar" style="background-image:url({{profile.avatar.small}})"></div>
-                
-            
-
-            <!-- <li>
-
-            <a href="#/chat" title="" class="chat_icon"></a></li>
-                    <li ng-if="profile.role == 'provider'" ><a ng-click="addAdvertising()" href="#profile" title="" class="megaphone_icon"></a></li> 
-
-                pencil_icon
-                    -->
-
-
+            <!-- <div ng-click="openMenu()" class="mainmenu">
+                <span class="si-icon si-icon-hamburger-cross" data-icon-name="hamburgerCross"></span>
+            </div> -->
             <div class="profile" ng-class="{active : showmenu}">
-                <div class="avatar_wrapper mb20">
+                <div class="avatar_wrapper mb20" ng-click="openMenu()">
                     <img ng-src="{{profile.avatar.big}}">
-                    <span class="changeavatar">
+                    <p>{{profile.firstname}} {{profile.lastname}}</p>
+                    <!-- <span class="changeavatar">
                     <span class="icon-camera"></span>
                     <span class="inhide"><input type="file" id="fileInput"></span>
-                    </span>
+                    </span> -->
                 </div>
                 <div>
-                    <a ng-if="profile.role == 'provider'" href="#/{{profile.role}}/dashboard" class="mb10 fullnamebig">{{profile.firstname}} {{profile.lastname}}</p>
-                    <a ng-if="profile.role == 'user'" href="#/categories" class="mb10 fullnamebig">{{profile.firstname}} {{profile.lastname}}</p>
-                    <ul ng-hide="editstate || passstate" class="big_menu">
-                        <li><a ng-click="editProfile()" href="" title="" class="pencil_icon">Profil bearbeiten</a></li>
-                        <li><a ng-click="editPass()" href="" title="" class="lock_icon">Passwort ändern</a></li>
-                        <li ng-if="profile.role == 'provider'" ><a ng-click="addAdvertising()" href="" title="" class="megaphone_icon">Werbung schalten</a></li>
-                        <li><a style="position:relative" ng-click="" href="#/chat" title="" class="chat_icon">Chat <span class="showcounter" ng-show="counter.length > 0"><!-- {{counter.length}} --></span></a></li>
 
-                        <li><a href="#/user/dashboard" title="" class="heart_icon">Favoriten</a></li>
+                    <!-- <a ng-if="profile.role == 'provider'" href="#/{{profile.role}}/dashboard" class="mb10 fullnamebig"> -->
 
-                        <li><a href="" title="" class="notebook_icon">Kontakte</a></li>
-                        <li><a href="" title="" class="telescope_icon">Beobachtung</a></li>
+                    <ul ng-hide="editstate || passstate" ng-class="{active : showmenu}" class="big_menu">
+                        <li><a ng-if="profile.role == 'user'" href="#/categories">Dashboard<span class="trenner"></span></a></li>
+                        <li><a ng-if="profile.role == 'provider'" href="#/{{profile.role}}/dashboard">Dashboard<span class="trenner"></span></a></li>
+                        <li><a ng-click="editProfile()" href="" title="" class="pencil_icon">Profil bearbeiten<span class="trenner"></span></a></li>
+                        <li><a href="" title="">Avatar ändern<span class="trenner"></span></a><input type="file" id="fileInput"></li>
+                        <li><a ng-click="editPass()" href="" title="" class="lock_icon">Passwort ändern<span class="trenner"></span></a></li>
+                        <li ng-if="profile.role == 'provider'" ><a ng-click="addAdvertising()" href="" title="" class="megaphone_icon">Werbung schalten<span class="trenner"></span></a></li>
+                        <li><a style="position:relative" ng-click="" href="#/chat" title="" class="chat_icon">Chat <span class="showcounter" ng-show="counter.length > 0"><!-- {{counter.length}} --></span><span class="trenner"></span></a></li>
+
+                        <li ng-if="profile.role == 'user'"><a href="#/favorites" title="" class="heart_icon">Favoriten<span class="trenner"></span></a></li>
+
+                        <li><a href="" title="" class="notebook_icon">Kontakte<span class="trenner"></span></a></li>
+                        <li><a href="" title="" class="telescope_icon">Beobachtung<span class="trenner"></span></a></li>
+                        <li><a href="" ng-hide="editstate" ng-click="logout()">Logout</a></li>
                     </ul>
 
                 </div>
-                <a href="" ng-hide="editstate" ng-click="logout()" class="icon-logout logout"></a>
+
 
                 <div ng-show="editstate">
                     <form class="form-group" name="userdata">
@@ -162,7 +157,6 @@
         <script src="bower_components/jquery/dist/jquery.js"></script>
         <script src="bower_components/jquery.cookie/jquery.cookie.js"></script>
         <script src="bower_components/angular-route/angular-route.js"></script>
-        <script src="bower_components/angular-animate/angular-animate.js"></script>
         <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
         <script src="js/ng-currency.js"></script>
         <script src="js/ng-img-crop.js"></script>
@@ -176,6 +170,7 @@
         <script src="js/de.date.js"></script>
         <script src="js/photoswipe.min.js"></script>
         <script src="js/photoswipe-ui-default.min.js"></script>
+        <!-- // <script src="js/svgicons.js"></script> -->
         <script src="https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.js"></script>
         <script src="//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js"></script>
         <script src="https://cdn.socket.io/socket.io-1.3.6.js"></script>
@@ -188,7 +183,7 @@
         <script src="views/admin_create_provider/admin_create_provider.js"></script>
         <script src="views/provider_create_offer/provider_create_offer.js"></script>
         <script src="views/provider_dashboard/provider_dashboard.js"></script>
-        <script src="views/user_dashboard/user_dashboard.js"></script>
+        <script src="views/favorites/favorites.js"></script>
         <script src="views/categories/categories.js"></script>
         <script src="views/provider_edit_offer/provider_edit_offer.js"></script>
         <script src="views/offer/offer.js"></script>

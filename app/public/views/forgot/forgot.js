@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('app.forgot', ['ngRoute','ngAnimate'])
+angular.module('app.forgot', ['ngRoute'])
 
-.config(['$routeProvider','$animateProvider', function($routeProvider,$animateProvider) {
+.config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/forgot', {
     templateUrl: 'views/forgot/forgot.html',
     controller: 'ForgotCtrl'

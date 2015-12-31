@@ -21,7 +21,7 @@ module.exports = function(app){
 
 	app.post('/add/advertising', pass.isAuthenticatedToMakeRequest , provider.addAdvertising);
 
-	
+
 
 	app.post('/favorites', pass.isAuthenticatedToMakeRequest , provider.favorites);
 	app.post('/clear/upload', provider.clearProgress);
@@ -35,13 +35,14 @@ module.exports = function(app){
 
 	app.get('/adds', pass.isAuthenticatedToMakeRequest , user.getAds);
 
-	
 
-	app.get('/getProviders', pass.isAuthenticatedToMakeRequest , admin.getProviders) 
-	app.get('/getUsers', pass.isAuthenticatedToMakeRequest , admin.getUsers) 
+
+	app.get('/getProviders', pass.isAuthenticatedToMakeRequest , admin.getProviders)
+	app.get('/getUsers', pass.isAuthenticatedToMakeRequest , admin.getUsers)
 	app.get('/getCompanys', pass.isAuthenticatedToMakeRequest , admin.getCompanys)
 	app.post('/admin/update/profile', pass.isAuthenticatedToMakeRequest , admin.updateProfile);
 	app.post('/admin/update/categories', pass.isAuthenticatedToMakeRequest , admin.updateCategories);
+	app.post('/toggle/activate', pass.isAuthenticatedToMakeRequest , admin.toggleActivate);
 	app.post('/update/avatar', pass.isAuthenticatedToMakeRequest , all.avatar);
 	app.post('/update/password', pass.isAuthenticatedToMakeRequest , all.updatePassword);
 	app.get('/upload/progress', pass.isAuthenticatedToMakeRequest , provider.progress);
@@ -55,7 +56,7 @@ module.exports = function(app){
 
 	app.get('/unreadedmessages',pass.isAuthenticatedToMakeRequest,chat.unreadedmessages);
 
-	
+
 
 	app.get('/getallusers', pass.isAuthenticatedToMakeRequest, all.getAllUsers)
 

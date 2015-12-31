@@ -16,7 +16,6 @@ var getProviders = function(req, res, next){
     		res.send(provider).status(200).end();
     	}
     });
-
 }
 
 var getUsers = function(req, res, next){
@@ -24,7 +23,7 @@ var getUsers = function(req, res, next){
     	if(!err){
     		res.send(user).status(200).end();
     	}
-    });  
+    });
 }
 
 var getCompanys = function(req, res, next){
@@ -32,7 +31,7 @@ var getCompanys = function(req, res, next){
     	if(!err){
     		res.send(companies).status(200).end();
     	}
-    });  
+    });
 }
 
 var updateProfile = function(req, res, next){
@@ -80,6 +79,36 @@ function updateCategories (req, res, next){
     });
 }
 
+function toggleActivate(req,res){
+    Login.findOne({email : req.body.email},function(err,user){
+      if(user.deactivated == undefined){
+        user.deactivated = true;
+      }else{
+        user.deactivated = !user.deactivated
+      }
+
+      user.save(function(err){
+        if(!err){
+            res.status(200).end();
+        }else{
+            console.log(err)
+        }
+      });
+
+
+    });
+
+    var role = capitalizeFirstLetter(req.body.role);
+    eval(role).findOne({ email: req.body.email }, function(err, user_) {
+        if(user_.deactivated == undefined){
+            user_.deactivated = true;
+        }else{
+            user_.deactivated = !user_.deactivated
+        }
+        user_.save();
+    });
+}
+
 
 
 function capitalizeFirstLetter(string) {
@@ -92,5 +121,6 @@ module.exports = {
 	getUsers : getUsers,
 	getCompanys : getCompanys,
     updateProfile : updateProfile,
-    updateCategories : updateCategories
+    updateCategories : updateCategories,
+    toggleActivate : toggleActivate
 }

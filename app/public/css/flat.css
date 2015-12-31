@@ -9,7 +9,8 @@
   font-weight: normal;
   line-height: 1.4;
   border: none;
-  border-radius: 4px;
+  background: transparent;
+  border-radius: 2px;
   -webkit-transition: border .25s linear, color .25s linear, background-color .25s linear;
           transition: border .25s linear, color .25s linear, background-color .25s linear;
 
@@ -96,8 +97,9 @@ fieldset[disabled] .btn-default.active {
   background-color: #fff;
   }
 .btn-primary {
-  color: #fff !important;
-  background-color: #1abc9c;
+  color: #222 !important;
+  /*background-color: #1abc9c;*/
+  border : 1px solid #cf9e34;
   }
 .btn-primary:hover,
 .btn-primary.hover,
@@ -186,8 +188,9 @@ fieldset[disabled] .btn-info.active {
   background-color: #fff;
   }
 .btn-danger {
-  color: #fff !important;
-  background-color: #e74c3c;
+  color: #222;
+  /*background-color: #e74c3c;*/
+  border: 1px solid #e74c3c;
   }
 .btn-danger:hover,
 .btn-danger.hover,
@@ -231,8 +234,8 @@ fieldset[disabled] .btn-danger.active {
   background-color: #fff;
   }
 .btn-success {
-  color: #fff;
-  background-color: #2ecc71;
+
+  border: 1px solid #2ecc71;
   }
 .btn-success:hover,
 .btn-success.hover,
@@ -620,8 +623,8 @@ label {
   font-size: 15px;
   line-height: 1.467;
   color: #34495e;
-  border: 2px solid #bdc3c7;
-  border-radius: 6px;
+  border: 1px solid #bdc3c7;
+  border-radius: 2px;
   box-shadow: none;
   -webkit-transition: border .25s linear, color .25s linear, background-color .25s linear;
           transition: border .25s linear, color .25s linear, background-color .25s linear;

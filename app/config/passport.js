@@ -36,6 +36,10 @@ passport.use(new LocalStrategy({
         return done(null, false, { message: 'Diese Email existiert nicht' });
       }
 
+      if(user.deactivated){
+        return done(null, false, { message: 'Sie wurden von unserem System deaktiviert oder Sie haben sich löschen lassen!' });
+      }
+
       if (!bcrypt.compareSync(password,user.password)) {
         return done(null, false, { message: 'Das Passwort ist nicht korrekt' });
       }
@@ -59,7 +63,7 @@ var login = function(req, res, next){
     }
 
 
-    
+
   })(req, res, next);
 }
 
@@ -78,7 +82,7 @@ function forgot (req, res, next){
     }
 
     Login.update({email : req.body.email},
-      { 
+      {
         $set: {
           resetPasswordToken : token,
           resetPasswordExpires : tomorrow

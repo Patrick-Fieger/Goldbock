@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('app.register', ['ngRoute','ngAnimate'])
+angular.module('app.register', ['ngRoute'])
 
-.config(['$routeProvider','$animateProvider', function($routeProvider,$animateProvider) {
+.config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/register', {
     templateUrl: 'views/register/register.html',
     controller: 'RegisterCtrl'
@@ -24,7 +24,7 @@ angular.module('app.register', ['ngRoute','ngAnimate'])
 	function checkregister(data, status, headers, config) {
     MessageService.info(0)
     $location.path('/');
-    
+
   }
 
   function failregister(data, status, headers, config) {

@@ -3,7 +3,6 @@
 // Declare app level module which depends on views, and components
 angular.module('myApp', [
   'ngRoute',
-  'ngAnimate',
   'ngSanitize',
   'ng-currency',
   'angularMoment',
@@ -16,7 +15,7 @@ angular.module('myApp', [
   'app.admin_edit_categories',
   'app.provider_create_offer',
   'app.provider_dashboard',
-  'app.user_dashboard',
+  'app.favorites',
   'app.categories',
   'app.provider_edit_offer',
   'app.offer',
@@ -35,7 +34,7 @@ angular.module('myApp', [
   'app.chat',
   'app.profile'
 ]).
-config(['$locationProvider','$routeProvider','$animateProvider', function($locationProvider,$routeProvider,$animateProvider) {
+config(['$locationProvider','$routeProvider', function($locationProvider,$routeProvider) {
   $routeProvider.otherwise({redirectTo: '/'});
 }])
 .run(function($rootScope,$http,AuthService,AllService,$timeout,MessageService,amMoment) {
@@ -56,10 +55,10 @@ config(['$locationProvider','$routeProvider','$animateProvider', function($locat
         event.preventDefault();
     });
     $rootScope.showmenu = false;
-    
+
 
     $rootScope.closeMenu = function(){
-        $rootScope.showmenu = false;        
+        $rootScope.showmenu = false;
     }
 
     $rootScope.closeNotification = function(){
@@ -82,7 +81,7 @@ config(['$locationProvider','$routeProvider','$animateProvider', function($locat
         },300)
         angular.element($window).bind("scroll", function() {
             var stickvar = $('.header_wrapper').height() - 40;
-            
+
             if (this.pageYOffset >= stickvar) {
                $('#pricing').parent('div').css('left',left + 'px')
                scope.sticky = true;
@@ -113,7 +112,7 @@ config(['$locationProvider','$routeProvider','$animateProvider', function($locat
   var socket = io.connect();
   return {
     on: function (eventName, callback) {
-      socket.on(eventName, function () {  
+      socket.on(eventName, function () {
         var args = arguments;
         $rootScope.$apply(function () {
           callback.apply(socket, args);

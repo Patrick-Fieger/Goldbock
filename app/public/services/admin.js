@@ -24,13 +24,19 @@ angular.module('app.adminService', [])
 	}
 
 	var saveCategories = function(data){
-		return $http.post('/admin/update/categories' , data)	
+		return $http.post('/admin/update/categories' , data)
+	}
+
+	var toggleActivate = function(data){
+		return $http.post('/toggle/activate' , data)
 	}
 
 	return{
 		getAllUsers : getAllUsers,
 		getProviders : getProviders,
+		getUsers : getUsers,
 		updateProfile : updateProfile,
-		saveCategories : saveCategories
+		saveCategories : saveCategories,
+		toggleActivate : toggleActivate
 	}
 })

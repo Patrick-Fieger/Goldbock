@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('app.provider_create_offer', ['ngRoute','ngAnimate'])
+angular.module('app.provider_create_offer', ['ngRoute'])
 
-.config(['$routeProvider','$animateProvider', function($routeProvider,$animateProvider) {
+.config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/provider/create/offer', {
     templateUrl: 'views/provider_create_offer/provider_create_offer.html',
     controller: 'ProviderCreateOfferCtrl'
@@ -15,11 +15,11 @@ angular.module('app.provider_create_offer', ['ngRoute','ngAnimate'])
 	var progressInterval;
 	var images;
 	$scope.images = [];
-	
+
 	$scope.showProgress = false;
 	$scope.headerImageApplied = false;
 	$scope.progressMessage = "";
-	
+
 	var path;
 	AuthService.isAdmin().success(function(data, status, headers, config){
 		if(data.admin){
@@ -60,9 +60,9 @@ angular.module('app.provider_create_offer', ['ngRoute','ngAnimate'])
 		if($("#video")[0].files[0] == undefined){
 			pushVideoFilenameAndUploadOfferData("","","","");
 		}else{
-			UploadService.uploadOfferVideo($("#video")[0].files[0]).success(pushVideoFilenameAndUploadOfferData);	
+			UploadService.uploadOfferVideo($("#video")[0].files[0]).success(pushVideoFilenameAndUploadOfferData);
 		}
-		
+
 	}
 
 	function pushVideoFilenameAndUploadOfferData(data, status, headers, config){
@@ -116,7 +116,7 @@ angular.module('app.provider_create_offer', ['ngRoute','ngAnimate'])
 						});
 						$timeout(function(){
 							for (var i = 0; i < images.length; i++) {
-								$scope.images[i].name = images[i].name 
+								$scope.images[i].name = images[i].name
 							};
 							console.log($scope.images)
 						},400)
