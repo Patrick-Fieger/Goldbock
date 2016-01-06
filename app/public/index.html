@@ -47,7 +47,7 @@
                     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-        <div ng-cloak ng-if="isLogged && role !== 'admin'" id="profile" ng-controller="ProfileCtrl">
+        <div ng-cloak ng-if="isLogged && role !== 'admin'" class="large-2 columns" id="profile" ng-controller="ProfileCtrl">
             <!-- <div ng-click="openMenu()" class="mainmenu">
                 <span class="si-icon si-icon-hamburger-cross" data-icon-name="hamburgerCross"></span>
             </div> -->
@@ -142,9 +142,9 @@
         <div ng-class="{'active' : showNotify , 'danger' : notifyDanger}" class="notify">
             <p>{{notifyText}}</p>
         </div>
-        <div class="container" ng-class="{active : showmenu}">
+        <div class="container columns" ng-class="{'large-10' : showmenu}">
             <div ng-view></div>
-            <div class="menu_overlay" ng-show="showmenu" ng-click="closeMenu()"></div>
+            <!-- <div class="menu_overlay" ng-show="showmenu" ng-click="closeMenu()"></div> -->
         </div>
         <div class="spinner">
             <div class="bounce1"></div>

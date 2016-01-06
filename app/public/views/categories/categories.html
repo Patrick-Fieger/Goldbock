@@ -1,33 +1,79 @@
 <div class="kategorien">
-    <div class="roundabout">
-        <div ng-hide="hidelogo" class="logo">
-            <img src="img/logo.png">
+    <div class="row">
+        <div class="columns large-4 ad_slider" slider="true">
+            <ul>
+                <li ng-class='{active:$first}' ng-repeat="ad in allAds_1">
+                    <a href="#/offer/{{ad.id}}">
+                    <h1>Kategorie:<br> <b>{{ad.category}}</b></h1>
+                    <div class="teaser_photo" style="background-image:url({{ad.photos[0]}})"></div>
+                    <h1 class="mt10"><b>{{ad.title}}</b></h1>
+                    <p>{{ad.description | cut:true:100:' ...'}}</p>
+                    </a>
+                </li>
+            </ul>
         </div>
-        <div on-finish-render="positioning()" class="item" ng-repeat="k in categories">
-            <a ng-href="#/offers/{{k.href}}" kategorie="{{k.href}}" ng-bind-html="k.category"></a>
+        <div class="columns large-4 ad_slider" slider="true">
+            <ul>
+                <li ng-class='{active:$first}' ng-repeat="ad in allAds_2">
+                    <a href="#/offer/{{ad.id}}">
+                    <h1>Kategorie:<br> <b>{{ad.category}}</b></h1>
+                    <div class="teaser_photo" style="background-image:url({{ad.photos[0]}})"></div>
+                    <h1 class="mt10"><b>{{ad.title}}</b></h1>
+                    <p>{{ad.description | cut:true:100:' ...'}}</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="columns large-4 ad_slider" slider="true">
+            <ul>
+                <li ng-class='{active:$first}' ng-repeat="ad in allAds_3">
+                    <a href="#/offer/{{ad.id}}">
+                    <h1>Kategorie:<br> <b>{{ad.category}}</b></h1>
+                    <div class="teaser_photo" style="background-image:url({{ad.photos[0]}})"></div>
+                    <h1 class="mt10"><b>{{ad.title}}</b></h1>
+                    <p>{{ad.description | cut:true:100:' ...'}}</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="columns large-4 ad_slider" slider="true">
+            <ul>
+                <li ng-class='{active:$first}' ng-repeat="ad in allAds_4">
+                    <a href="#/offer/{{ad.id}}">
+                    <h1>Kategorie:<br> <b>{{ad.category}}</b></h1>
+                    <div class="teaser_photo" style="background-image:url({{ad.photos[0]}})"></div>
+                    <h1 class="mt10"><b>{{ad.title}}</b></h1>
+                    <p>{{ad.description | cut:true:100:' ...'}}</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- BIG STREAM! -->
+        <div class="columns large-4 ad_slider">
+            <ul class="mt20">
+                <li ng-class='{active:$first}' ng-repeat="ad in ads">
+                    <a href="#/offer/{{ad.id}}">
+                    <h1>Kategorie:<br> <b>{{ad.category}}</b></h1>
+                    <div class="teaser_photo" style="background-image:url({{ad.photos[0]}})"></div>
+                    <h1 class="mt10"><b>{{ad.title}}</b></h1>
+                    <p>{{ad.description | cut:true:100:' ...'}}</p>
+                    </a>
+
+                    <hr>
+                </li>
+            </ul>
+        </div>
+        <div class="columns large-4 ad_slider" slider="true">
+            <ul>
+                <li ng-class='{active:$first}' ng-repeat="ad in allAds_5">
+                    <a href="#/offer/{{ad.id}}">
+                    <h1>Kategorie:<br> <b>{{ad.category}}</b></h1>
+                    <div class="teaser_photo" style="background-image:url({{ad.photos[0]}})"></div>
+                    <h1 class="mt10"><b>{{ad.title}}</b></h1>
+                    <p>{{ad.description | cut:true:100:' ...'}}</p>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
 </div>
-
-<div class="user_advertising fixed">
-	<ul>
-		<li ng-class='{active:$first}' ng-repeat="ad in ads">
-			<a href="#/offer/{{ad.id}}">
-				<h1>Neues für Sie aus der Kategorie:<br> <b>{{ad.category}}</b></h1>
-				<div class="teaser_photo" style="background-image:url({{ad.photos[0]}})"></div>
-				<h1 class="mt10"><b>{{ad.title}}</b></h1>
-				<p>{{ad.description}}</p>
-			</a>
-		</li>
-	</ul>
-</div>
-
-<!-- Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. -->
-
-<!-- Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum. -->

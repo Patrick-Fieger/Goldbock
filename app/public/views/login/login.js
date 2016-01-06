@@ -13,7 +13,7 @@ angular.module('app.login', ['ngRoute'])
 .controller('LoginCtrl', ['$scope','$location','$timeout','AuthService','AllService','MessageService','$rootScope',function($scope,$location,$timeout,AuthService,AllService,MessageService,$rootScope) {
   var ua = navigator.userAgent.toLowerCase();
 
-  $scope.showAbout = false;
+  $scope.showAbout = true;
 
   if (ua.indexOf('chrome') > -1) {
     // $scope.userData = {

@@ -16,6 +16,8 @@ angular.module('app.profile', ['ngRoute'])
 	$scope.password = {};
 	var user = localStorage.getItem('user');
 
+	$('#profile').height($(window).height());
+
 	$scope.counter = [];
 
 	AllService.profile().success(updateProfileView);

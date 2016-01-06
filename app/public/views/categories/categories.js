@@ -6,11 +6,9 @@ angular.module('app.categories', ['ngRoute']).config(['$routeProvider',
             controller: 'CategoriesCtrl'
         });
     }
-]).controller('CategoriesCtrl', ['$scope', '$timeout','$location','$rootScope','UserService',
-    function($scope, $timeout,$location,$rootScope,UserService) {
-        $rootScope.intervallAdvertisingSlider = null;
+]).controller('CategoriesCtrl', ['$scope', '$timeout','$location','$rootScope','UserService','$interval',
+    function($scope, $timeout,$location,$rootScope,UserService,$interval) {
         var descriptionMax = 124;
-
 
         UserService.categories().success(buildView)
         UserService.getAds().success(buildAds);
@@ -19,23 +17,64 @@ angular.module('app.categories', ['ngRoute']).config(['$routeProvider',
             $scope.categories = data;
         }
 
-        function shuffle(o){
-            for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-            return o;
+        function shuffle(array) {
+          var currentIndex = array.length, temporaryValue, randomIndex;
+
+          // While there remain elements to shuffle...
+          while (0 !== currentIndex) {
+
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+
+            // And swap it with the current element.
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+          }
+
+          return array;
         }
 
         function buildAds(data, status, headers, config){
             $scope.ads = shuffle(data.ads);
+            $scope.allAds_1 = shuffle(angular.copy(data.all_ads));
+            $scope.allAds_2 = shuffle(angular.copy(data.all_ads));
+            $scope.allAds_3 = shuffle(angular.copy(data.all_ads));
+            $scope.allAds_4 = shuffle(angular.copy(data.all_ads));
+            $scope.allAds_5 = shuffle(angular.copy(data.all_ads));
 
-            for (var i = 0; i < $scope.ads.length; i++) {
-                if($scope.ads[i].description.length > descriptionMax){
-                    $scope.ads[i].description = $scope.ads[i].description.substring(0, descriptionMax) + '...';
-                }else{
-                    $scope.ads[i].description = $scope.ads[i].description + '...';
-                }
-            };
+            initSliders()
 
-            $rootScope.intervallAdvertisingSlider = setInterval(nextAd,10000);
+            // for (var i = 0; i < $scope.ads.length; i++) {
+            //     if($scope.ads[i].description.length > descriptionMax){
+            //         $scope.ads[i].description = $scope.ads[i].description.substring(0, descriptionMax) + '...';
+            //     }else{
+            //         $scope.ads[i].description = $scope.ads[i].description + '...';
+            //     }
+            // };
+
+            // $rootScope.intervallAdvertisingSlider = setInterval(nextAd,10000);
+        }
+
+        function initSliders(){
+            $('[slider]').each(function(index, el) {
+                var that = $(this)
+
+                $timeout(function(){
+                    $interval(function(){
+                        if(that.find('li.active').next('li').length){
+                            that.find('li.active').removeClass('active').next('li').addClass('active');
+                        }else{
+                            that.find('li.active').removeClass('active');
+                            that.find('li').eq(0).addClass('active');
+                        }
+                    },5000)
+
+                },500*index)
+            });
+
+
         }
 
         function nextAd(){
@@ -45,30 +84,6 @@ angular.module('app.categories', ['ngRoute']).config(['$routeProvider',
                 $('.user_advertising li.active').removeClass('active');
                 $('.user_advertising').find('li').eq(0).addClass('active');
             }
-        }
-
-        $scope.positioning = function() {
-            var elems = $('.item')
-            var increase = Math.PI * 2 / elems.size();
-            var x = 0,
-                y = 0,
-                angle = 0,
-                size = 250
-                elems.each(function(index, el) {
-                    x = size * Math.cos(angle) + 100;
-                    y = size * Math.sin(angle) + 100;
-                    $(this).css({
-                        left: x + 'px',
-                        top: y + 'px',
-                    });
-                    angle += increase;
-                }).promise().done(function() {
-                    elems.each(function(index, el) {
-                        $timeout(function() {
-                            $(el).addClass('active');
-                        }, 100 * index);
-                    });
-                });
         }
     }
 ]);

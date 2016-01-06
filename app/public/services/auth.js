@@ -6,6 +6,7 @@ angular.module('app.authService', [])
     		$location.path('/');
     	}).success(function(data, status, headers, config){
     		$rootScope.isLogged = true;
+    		$rootScope.showmenu = true;
     		$rootScope.role = data;
     	});
 	}

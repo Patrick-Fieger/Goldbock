@@ -44,6 +44,7 @@ config(['$locationProvider','$routeProvider', function($locationProvider,$routeP
         $(window).unbind("scroll");
         $('body').scrollTop(0);
         $('.spinner').removeClass('active');
+        $('.container,#profile').height($(window).height());
         $rootScope.showmenu = false;
         clearInterval($rootScope.intervallAdvertisingSlider);
         if(path !== '/' && path !== "/register" && path.split('/')[1] !== "forgot" && path.split('/')[1] !== "verify"){
@@ -54,12 +55,17 @@ config(['$locationProvider','$routeProvider', function($locationProvider,$routeP
     $(document).on('click', '.disabled input', function(event) {
         event.preventDefault();
     });
-    $rootScope.showmenu = false;
 
 
-    $rootScope.closeMenu = function(){
-        $rootScope.showmenu = false;
-    }
+    $(window).resize(function(event) {
+      $('.container,#profile').height($(window).height());
+    });
+    // $rootScope.showmenu = false;
+
+
+    // $rootScope.closeMenu = function(){
+    //     $rootScope.showmenu = false;
+    // }
 
     $rootScope.closeNotification = function(){
       MessageService.hideMessage();
@@ -147,4 +153,55 @@ config(['$locationProvider','$routeProvider', function($locationProvider,$routeP
     if(items)
         return items.slice().reverse();
   };
-})
+}).filter('cut', function () {
+        return function (value, wordwise, max, tail) {
+            if (!value) return '';
+
+            max = parseInt(max, 10);
+            if (!max) return value;
+            if (value.length <= max) return value;
+
+            value = value.substr(0, max);
+            if (wordwise) {
+                var lastspace = value.lastIndexOf(' ');
+                if (lastspace != -1) {
+                    value = value.substr(0, lastspace);
+                }
+            }
+
+            return value + (tail || ' …');
+        };
+    });
+// .directive("slider", function($timeout) {
+//     function shuffle(o){
+//         for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+//         return o;
+//     }
+
+//     return {
+//         require: "ngModel",
+//         restrict: "E",
+//         replace: true,
+//         scope: {
+//             ngModel: "="
+//         },
+//         // template:
+//         //     '<div ng-form="{{ subFormName }}">' +
+//         //         '<input type="text" ng-model="from" class="range-from" />' +
+//         //         '<input type="text" ng-model="to" class="range-to" />' +
+//         //     '</div>',
+//         link: function(scope,elem,attrs,ngModel) {
+//             //var value = shuffle(ngModel.$modelValue)
+//             console.log(scope)
+//             $timeout(function(){
+//               var copy = angular.copy(ngModel.$modelValue);
+
+//               var value = shuffle(copy)
+//               // ngModel.$viewValue = value;
+//               // ngModel.$render();
+//               // ngModel.$modelValue = value;
+//               scope.ngModel = value;
+//             },1000 * parseInt(attrs.slider));
+//         }
+//     };
+// });
