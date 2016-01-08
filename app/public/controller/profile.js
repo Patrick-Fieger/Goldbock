@@ -4,11 +4,21 @@ angular.module('app.profile', ['ngRoute'])
 
 .controller('ProfileCtrl', ['$scope','$location','$timeout','ProviderService','AllService','AuthService','UploadService','$rootScope','MessageService','socket','UserService',function($scope,$location,$timeout,ProviderService,AllService,AuthService,UploadService,$rootScope,MessageService,socket,UserService) {
 	$scope.profile = {};
+	$scope.post = {
+		text : "",
+		link : "",
+		name : "",
+		profile_id : "",
+		role : "",
+		email : "",
+		avatar : {}
+	};
 	$scope.avatar;
 	$scope.showAboutTextarea = false;
 	$scope.editstate = false;
 	$scope.hideAddOffer = false;
 	$scope.passstate = false;
+	$scope.poststate = false;
 	$scope.advert = false;
 	$scope.showAboutTextareaText;
 	$scope.about;
@@ -16,13 +26,13 @@ angular.module('app.profile', ['ngRoute'])
 	$scope.password = {};
 	var user = localStorage.getItem('user');
 
+
 	$('#profile').height($(window).height());
 
 	$scope.counter = [];
+	$rootScope.posts = []
 
 	AllService.profile().success(updateProfileView);
-
-
 
 	socket.emit('join',{email : user})
 	socket.emit('get unreaded messages',{email : user},unreadedCount)
@@ -32,12 +42,38 @@ angular.module('app.profile', ['ngRoute'])
 		}
 	});
 
+	socket.emit('all posts',{},buildPosts)
+
+	socket.on('new post arrived',function(data){
+		var d = data;
+		d.date = moment(d.date).format("MM/DD/YYYY HH:mm");
+		if(d.link){
+			d.link.indexOf('youtube') > -1 ? d.youtube = true : d.youtube = false;
+			d.link = d.link.replace("watch?v=", "v/");
+		}
+		$rootScope.posts.unshift(data);
+	});
+
+	function buildPosts(data){
+		var d = data;
+		for (var i = 0; i < d.length; i++) {
+			d[i].date = moment(d[i].date).format("MM/DD/YYYY HH:mm");
+			if(d[i].link){
+				d[i].link.indexOf('youtube') > -1 ? d[i].youtube = true : d[i].youtube = false;
+				d[i].link = d[i].link.replace("watch?v=", "v/");
+			}
+		};
+		$rootScope.posts = d
+	}
+
 	function unreadedCount(data){
 		$scope.counter = data;
 	}
 
 	function updateProfileView(data, status, headers, config){
 		$scope.profile = data;
+
+
 
 		setTimeout(function(){
 			$('.addvertising_bg,.addvertising,.crop_wrapper').removeAttr('style')
@@ -59,6 +95,12 @@ angular.module('app.profile', ['ngRoute'])
         	$scope.profile.avatar.big = 'img/avatar/avatar.png';
         	$scope.profile.avatar.small = 'img/avatar/avatar.png';
         }
+
+        $scope.post.profile_id = $scope.profile.id;
+		$scope.post.role = $scope.profile.role;
+		$scope.post.avatar = $scope.profile.avatar;
+		$scope.post.email = $scope.profile.email;
+		$scope.post.name = $scope.profile.firstname + ' ' + $scope.profile.lastname
 
 
         localStorage.setItem('user',data.email)
@@ -91,10 +133,15 @@ angular.module('app.profile', ['ngRoute'])
 		$scope.passstate = true;
 	}
 
+	$scope.editPost = function(){
+		$scope.poststate = true;
+	}
+
 	$scope.cancel = function(){
 		$scope.showAboutTextarea = false;
 		$scope.editstate = false;
 		$scope.passstate = false;
+		$scope.poststate = false;
 	}
 
 	$scope.save = function(){
@@ -108,10 +155,25 @@ angular.module('app.profile', ['ngRoute'])
      	}else if ($scope.pass.$valid && $scope.passstate){
      		var data = angular.copy($scope.password);
      		AllService.updatePassword(data).success(changePasswordSuccess);
+     	}else if($scope.post_form.$valid && $scope.poststate){
+     		// var data = angular.copy($scope.post);
+     		socket.emit('new post',{data : $scope.post},function(data){
+     			var d = data;
+				d.date = moment(d.date).format("MM/DD/YYYY HH:mm");
+				if(d.link){
+					d.link.indexOf('youtube') > -1 ? d.youtube = true : d.youtube = false;
+					d.link = d.link.replace("watch?v=", "v/");
+				}
+				$rootScope.posts.unshift(data);
+     		});
+     		$scope.post.text = "";
+     		$scope.post.link = "";
+     		$scope.cancel();
      	}else{
-     		alert('Bitte füllen sie alle notwendigen Felder aus!')
+     		alert('Bitte füllen sie alle notwendigen Felder aus!');
      	}
 	}
+
 
 	function updateProfileSuccess(){
 		checkAboutText();

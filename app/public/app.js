@@ -44,7 +44,7 @@ config(['$locationProvider','$routeProvider', function($locationProvider,$routeP
         $(window).unbind("scroll");
         $('body').scrollTop(0);
         $('.spinner').removeClass('active');
-        $('.container,#profile').height($(window).height());
+        $('.container,#profile,#posts').height($(window).height());
         $rootScope.showmenu = false;
         clearInterval($rootScope.intervallAdvertisingSlider);
         if(path !== '/' && path !== "/register" && path.split('/')[1] !== "forgot" && path.split('/')[1] !== "verify"){

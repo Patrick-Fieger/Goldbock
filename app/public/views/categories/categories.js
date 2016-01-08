@@ -6,9 +6,18 @@ angular.module('app.categories', ['ngRoute']).config(['$routeProvider',
             controller: 'CategoriesCtrl'
         });
     }
-]).controller('CategoriesCtrl', ['$scope', '$timeout','$location','$rootScope','UserService','$interval',
-    function($scope, $timeout,$location,$rootScope,UserService,$interval) {
+]).controller('CategoriesCtrl', ['$scope', '$timeout','$location','$rootScope','UserService','$interval','$sce',
+    function($scope, $timeout,$location,$rootScope,UserService,$interval,$sce) {
         var descriptionMax = 124;
+
+        $timeout(function(){
+            $('#posts').height($(window).height());
+        })
+
+
+        $scope.trustSrc = function(src) {
+            return $sce.trustAsResourceUrl(src);
+        }
 
         UserService.categories().success(buildView)
         UserService.getAds().success(buildAds);

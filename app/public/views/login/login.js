@@ -30,15 +30,15 @@ angular.module('app.login', ['ngRoute'])
 
 
   }else{
-    // $scope.userData = {
-    //   "email":"oliver.bock@steinbock.info",
-    //   "password":"kleine"
-    // }
-
     $scope.userData = {
-      "email":"p@jpy.io",
-      "password":"123456"
+      "email":"oliver.bock@steinbock.info",
+      "password":"kleine"
     }
+
+    // $scope.userData = {
+    //   "email":"p@jpy.io",
+    //   "password":"123456"
+    // }
   }
 
   $scope.toggleAboutGoldbock = function(){

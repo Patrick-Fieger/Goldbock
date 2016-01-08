@@ -1,10 +1,32 @@
 var Chats = require('../models/chat'),
-    uuid = require('uuid');
+    Post = require('../models/post'),
+    uuid = require('uuid'),
+    moment = require('moment');
 
 module.exports = function(io) {
     var chats = [];
     io.sockets.on('connection', function(socket) {
-        
+        var postroom = "post";
+
+        socket.join(postroom);
+
+        socket.on('all posts',function(data, callback) {
+            var data = Post.find({}).sort('-date').limit(10).exec(function(err, docs) {
+                callback(docs);
+            });
+        });
+
+        socket.on('new post',function(data, callback) {
+            var d = data.data;
+            d.id = uuid.v4();
+            d.date = new Date();
+
+            Post.create(d);
+
+            socket.broadcast.emit('new post arrived', d);
+            callback(d)
+        });
+
 
         socket.on('join',function(data){
             socket.join(data.email);
@@ -127,7 +149,7 @@ module.exports = function(io) {
                     chat.isArchieved = [];
                 }
 
-                
+
 
                 chat.save(function(err) {
                     if (!err) {

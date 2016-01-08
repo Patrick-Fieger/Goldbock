@@ -1,5 +1,26 @@
-<div class="kategorien">
-    <div class="row">
+<div class="columns large-3" id="posts">
+    <ul>
+        <li ng-repeat="post in posts">
+            <div class="columns large-12 post_profile_data">
+                <img ng-src="{{post.avatar.small}}" alt="">
+                <p>{{post.name}}</p>
+                <p class="post_date">{{post.date}}</p>
+            </div>
+            <div class="columns large-12">
+                <p>{{post.text}}</p>
+                <div ng-if="post.youtube">
+                    <iframe type="text/html" width="100%" allowfullscreen frameborder="0" ng-src="{{trustSrc(post.link)}}"></iframe>
+                </div>
+                <div ng-if="!post.youtube && post.link !== ''">
+                    <a ng-href="{{post.link}}" target="_blank" title="">{{post.link}}</a>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+<div class=" columns large-9">
+    <!-- <div class="row"> -->
+    <div>
         <div class="columns large-4 ad_slider" slider="true">
             <ul>
                 <li ng-class='{active:$first}' ng-repeat="ad in allAds_1">

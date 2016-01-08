@@ -2098,9 +2098,9 @@ svg.checkmark.active {
     width: 100%;
 }
 
-.kategorien{
+/*.kategorien{
     margin: 100px 0;
-}
+}*/
 
 .angebote h1 {
     text-align: center;
@@ -3952,7 +3952,6 @@ img-crop canvas {
 .profile{
     background: rgba(244, 244, 244,0.85);
     border-right: 1px solid #dce0e0;
-    border-bottom: 1px solid #dce0e0
 }
 
 .container{
@@ -4118,6 +4117,51 @@ img-crop canvas {
 }
 
 
+#posts{
+    background: rgba(244, 244, 244,0.85);
+    border-right: 1px solid #dce0e0;
+    border-bottom: 1px solid #dce0e0;
+    overflow-y: scroll;
+}
 
+#posts ul{
+    margin: 10px 0 0 0;
+    padding: 0;
+}
+
+#posts ul li{
+    padding-bottom: 40px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid #dce0e0;
+    list-style: none;
+    float: left;
+    width: 100%
+}
+
+#posts .post_profile_data img{
+    width: 50px;
+    border-radius: 50%;
+    float: left;
+    margin-right: 15px
+}
+
+
+#posts .post_profile_data p{
+    margin: 0;
+}
+
+#posts .post_profile_data p:first-child{
+    margin-top: 3px !important
+}
+
+#posts .post_date{
+    font-size: 12px;
+    color: #ccc;
+    font-style: italic;
+}
+
+#posts a{
+    text-decoration: underline;
+}
 
 
