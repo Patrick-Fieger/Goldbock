@@ -56,6 +56,8 @@ module.exports = function(app){
 
 	app.get('/unreadedmessages',pass.isAuthenticatedToMakeRequest,chat.unreadedmessages);
 
+	app.post('/post/image/upload',pass.isAuthenticatedToMakeRequest,all.uploadPostImage);
+	app.post('/post/add/comment',pass.isAuthenticatedToMakeRequest,all.addCommentPost);
 
 
 	app.get('/getallusers', pass.isAuthenticatedToMakeRequest, all.getAllUsers)

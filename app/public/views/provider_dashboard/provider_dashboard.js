@@ -12,6 +12,10 @@ angular.module('app.provider_dashboard', ['ngRoute'])
 .controller('ProviderDashboardCtrl', ['$scope','$location','$timeout','ProviderService','AllService','AuthService','UploadService','$rootScope','MessageService','socket',function($scope,$location,$timeout,ProviderService,AllService,AuthService,UploadService,$rootScope,MessageService,socket) {
 	$scope.user = {};
 
+	$timeout(function(){
+		$('#posts').height($(window).height());
+    });
+
 	AllService.profile().success(updateProfileView);
 
 	function updateProfileView(data, status, headers, config){

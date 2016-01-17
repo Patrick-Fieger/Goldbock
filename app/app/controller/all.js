@@ -1,5 +1,6 @@
 var Provider = require('../models/provider'),
-	User = require('../models/user')
+	User = require('../models/user'),
+	Post = require('../models/post')
 	mongoose = require('mongoose'),
 	uuid = require('uuid'),
     formidable = require('formidable'),
@@ -136,6 +137,45 @@ function compare(a,b) {
 }
 
 
+function uploadPostImage(req,res){
+	var form = new formidable.IncomingForm();
+	form.on('end', function() {
+		var name = this.openedFiles[0].name.replace(/^\s+|\s+$|\s+(?=\s)/g, "_");
+		var newFilename = __dirname + '/../../public/uploads/posts/' + name,
+			temp_path = this.openedFiles[0].path;
+		fs.move(temp_path, newFilename, function(err) {
+			err ? console.error(err) : res.send('/uploads/posts/' + name).status(200).end();
+		});
+	});
+	form.parse(req, function(err, fields, files) {
+		err ? console.log(err) : "";
+	});
+}
+
+function addCommentPost(req, res){
+	var role = capitalizeFirstLetter(req.user.role);
+
+	eval(role).findOne({email: req.user.email}, function (err, user) {
+		var message = {
+			id : uuid.v4(),
+			user : user,
+			date : new Date(),
+			text : req.body.text
+		}
+
+		Post.update({id: req.body.id},{$push: {messages:message}},{upsert:true},function(err){
+			if(err){
+		    	console.log(err);
+			}else{
+		    	res.send(message).status(200).end();
+			}
+		});
+	});
+
+
+}
+
+
 
 var avatar = function(req, res, next){
 	var _uuid = uuid.v4();
@@ -267,5 +307,7 @@ module.exports = {
 	profile : profile,
 	updatePassword : updatePassword,
 	allOffers : allOffers,
-	avatar : avatar
+	avatar : avatar,
+	uploadPostImage : uploadPostImage,
+	addCommentPost : addCommentPost
 };

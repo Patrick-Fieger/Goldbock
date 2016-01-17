@@ -89,7 +89,8 @@
                     <form class="form-group" name="post_form">
                         <fieldset>
                             <textarea maxlength="140" ng-maxlength="400" ng-trim="5" class="form-control mb10 wd100" ng-model="post.text" value="post.link" placeholder="Schreibe einen Post... (Maximal 140 Zeichen)" required>{{post.link}}</textarea>
-                            <input type="text" class="form-control mb10" ng-model="post.link" value="post.link" placeholder="Link">
+                            <input type="text" class="form-control mb10" ng-model="post.link" value="post.link" placeholder="Link (optional)">
+                            <input type="file" id="postInput">
                         </fieldset>
                     </form>
                 </div>

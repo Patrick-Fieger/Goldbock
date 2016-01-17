@@ -1219,6 +1219,10 @@ select {
     line-height: 16px;
 }
 
+i{
+    font-style: italic;
+}
+
 .profile,.container,.avatar_wrapper:hover .icon-camera,.deletechat,.chatlist_menu ul li,.chatlist li,.userslist li,#login, .spinner, .grid figure, .kategorien h1, .angebote li, .closeangebot, .closeall, .large, .small, .content, .angebot_loader, .item, .opennoti:after, .inbox, .noti, .overlay, .meetingform, .morekrit, .firstnoti, .changeavatar, .progress_wrapper, .offer-list li span, .delete_wrapper .delete_, .notify, .list_users li, .bookoverlay, .bookover, .showofferbutton, svg.checkmark, .inneroverlay,.big_menu li .trenner,.big_menu li a {
     -webkit-transition: all 0.3s;
     -moz-transition: all 0.3s;
@@ -3911,6 +3915,7 @@ img-crop canvas {
 .big_menu li a{
     float: left;
     clear: both;
+    font-size: 18px;
 }
 
 .big_menu li .trenner{
@@ -4122,6 +4127,15 @@ img-crop canvas {
     border-right: 1px solid #dce0e0;
     border-bottom: 1px solid #dce0e0;
     overflow-y: scroll;
+    word-break: break-all;
+    position: fixed;
+    padding: 0;
+    width: 22%;
+}
+
+.link_post{
+    padding: 0 20px;
+    display: block;
 }
 
 #posts ul{
@@ -4164,4 +4178,58 @@ img-crop canvas {
     text-decoration: underline;
 }
 
+#posts .biglink{
+    float: left;
+    width: 100%
+}
 
+.link_wrapper{
+    float: left;
+    width: 100%;
+    margin-left: 15px;
+}
+
+#posts img{
+    max-height: 100px;
+}
+
+iframe{
+  width: 100%    !important;
+  height: 400px   !important;
+}
+
+#comment_section{
+    float: left;
+    width: 100%;
+    margin: 30px 0 0 0;
+    padding: 0;
+}
+
+#comment_section li{
+    list-style: none;
+    border-bottom: 1px solid #ccc;
+    float: left;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+#comment_section i,
+#postviewbig .avatar_post i{
+    color: #bbb;
+    font-size: 14px;
+}
+
+#postviewbig .avatar_post{
+    margin-top: 20px;
+}
+
+#postviewbig .avatar_post img,
+#postviewbig .avatar_post p{
+    float: left;
+}
+
+
+#postviewbig .avatar_post img{
+    border-radius: 50%;
+    margin-right: 10px
+}

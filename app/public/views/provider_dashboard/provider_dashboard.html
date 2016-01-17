@@ -1,28 +1,64 @@
 <div class="columns large-3" id="posts">
-    <ul>
-        <li ng-repeat="post in posts">
-            <div class="columns large-12 post_profile_data">
-                <img ng-src="{{post.avatar.small}}" alt="">
-                <p>{{post.name}}</p>
-                <p class="post_date">{{post.date}}</p>
-            </div>
-            <div class="columns large-12">
-                <p>{{post.text}}</p>
-                <div ng-if="post.youtube">
-                    <iframe type="text/html" width="100%" allowfullscreen frameborder="0" ng-src="{{trustSrc(post.link)}}"></iframe>
-                </div>
-                <div ng-if="!post.youtube && post.link !== ''">
-                    <a ng-href="{{post.link}}" target="_blank" title="">{{post.link}}</a>
-                </div>
-            </div>
-        </li>
-    </ul>
+	<ul>
+		<li ng-repeat="post in posts">
+			<a href="" ng-click="loadPostView(post.id)" title="" class="biglink">
+				<div class="columns large-12 post_profile_data">
+					<img ng-src="{{post.avatar.small}}" alt="">
+					<p>{{post.name}}</p>
+					<p class="post_date">{{post.date}}</p>
+				</div>
+				<span class="link_wrapper">
+					<p>{{post.text}}</p>
+					<img ng-if="post.image !== ''" ng-src="{{post.image}}" alt="">
+					<a class="link_post" ng-if="post.link !== ''" ng-href="{{post.link}}" title="">{{post.link}}</a>
+				</span>
+			</a>
+		</li>
+	</ul>
 </div>
 
 <div class="columns large-9">
-	<h1 class="tac mb30">Dashboard</h1>
-	<div class="large-12 columns">
-		<!-- <section ng-class="{'showforms': showAboutTextarea}">
+	<div ng-show="postview" id="postviewbig">
+		<div class="columns large-12 post_profile_data">
+			<div class="avatar_post">
+				<img ng-src="{{postToView.avatar.small}}" alt="">
+				<p>{{postToView.name}} <br><i>{{postToView.date}}</i></p>
+			</div>
+			<div class="columns large-12">
+				<p>{{postToView.text}}</p>
+				<img ng-if="postToView.image && postToView.image !== ''" ng-src="{{postToView.image}}" alt="">
+				<div ng-if="postToView.youtube">
+					<iframe type="text/html" allowfullscreen frameborder="0" ng-src="{{trustSrc(postToView.link)}}"></iframe>
+				</div>
+				<div ng-if="!postToView.youtube && postToView.link !== ''">
+					<a ng-href="{{postToView.link}}" target="_blank" title="">{{postToView.link}}</a>
+				</div>
+			</div>
+			<div class="columns large-12">
+				<hr>
+				<h1>Kommentare</h1>
+				<textarea style="height:100px" maxlength="140" ng-maxlength="140" ng-trim="5" class="form-control mb10 wd100" ng-model="$parent.postToViewComment" value="$parent.postToViewComment" placeholder="Schreibe ein Kommentar... (Maximal 140 Zeichen)" required>{{$parent.postToViewComment}}</textarea>
+				<a class="btn btn-primary wd100 fl mb10" href="" ng-click="addCommentPost(postToView.id)">Kommentar abgeben</a>
+
+				<ul id="comment_section">
+					<li ng-repeat="comment in postToView.messages">
+						<div class="columns large-12 post_profile_data">
+							<p class="mt0">{{comment.user.firstname}} {{comment.user.lastname}} - <i>{{comment.date}}</i></p>
+						</div>
+						<div class="columns large-12">
+							<p class="mt0">{{comment.text}}</p>
+						</div>
+					</li>
+				</ul>
+
+			</div>
+		</div>
+	</div>
+
+	<div ng-hide="postview">
+		<h1 class="tac mb30">Dashboard</h1>
+		<div class="large-12 columns">
+			<!-- <section ng-class="{'showforms': showAboutTextarea}">
 
 			<h2 class="mt0">Über mich</h2>
 			<p ng-show="showAboutTextareaText" class="mb30" ng-bind-html="about"></p>
@@ -35,20 +71,21 @@
 				</fieldset>
 				<span>{{count}}</span>
 			</form>
-		</section>
-		<hr> -->
+			</section>
+			<hr> -->
 
-		<section class="posr">
-			<h2>Meine Angebote</h2>
-			<a ng-hide="hideAddOffer" href="#/provider/create/offer" class="icon-plus3 fr posa t0 r0 createoffer_link"></a>
+			<section class="posr">
+				<h2>Meine Angebote</h2>
+				<a ng-hide="hideAddOffer" href="#/provider/create/offer" class="icon-plus3 fr posa t0 r0 createoffer_link"></a>
 
-			<ul class="offer-list mt30">
-				<li ng-repeat="offer in user.offers"><a ng-href="#/offer/{{offer.id}}">{{offer.title}}</a><span class="icon-pencil" ng-click="redirectEdit(offer.id)"></span><span ng-click="deleteOffer(offer.id)" class="icon-cup"></span></li>
+				<ul class="offer-list mt30">
+					<li ng-repeat="offer in user.offers"><a ng-href="#/offer/{{offer.id}}">{{offer.title}}</a><span class="icon-pencil" ng-click="redirectEdit(offer.id)"></span><span ng-click="deleteOffer(offer.id)" class="icon-cup"></span></li>
 
-			</ul>
-		</section>
+				</ul>
+			</section>
 
 
+		</div>
 	</div>
 </div>
 

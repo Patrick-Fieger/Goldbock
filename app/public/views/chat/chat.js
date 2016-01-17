@@ -257,7 +257,7 @@ angular.module('app.chat', ['ngRoute']).config(['$routeProvider',
                 clearTimeout(timeout)
                 timeout = setTimeout(function(){
                     noMoreTyping(id)
-                }, 2000);
+                }, 1000);
 
 
                 socket.emit('typing',{

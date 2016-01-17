@@ -10,7 +10,9 @@ var PostSchema = mongoose.Schema({
   profile_id : { type : String},
   date : { type : Date},
   role : { type : String},
+  image : { type : String},
   avatar : { type : Object},
+  messages : {type : Object},
   email : { type : String}
 });
 var Post = mongoose.model('Post', PostSchema);

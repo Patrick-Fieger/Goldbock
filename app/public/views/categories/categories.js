@@ -12,8 +12,7 @@ angular.module('app.categories', ['ngRoute']).config(['$routeProvider',
 
         $timeout(function(){
             $('#posts').height($(window).height());
-        })
-
+        });
 
         $scope.trustSrc = function(src) {
             return $sce.trustAsResourceUrl(src);

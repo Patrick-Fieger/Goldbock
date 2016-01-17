@@ -38,6 +38,20 @@ angular.module('app.allService', [])
 		$rootScope.avatar = {};
 	}
 
+	function uploadPostImage(data){
+		var formData = new FormData();
+		formData.append('files', data);
+
+		return $http.post('/post/image/upload', formData, {
+            transformRequest: angular.identity,
+            headers: {'Content-Type': undefined}
+        });
+	}
+
+	function addCommentPost(data){
+		return $http.post('/post/add/comment',data);
+	}
+
 	function getAllUsers(){
 		return $http.get('/getallusers')
 	}
@@ -49,6 +63,8 @@ angular.module('app.allService', [])
 		updateName : updateName,
 		updatePassword : updatePassword,
 		removePublicInLink : removePublicInLink,
-		getAvatarInfos : getAvatarInfos
+		getAvatarInfos : getAvatarInfos,
+		uploadPostImage : uploadPostImage,
+		addCommentPost : addCommentPost
 	}
 });
