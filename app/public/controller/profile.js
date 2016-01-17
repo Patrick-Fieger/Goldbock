@@ -75,6 +75,21 @@ angular.module('app.profile', ['ngRoute'])
 		$scope.counter = data;
 	}
 
+
+	function temporarySwap(array)
+	{
+	    var left = null;
+	    var right = null;
+	    var length = array.length;
+	    for (left = 0, right = length - 1; left < right; left += 1, right -= 1)
+	    {
+	        var temporary = array[left];
+	        array[left] = array[right];
+	        array[right] = temporary;
+	    }
+	    return array;
+	}
+
 	$rootScope.loadPostView = function (id){
 		for (var i = 0; i < $rootScope.posts.length; i++) {
 			if($rootScope.posts[i].id == id){
@@ -82,12 +97,14 @@ angular.module('app.profile', ['ngRoute'])
 	      			$rootScope.postToView.image = null;
 				}
 
-				if($rootScope.posts[i].messages.length !== 0){
+				if($rootScope.posts[i].messages && $rootScope.posts[i].messages.length !== 0){
 					for (var k = 0; k < $rootScope.posts[i].messages.length; k++) {
 						if(!moment($rootScope.posts[i].messages[k].date, "DD/MM/YYYY HH:mm", true).isValid()){
 							$rootScope.posts[i].messages[k].date =  moment($rootScope.posts[i].messages[k].date).format("DD/MM/YYYY HH:mm");
 						}
 					};
+
+					$rootScope.posts[i].messages = temporarySwap($rootScope.posts[i].messages);
 				}
 
 
@@ -107,8 +124,9 @@ angular.module('app.profile', ['ngRoute'])
 			text : $rootScope.postToViewComment
 		}
 		AllService.addCommentPost(message).success(function(data){
-			console.log(data)
-			$rootScope.postToView.messages.unshift(data);
+			var d = data;
+			d.date = moment(d.date).format("DD/MM/YYYY HH:mm");
+			$rootScope.postToView.messages.unshift(d);
 		});
 	}
 
