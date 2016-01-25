@@ -17,6 +17,7 @@ angular.module('myApp', [
   'app.provider_dashboard',
   'app.favorites',
   'app.categories',
+  'app.circle',
   'app.provider_edit_offer',
   'app.offer',
   'app.offers',

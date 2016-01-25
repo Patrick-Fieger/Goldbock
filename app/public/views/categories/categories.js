@@ -10,6 +10,8 @@ angular.module('app.categories', ['ngRoute']).config(['$routeProvider',
     function($scope, $timeout,$location,$rootScope,UserService,$interval,$sce) {
         var descriptionMax = 124;
 
+
+
         $timeout(function(){
             $('#posts').height($(window).height());
         });

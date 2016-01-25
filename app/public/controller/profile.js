@@ -93,9 +93,8 @@ angular.module('app.profile', ['ngRoute'])
 	$rootScope.loadPostView = function (id){
 		for (var i = 0; i < $rootScope.posts.length; i++) {
 			if($rootScope.posts[i].id == id){
-				if($rootScope.postToView){
-	      			$rootScope.postToView.image = null;
-				}
+				$rootScope.postToView = null;
+
 
 				if($rootScope.posts[i].messages && $rootScope.posts[i].messages.length !== 0){
 					for (var k = 0; k < $rootScope.posts[i].messages.length; k++) {
@@ -108,7 +107,8 @@ angular.module('app.profile', ['ngRoute'])
 				}
 
 
-				$rootScope.postToView = $rootScope.posts[i];
+	    		$rootScope.postToView = $rootScope.posts[i];
+	    		console.log($rootScope.postToView)
 				if(!$rootScope.postToView.messages){
 					$rootScope.postToView.messages = [];
 				}
@@ -118,11 +118,26 @@ angular.module('app.profile', ['ngRoute'])
 
 	}
 
-	$rootScope.addCommentPost = function(id){
+	$rootScope.opinion = [
+            "Nicht schlüssig für mich",
+            "Irgendwas fehlt...",
+            "Das ist gut!",
+            "Ich glaube ,das geht besser...",
+            "Kennen wir uns?",
+            "Nehmen sie mit mir Kontakt auf",
+            "Klasse",
+            "Applaus"
+    ];
+
+    $rootScope.opinion_ = [];
+
+	$rootScope.addCommentPost = function(id,opinion){
 		var message = {
 			id : id,
+			opinion : opinion,
 			text : $rootScope.postToViewComment
 		}
+
 		AllService.addCommentPost(message).success(function(data){
 			var d = data;
 			d.date = moment(d.date).format("DD/MM/YYYY HH:mm");

@@ -31,14 +31,17 @@
 					<iframe type="text/html" allowfullscreen frameborder="0" ng-src="{{trustSrc(postToView.link)}}"></iframe>
 				</div>
 				<div ng-if="!postToView.youtube && postToView.link !== ''">
-					<a ng-href="{{postToView.link}}" target="_blank" title="">{{postToView.link}}</a>
+					<iframe frameborder="0" style="height:600px !important;width:100%" ng-src="{{trustSrc(postToView.link)}}"></iframe>
+					<!-- <a ng-href="" target="_blank" title="">{{postToView.link}}</a> -->
 				</div>
 			</div>
 			<div class="columns large-12">
 				<hr>
-				<h1>Kommentare</h1>
+				<h1>Feedback</h1>
+				<i>Für Mehrfachauswahl bitt Strg- oder CMD-Taste gedrückt halten</i>
+				<select class="opinions" multiple="true" ng-model="opinion_" ng-options="c for c in opinion"></select>
 				<textarea style="height:100px" maxlength="140" ng-maxlength="140" ng-trim="5" class="form-control mb10 wd100" ng-model="$parent.postToViewComment" value="$parent.postToViewComment" placeholder="Schreibe ein Kommentar... (Maximal 140 Zeichen)" required>{{$parent.postToViewComment}}</textarea>
-				<a class="btn btn-primary wd100 fl mb10" href="" ng-click="addCommentPost(postToView.id)">Kommentar abgeben</a>
+				<a class="btn btn-primary wd100 fl mb10" href="" ng-click="addCommentPost(postToView.id,opinion_)">Kommentar abgeben</a>
 
 				<ul id="comment_section">
 					<li ng-repeat="comment in postToView.messages">
@@ -47,6 +50,10 @@
 						</div>
 						<div class="columns large-12">
 							<p class="mt0">{{comment.text}}</p>
+							<ul ng-if="comment.opinion">
+								<li style="border-bottom:0" ng-repeat="op in comment.opinion">- {{op}}</li>
+							</ul>
+
 						</div>
 					</li>
 				</ul>

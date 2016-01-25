@@ -8,6 +8,7 @@ var PostSchema = mongoose.Schema({
   link : { type : String},
   name : { type : String},
   profile_id : { type : String},
+  opinion : { type : Array},
   date : { type : Date},
   role : { type : String},
   image : { type : String},

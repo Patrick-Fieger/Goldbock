@@ -1,0 +1,9 @@
+<div class="roundabout">
+    <div ng-hide="hidelogo" class="logo">
+        <img src="img/logo.png"/>
+        <div on-finish-render="positioning()" class="item" ng-repeat="k in categories">
+            <a ng-href="#/offers/{{k.href}}" kategorie="{{k.href}}" ng-bind-html="k.category">
+            </a>
+        </div>
+    </div>
+</div>

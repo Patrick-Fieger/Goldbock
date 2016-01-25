@@ -160,6 +160,7 @@ function addCommentPost(req, res){
 			id : uuid.v4(),
 			user : user,
 			date : new Date(),
+			opinion : req.body.opinion,
 			text : req.body.text
 		}
 
