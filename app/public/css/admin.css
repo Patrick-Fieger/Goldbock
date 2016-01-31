@@ -71,9 +71,10 @@
 
 .admin_categories .icon-trash{
 	position: absolute;
-	right: 0;
-	top: 0;
-	opacity: 0;
+    right: -30px;
+    top: 7px;
+    opacity: 0;
+    font-size: 25px;
 }
 
 .admin_categories li ul li:hover .icon-trash,

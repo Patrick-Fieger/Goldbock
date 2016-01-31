@@ -30,6 +30,13 @@ angular.module('app.profile', ['ngRoute'])
 	var user = localStorage.getItem('user');
 	var cloneInput = $("#postInput").clone(true)
 
+	$scope.categories;
+	UserService.categories().success(buildView)
+
+	function buildView(data, status, headers, config){
+		$scope.categories = data;
+	}
+
 
 	$('#profile').height($(window).height());
 
@@ -373,6 +380,10 @@ angular.module('app.profile', ['ngRoute'])
 
 	function onlyOnWeek(){
 		MessageService.danger(6);
+	}
+
+	$scope.openSubMenu = function(e){
+		$(e.target).toggleClass('active').next('ul').toggleClass('active');
 	}
 
 	$scope.openMenu = function(){

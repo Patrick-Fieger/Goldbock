@@ -65,22 +65,36 @@
                     <!-- <a ng-if="profile.role == 'provider'" href="#/{{profile.role}}/dashboard" class="mb10 fullnamebig"> -->
 
                     <ul ng-hide="editstate || passstate || poststate" ng-class="{active : showmenu}" class="big_menu">
-                        <li><a ng-if="profile.role == 'user'" href="#/categories">Dashboard<span class="trenner"></span></a></li>
-                        <li><a ng-if="profile.role == 'provider'" href="#/{{profile.role}}/dashboard">Dashboard<span class="trenner"></span></a></li>
-                        <li><a ng-click="editProfile()" href="" title="" class="pencil_icon">Profil bearbeiten<span class="trenner"></span></a></li>
-                        <li><a href="" title="">Avatar ändern<span class="trenner"></span></a><input type="file" id="fileInput"></li>
-                        <li><a ng-click="editPass()" href="" title="" class="lock_icon">Passwort ändern<span class="trenner"></span></a></li>
-                        <li ng-if="profile.role == 'provider'" ><a ng-click="addAdvertising()" href="" title="" class="megaphone_icon">Werbung schalten<span class="trenner"></span></a></li>
+                        <div>
+                        <p ng-click="openSubMenu($event)">Dashboard</p>
+                        <ul>
+                            <li><a ng-if="profile.role == 'user'" href="#/categories">Dashboard<span class="trenner"></span></a></li>
+                            <li><a ng-if="profile.role == 'provider'" href="#/{{profile.role}}/dashboard">Dashboard<span class="trenner"></span></a></li>
+                            <li><a ng-click="editProfile()" href="" title="" class="pencil_icon">Profil bearbeiten<span class="trenner"></span></a></li>
+                            <li><a href="" title="">Avatar ändern<span class="trenner"></span></a><input type="file" id="fileInput"></li>
+                            <li><a ng-click="editPass()" href="" title="" class="lock_icon">Passwort ändern<span class="trenner"></span></a></li>
+                            <li ng-if="profile.role == 'provider'" ><a ng-click="addAdvertising()" href="" title="" class="megaphone_icon">Werbung schalten<span class="trenner"></span></a></li>
 
-                        <li><a ng-click="editPost()"  href="" title="">Post hinzufügen<span class="trenner"></span></a></li>
+                            <li><a ng-click="editPost()"  href="" title="">Post hinzufügen<span class="trenner"></span></a></li>
 
-                        <li><a style="position:relative" ng-click="" href="#/chat" title="" class="chat_icon">Chat <span class="showcounter" ng-show="counter.length > 0"><!-- {{counter.length}} --></span><span class="trenner"></span></a></li>
+                            <li><a style="position:relative" ng-click="" href="#/chat" title="" class="chat_icon">Chat <span class="showcounter" ng-show="counter.length > 0"></span><span class="trenner"></span></a></li>
 
-                        <li ng-if="profile.role == 'user'"><a href="#/favorites" title="" class="heart_icon">Favoriten<span class="trenner"></span></a></li>
-                        <li><a href="#/circle" title="" class="notebook_icon">Kategorien<span class="trenner"></span></a></li>
-                        <li><a href="" title="" class="notebook_icon">Kontakte<span class="trenner"></span></a></li>
-                        <li><a href="" title="" class="telescope_icon">Beobachtung<span class="trenner"></span></a></li>
-                        <li><a href="" ng-hide="editstate" ng-click="logout()">Logout</a></li>
+                            <li ng-if="profile.role == 'user'"><a href="#/favorites" title="" class="heart_icon">Favoriten<span class="trenner"></span></a></li>
+                            <li><a href="#/circle" title="" class="notebook_icon">Kategorien<span class="trenner"></span></a></li>
+                            <li><a href="" title="" class="notebook_icon">Kontakte<span class="trenner"></span></a></li>
+                            <li><a href="" title="" class="telescope_icon">Beobachtung<span class="trenner"></span></a></li>
+                        </ul>
+                        </div>
+                        <div ng-repeat="category in categories">
+                            <p ng-click="openSubMenu($event)">{{category.category}}</p>
+                            <ul>
+                                <li ng-repeat="subcategory in category.subcategory"><a href="" title="">{{subcategory}}</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p ng-hide="editstate" ng-click="logout()">Logout</p>
+                        </div>
+
                     </ul>
 
                 </div>

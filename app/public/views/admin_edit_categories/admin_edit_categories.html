@@ -5,9 +5,11 @@
         <form class="form-group">
             <ul>
                 <li ng-repeat="category in categories">
-                    <span class="mainkat">{{category.category}} <div class="icon-trash" ng-click="deleteMain(category.id,category.category)"></div></span>
+                    <span class="mainkat"><input ng-blur="updateMain($index,category.category)" class="form-control" ng-model="category.category"> <div class="icon-trash" ng-click="deleteMain(category.id,category.category)"></div></span>
                     <ul>
-                        <li ng-repeat="subcategory in category.subcategory">{{subcategory}} <div class="icon-trash" ng-click="deleteSub(subcategory,category.id)"></div></li>
+                        <li ng-repeat="subcategory in category.subcategory"><input class="form-control" ng-blur="updateSub(category.category,$index,subcategory)" ng-model="subcategory"><div class="icon-trash" ng-click="deleteSub(subcategory,category.id)"></div></li>
+
+
                         <li><input class="form-control" type="text" ng-keypress="addSub($event,category.id)" placeholder="Unterkategorie hinzufügen"></li>
                     </ul>
                 </li>

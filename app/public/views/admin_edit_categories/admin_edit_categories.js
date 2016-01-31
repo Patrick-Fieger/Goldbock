@@ -10,15 +10,18 @@ angular.module('app.admin_edit_categories', ['ngRoute'])
 }])
 
 .controller('AdminEditCategoriesCtrl', ['MessageService','UserService','$scope','AdminService',function(MessageService,UserService,$scope,AdminService) {
-
+	$scope.categories;
 	UserService.categories().success(buildView)
 
 	function buildView(data, status, headers, config){
-		$scope.categories = data
+		$scope.categories = data;
 	}
+
+
 
 	$scope.addSub = function(e,id){
 		if (isEnter(e)){
+			e.preventDefault();
 			for (var i = 0; i < $scope.categories.length; i++) {
 				if($scope.categories[i].id === id)
 					if($scope.categories[i].subcategory.indexOf(e.target.value) < 0){
@@ -33,6 +36,7 @@ angular.module('app.admin_edit_categories', ['ngRoute'])
 
 	$scope.addMain = function(e){
 		if (isEnter(e)){
+			e.preventDefault();
 			var data = {
 				"id" : null,
 				"category" : e.target.value,
@@ -71,6 +75,19 @@ angular.module('app.admin_edit_categories', ['ngRoute'])
 		};
 	}
 
+
+	$scope.updateSub = function (cat,index,val) {
+		for (var i = 0; i < $scope.categories.length; i++) {
+			if(cat == $scope.categories[i].category){
+				$scope.categories[i].subcategory[index] = val;
+			}
+		};
+	}
+
+
+	$scope.updateMain = function(index,val){
+		$scope.categories[index].category = val;
+	}
 
 	$scope.saveCategories = function(){
 		AdminService.saveCategories($scope.categories).success(MessageService.info(7))

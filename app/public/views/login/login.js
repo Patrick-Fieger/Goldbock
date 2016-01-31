@@ -25,6 +25,13 @@ angular.module('app.login', ['ngRoute'])
       "email":"p@jpy.io",
       "password":"123456"
     }
+    //
+
+
+    // $scope.userData = {
+    //   "email":"admin@goldbock.de",
+    //   "password":"GoLdBoCk_2014_!"
+    // }
 
 
 
