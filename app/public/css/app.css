@@ -4238,7 +4238,7 @@ img-crop canvas {
 .link_wrapper{
     float: left;
     width: 100%;
-    margin-left: 15px;
+    padding: 0 15px;
 }
 
 #posts img{
