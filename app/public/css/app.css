@@ -8,6 +8,10 @@
     /**/
 }
 
+#postviewbig p{
+    word-break : break-all;
+}
+
 .btn-primary:hover, .btn-primary.hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
     background-color: #ceab5e;
     border-color: #ceab5e;
