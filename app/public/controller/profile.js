@@ -113,7 +113,7 @@ angular.module('app.profile', ['ngRoute'])
 					$rootScope.posts[i].messages = temporarySwap($rootScope.posts[i].messages);
 				}
 
-				if($rootScope.posts[i].link.substring(0, 7) !== 'http://' || $rootScope.posts[i].link.substring(0, 8) !== 'https://'){
+				if($rootScope.posts[i].link.substring(0, 7) !== 'http://' && $rootScope.posts[i].link.substring(0, 8) !== 'https://'){
 					$rootScope.posts[i].link = "http://" + $rootScope.posts[i].link;
 				}
 	    		$rootScope.postToView = $rootScope.posts[i];
