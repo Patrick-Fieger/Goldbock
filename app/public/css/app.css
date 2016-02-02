@@ -1,5 +1,6 @@
 *{
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: antialiased;
 }
 
 .btn-primary {
@@ -4185,6 +4186,18 @@ img-crop canvas {
     width: 22%;
 }
 
+#posts .ad_post{
+    padding: 20px
+}
+
+#posts .ad_post a{
+    text-decoration: none;
+}
+
+#posts .teaser_photo{
+    width: 100%;
+}
+
 .link_post{
     padding: 0 20px;
     display: block;
@@ -4285,3 +4298,30 @@ iframe{
     border-radius: 50%;
     margin-right: 10px
 }
+
+.opinionlabel p,.opinionlabel input,.opinionlabel{
+    float: left;
+}
+
+.opinionlabel p{
+    margin: 10px 5px;
+}
+
+.opinionlabel{
+    width: 100%
+}
+
+.opinionlabel input{
+    width: 20px !important;
+    margin-top: 16px;
+}
+
+
+
+
+
+
+
+
+
+

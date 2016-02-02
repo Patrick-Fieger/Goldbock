@@ -1,5 +1,20 @@
 <div class="columns large-3" id="posts">
 	<ul>
+
+
+		<li ng-repeat="ad in allAds_1 | limitTo:1" class="ad_post">
+			<a href="#/offer/{{ad.id}}" title="" class="biglink">
+				<div class="columns large-12 post_profile_data">
+
+					<p class="post_date">{{post.date}}</p>
+				</div>
+				<div class="teaser_photo" style="background-image:url({{ad.photos[0]}})"></div>
+				<h3 class="mt10"><b>{{ad.title}}</b><br>-<i>{{ad.category}}</i></h3>
+				<p>{{ad.description | cut:true:100:' ...'}}</p>
+			</a>
+		</li>
+
+
 		<li ng-repeat="post in posts">
 			<a href="" ng-click="loadPostView(post.id)" title="" class="biglink">
 				<div class="columns large-12 post_profile_data">
@@ -38,9 +53,15 @@
 			<div class="columns large-12">
 				<hr>
 				<h1>Feedback</h1>
-				<i>Für Mehrfachauswahl bitt Strg- oder CMD-Taste gedrückt halten</i>
-				<select class="opinions" multiple="true" ng-model="opinion_" ng-options="c for c in opinion"></select>
-				<textarea style="height:100px" maxlength="140" ng-maxlength="140" ng-trim="5" class="form-control mb10 wd100" ng-model="$parent.postToViewComment" value="$parent.postToViewComment" placeholder="Schreibe ein Kommentar... (Maximal 140 Zeichen)" required>{{$parent.postToViewComment}}</textarea>
+				<label ng-repeat="op in opinion" class="opinionlabel">
+  				<input
+    				type="checkbox"
+    				value="{{op}}"
+    				ng-checked="selection.indexOf(op) > -1"
+    				ng-click="toggleSelection(op)">
+    				<p>{{op}}</p>
+				</label>
+				<textarea style="height:100px;margin-top:40px" maxlength="140" ng-maxlength="140" ng-trim="5" class="form-control mb10 wd100" ng-model="$parent.postToViewComment" value="$parent.postToViewComment" placeholder="Schreibe ein Kommentar... (Maximal 140 Zeichen)" required>{{$parent.postToViewComment}}</textarea>
 				<a class="btn btn-primary wd100 fl mb10" href="" ng-click="addCommentPost(postToView.id,opinion_)">Kommentar abgeben</a>
 
 				<ul id="comment_section">

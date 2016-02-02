@@ -113,7 +113,9 @@ angular.module('app.profile', ['ngRoute'])
 					$rootScope.posts[i].messages = temporarySwap($rootScope.posts[i].messages);
 				}
 
-				if($rootScope.posts[i].link.substring(0, 7) !== 'http://' && $rootScope.posts[i].link.substring(0, 8) !== 'https://'){
+				var imgExtensionArray = ["bmp","gif","jpg","jpeg","png","psd","pspimage","thm","tif","yuv"];
+
+				if($rootScope.posts[i].link.substring(0, 7) !== 'http://' && $rootScope.posts[i].link.substring(0, 8) !== 'https://' && imgExtensionArray.indexOf($rootScope.posts[i].link.split('.').pop().toLowerCase()) > -1){
 					$rootScope.posts[i].link = "http://" + $rootScope.posts[i].link;
 				}
 	    		$rootScope.postToView = $rootScope.posts[i];
@@ -137,7 +139,20 @@ angular.module('app.profile', ['ngRoute'])
             "Applaus"
     ];
 
-    $rootScope.opinion_ = [];
+  	$rootScope.opinion_ = [];
+
+	// toggle opinion_ for a given fruit by name
+	$rootScope.toggleSelection = function(op) {
+	  var idx = $scope.opinion_.indexOf(op);
+
+	  // is currently selected
+	  if (idx > -1) {
+	    $scope.opinion_.splice(idx, 1);
+	  }
+	  else {
+	    $scope.opinion_.push(op);
+	  }
+	};
 
 	$rootScope.addCommentPost = function(id,opinion){
 		var message = {

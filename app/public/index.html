@@ -66,7 +66,7 @@
 
                     <ul ng-hide="editstate || passstate || poststate" ng-class="{active : showmenu}" class="big_menu">
                         <div>
-                        <p ng-click="openSubMenu($event)">Dashboard</p>
+                        <p ng-click="openSubMenu($event)">Kommandozentrale</p>
                         <ul>
                             <li><a ng-if="profile.role == 'user'" href="#/categories">Dashboard<span class="trenner"></span></a></li>
                             <li><a ng-if="profile.role == 'provider'" href="#/{{profile.role}}/dashboard">Dashboard<span class="trenner"></span></a></li>
@@ -76,6 +76,7 @@
                             <li ng-if="profile.role == 'provider'" ><a ng-click="addAdvertising()" href="" title="" class="megaphone_icon">Werbung schalten<span class="trenner"></span></a></li>
 
                             <li><a ng-click="editPost()"  href="" title="">Post hinzufügen<span class="trenner"></span></a></li>
+                            <li><a ng-if="profile.role == 'user'"  href="" title="">Angebot hinzufügen<span class="trenner"></span></a></li>
 
                             <li><a style="position:relative" ng-click="" href="#/chat" title="" class="chat_icon">Chat <span class="showcounter" ng-show="counter.length > 0"></span><span class="trenner"></span></a></li>
 
@@ -88,7 +89,7 @@
                         <div ng-repeat="category in categories">
                             <p ng-click="openSubMenu($event)">{{category.category}}</p>
                             <ul>
-                                <li ng-repeat="subcategory in category.subcategory"><a href="" title="">{{subcategory}}</a></li>
+                                <li ng-repeat="subcategory in category.subcategory"><a href="" title="">{{subcategory}}<span class="trenner"></span></a></li>
                             </ul>
                         </div>
                         <div>
