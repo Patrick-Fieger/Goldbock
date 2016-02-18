@@ -93,7 +93,17 @@ angular.module('app.admin_edit_categories', ['ngRoute'])
 		AdminService.saveCategories($scope.categories).success(MessageService.info(7))
 	}
 
-
+	$scope.swapSubCategory = function(index,cat,direction){
+		var zaehler = direction == 'up' ? -1 : 1;
+		for (var i = 0; i < $scope.categories.length; i++) {
+			if(cat == $scope.categories[i].category){
+				var zwisch1 = $scope.categories[i].subcategory[index];
+				var zwisch2 = $scope.categories[i].subcategory[index + zaehler];
+				$scope.categories[i].subcategory[index] = zwisch2;
+				$scope.categories[i].subcategory[index + zaehler] = zwisch1;
+			}
+		}
+	}
 
 
 }]);

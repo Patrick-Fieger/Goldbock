@@ -29,6 +29,8 @@ angular.module('app.profile', ['ngRoute'])
 	$rootScope.postToView = null;
 	var user = localStorage.getItem('user');
 	var cloneInput = $("#postInput").clone(true)
+	$rootScope.posibleLinks = [];
+
 
 	$scope.categories;
 	UserService.categories().success(buildView)
@@ -36,6 +38,30 @@ angular.module('app.profile', ['ngRoute'])
 	function buildView(data, status, headers, config){
 		$scope.categories = data;
 	}
+
+
+	var timeout = undefined;
+
+	$rootScope.updateLinkView = function(){
+		var searchVal = $('input[name="url_get"]').val();
+
+		clearTimeout(timeout)
+		timeout = setTimeout(function(){
+			if (searchVal !== "" && searchVal !== undefined){
+				AllService.postLinks(searchVal).success(function(data){
+					$rootScope.posibleLinks = data;
+				});
+			}
+		}, 300);
+	}
+
+	$rootScope.setNewLink = function(link){
+		$scope.post.link = link;
+	}
+
+	$timeout(function() {
+		$('#profile').css('opacity',1);
+	}, 1000);
 
 
 	$('#profile').height($(window).height());
@@ -115,7 +141,7 @@ angular.module('app.profile', ['ngRoute'])
 
 				var imgExtensionArray = ["bmp","gif","jpg","jpeg","png","psd","pspimage","thm","tif","yuv"];
 
-				if($rootScope.posts[i].link.substring(0, 7) !== 'http://' && $rootScope.posts[i].link.substring(0, 8) !== 'https://' && imgExtensionArray.indexOf($rootScope.posts[i].link.split('.').pop().toLowerCase()) > -1){
+				if($rootScope.posts[i].link.substring(0, 7) !== 'http://' && $rootScope.posts[i].link.substring(0, 8) !== 'https://' && imgExtensionArray.indexOf($rootScope.posts[i].link.split('.').pop().toLowerCase()) < 0){
 					$rootScope.posts[i].link = "http://" + $rootScope.posts[i].link;
 				}
 	    		$rootScope.postToView = $rootScope.posts[i];
@@ -269,7 +295,7 @@ angular.module('app.profile', ['ngRoute'])
      			addPost();
      		}
      	}else{
-     		alert('Bitte füllen sie alle notwendigen Felder aus!');
+     		alert('Bitte füllen sie alle notwendigen Felder aus!\nChecken Sie bitte auch ob sie vor ihrem Link http:// oder https:// geschrieben haben');
      	}
 	}
 

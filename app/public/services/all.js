@@ -48,6 +48,10 @@ angular.module('app.allService', [])
         });
 	}
 
+	function postLinks(text){
+		return $http.get('/post/links',{params: { text : text}});
+	}
+
 	function addCommentPost(data){
 		return $http.post('/post/add/comment',data);
 	}
@@ -65,6 +69,7 @@ angular.module('app.allService', [])
 		removePublicInLink : removePublicInLink,
 		getAvatarInfos : getAvatarInfos,
 		uploadPostImage : uploadPostImage,
-		addCommentPost : addCommentPost
+		addCommentPost : addCommentPost,
+		postLinks : postLinks
 	}
 });

@@ -20,11 +20,11 @@ angular.module('app.provider_dashboard', ['ngRoute'])
 
 	function updateProfileView(data, status, headers, config){
 		$scope.user = data;
-		if(data.offers){
-			if(data.offers.length >= 3){
-				$scope.hideAddOffer = true
-			}
-		}
+		// if(data.offers){
+		// 	if(data.offers.length >= 3){
+		// 		$scope.hideAddOffer = true
+		// 	}
+		// }
 	}
 
 

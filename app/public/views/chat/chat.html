@@ -1,28 +1,27 @@
 <div class="row" id="chat" style="margin-top:100px;">
     <div class="large-4 columns autoheight">
-        <div class="chatlist_menu">
+        <!-- <div class="chatlist_menu">
             <ul>
-                <li ng-click="toggleChatView()" ng-class="{active : showAnbieter}">Anbieter</li>
-                <li ng-click="toggleChatView()" ng-class="{active : !showAnbieter}">Nutzer</li>
-                <!-- <li>Goldbock</li> -->
+                <li ng-click="toggleChatView()" ng-class="{active : showEinzel}">Einzelchats</li>
+                <li ng-click="toggleChatView()" ng-class="{active : !showEinzel}">Gruppenchats</li>
             </ul>
-        </div>
+        </div> -->
         <div class="searchwrapper">
             <input type="search" name="" value="" placeholder="Suchen" ng-model="searchText"  ng-focus="showList()" ng-blur="hideList()" ng-keydown="keypress($event)" id="searchText" class="form-control">
             <div class="userslist" ng-show="userslist">
                 <ul>
-                    <li ng-show="showAnbieter" ng-click="openChatWith(anbiet.email)" ng-class='{active:$first}' ng-repeat="anbiet in anbieter | filter:searchText" id="{{anbieter.id}}">
-                        <img src="{{anbiet.avatar}}" alt="">
-                        <p>{{anbiet.firstname}} {{anbiet.lastname}} - <span class="italic chatsearch">{{anbiet.cat}}</span></p>
+                    <li ng-show="showEinzel" ng-click="openChatWith(user.email)" ng-class='{active:$first}' ng-repeat="user in users | filter:searchText" id="{{user.id}}">
+                        <img src="{{user.avatar}}" alt="">
+                        <p>{{user.firstname}} {{user.lastname}} - <span class="italic chatsearch">{{user.cat}}</span></p>
                     </li>
-                    <li ng-show="!showAnbieter" ng-click="openChatWith(nutz.email)" ng-class='{active:$first}' ng-repeat="nutz in nutzer | filter:searchText" id="{{nutz.id}}">
+                    <!-- <li ng-show="!showEinzel" ng-click="openChatWith(nutz.email)" ng-class='{active:$first}' ng-repeat="nutz in nutzer | filter:searchText" id="{{nutz.id}}">
                         <img src="{{nutz.avatar}}" alt="">
                         <p>{{nutz.firstname}} {{nutz.lastname}} - <span class="italic chatsearch">{{nutz.cat}}</span></p>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </div>
-        <button ng-if="role == 'user'" class="btn btn-primary wd100 mt20" ng-click="showAdds()">Inspiration</button>
+        <!-- <button ng-if="role == 'user'" class="btn btn-primary wd100 mt20" ng-click="showAdds()">Inspiration</button> -->
         <div class="chatlist_wrapper">
             <ul class="chatlist">
                 <li ng-hide="chat.hideChat" data-email="{{chat.to}}" ng-click="openChat(chat.id)" ng-repeat="chat in chats" id="{{chat.id}}">
@@ -62,7 +61,7 @@
     </div>
 </div>
 
-    
+
 
 <div id="bigadd_wrap" ng-show="toggleAds"></div>
 <div id="bigadds" ng-if="displayAds" ng-show="toggleAds">
@@ -71,7 +70,7 @@
     <div class="row">
         <div class="ads__" ng-repeat="ad in adds_">
             <div class="bg_big" style="background-image:url({{ad.titleimage.normal}})">
-                
+
                 <p class="price_">{{ad.price}}€ {{ad.per}}</p>
             </div>
             <div class="content">

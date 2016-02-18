@@ -81,3 +81,19 @@
 .mainkat:hover .icon-trash{
 	opacity: 1
 }
+
+.updown{
+	position: absolute;
+	left: -20px;
+	top: 10px;
+	font-size: 20px;
+}
+
+.updown.icon-arrow-up{
+	left: -40px;
+}
+
+.updown:hover{
+	cursor: pointer;
+}
+

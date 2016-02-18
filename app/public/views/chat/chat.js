@@ -17,6 +17,7 @@ angular.module('app.chat', ['ngRoute']).config(['$routeProvider',
         $scope.user = localStorage.getItem('user');
         $scope.chattext = ""
         $scope.bigChat = [];
+        $scope.users = [];
         $scope.displayAds = false;
 
         var urlParams;
@@ -47,28 +48,26 @@ angular.module('app.chat', ['ngRoute']).config(['$routeProvider',
 
 
         function searchTerms(data, status, headers, config) {
-            $scope.anbieter = data.anbieter;
-            $scope.nutzer = data.nutzer;
+            console.log(data.anbieter)
+            for (var i = 0; i < data.anbieter.length; i++) {
+                $scope.users.push(data.anbieter[i])
+            }
+
+            for (var i = 0; i < data.nutzer.length; i++) {
+                $scope.users.push(data.nutzer[i])
+            }
             $scope.role = data.role;
             $timeout(function(){
                 if(urlParams["email"] !== undefined){
                     $scope.openChatWith(urlParams["email"]);
                 }
-            },200)
+            },200);
 
 
-
-            if($scope.role == "user"){
-                getAdvertising();
-            }
-
-
-            for (var i = 0; i < $scope.anbieter.length; i++) {
-                AllUsers.push($scope.anbieter[i])
+            for (var i = 0; i < $scope.users.length; i++) {
+                AllUsers.push($scope.users[i])
             };
-            for (var i = 0; i < $scope.nutzer.length; i++) {
-                AllUsers.push($scope.nutzer[i])
-            };
+
             getChats();
         }
 
@@ -104,6 +103,8 @@ angular.module('app.chat', ['ngRoute']).config(['$routeProvider',
         }
 
         function buildChats(data) {
+            console.log(data)
+
             var chats = data
 
             for (var i = 0; i < chats.length; i++) {

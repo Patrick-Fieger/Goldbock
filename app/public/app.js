@@ -61,6 +61,7 @@ config(['$locationProvider','$routeProvider', function($locationProvider,$routeP
     $(window).resize(function(event) {
       $('.container,#profile').height($(window).height());
     });
+
     // $rootScope.showmenu = false;
 
 

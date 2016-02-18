@@ -36,7 +36,7 @@ module.exports = function(app){
 	app.get('/adds', pass.isAuthenticatedToMakeRequest , user.getAds);
 
 
-
+	app.get('/post/links',pass.isAuthenticatedToMakeRequest, all.postSuggestion)
 	app.get('/getProviders', pass.isAuthenticatedToMakeRequest , admin.getProviders)
 	app.get('/getUsers', pass.isAuthenticatedToMakeRequest , admin.getUsers)
 	app.get('/getCompanys', pass.isAuthenticatedToMakeRequest , admin.getCompanys)

@@ -47,7 +47,7 @@
                     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-        <div ng-cloak ng-if="isLogged && role !== 'admin'" class="large-2 columns" id="profile" ng-controller="ProfileCtrl">
+        <div ng-cloak ng-prestine ng-if="isLogged && role !== 'admin'" class="large-2 columns" id="profile" ng-controller="ProfileCtrl" style="opacity: 0">
             <!-- <div ng-click="openMenu()" class="mainmenu">
                 <span class="si-icon si-icon-hamburger-cross" data-icon-name="hamburgerCross"></span>
             </div> -->
@@ -72,13 +72,13 @@
                             <li><a ng-if="profile.role == 'provider'" href="#/{{profile.role}}/dashboard">Dashboard<span class="trenner"></span></a></li>
                             <li><a ng-click="editProfile()" href="" title="" class="pencil_icon">Profil bearbeiten<span class="trenner"></span></a></li>
                             <li><a href="" title="">Avatar ändern<span class="trenner"></span></a><input type="file" id="fileInput"></li>
-                            <li><a ng-click="editPass()" href="" title="" class="lock_icon">Passwort ändern<span class="trenner"></span></a></li>
+                            <li><a ng-click="editPass()" href="" title="">Passwort ändern<span class="trenner"></span></a></li>
                             <li ng-if="profile.role == 'provider'" ><a ng-click="addAdvertising()" href="" title="" class="megaphone_icon">Werbung schalten<span class="trenner"></span></a></li>
 
                             <li><a ng-click="editPost()"  href="" title="">Post hinzufügen<span class="trenner"></span></a></li>
                             <li><a ng-if="profile.role == 'user'"  href="" title="">Angebot hinzufügen<span class="trenner"></span></a></li>
 
-                            <li><a style="position:relative" ng-click="" href="#/chat" title="" class="chat_icon">Chat <span class="showcounter" ng-show="counter.length > 0"></span><span class="trenner"></span></a></li>
+                            <li><a style="position:relative" ng-click="" href="#/chat" title="">Chat <span class="showcounter" ng-show="counter.length > 0"></span><span class="trenner"></span></a></li>
 
                             <li ng-if="profile.role == 'user'"><a href="#/favorites" title="" class="heart_icon">Favoriten<span class="trenner"></span></a></li>
                             <li><a href="#/circle" title="" class="notebook_icon">Kategorien<span class="trenner"></span></a></li>
@@ -104,7 +104,14 @@
                     <form class="form-group" name="post_form">
                         <fieldset>
                             <textarea maxlength="140" ng-maxlength="400" ng-trim="5" class="form-control mb10 wd100" ng-model="post.text" value="post.link" placeholder="Schreibe einen Post... (Maximal 140 Zeichen)" required>{{post.link}}</textarea>
-                            <input type="text" class="form-control mb10" ng-model="post.link" value="post.link" placeholder="Link (optional)">
+                             <!-- ng-keydown="updateLinkView(post.link)" -->
+                            <input type="url" class="form-control mb10" ng-keyup="updateLinkView()" ng-model="post.link" name="url_get" placeholder="Link (optional)">
+                            <div ng-show="posibleLinks">
+                                <ul style="padding: 0">
+                                    <li style="list-style: none" ng-repeat="links in posibleLinks"><a href="" ng-click="setNewLink(links)" title="">{{links}}</a></li>
+                                </ul>
+                            </div>
+
                             <input type="file" id="postInput">
                         </fieldset>
                     </form>

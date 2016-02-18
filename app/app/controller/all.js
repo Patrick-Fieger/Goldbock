@@ -7,8 +7,10 @@ var Provider = require('../models/provider'),
     fs = require('fs-extra'),
     newLocation = 'public/uploads/',
     options = require('../../config/uploads.js'),
+    google = require('google')
     gm = require('gm');
 
+	google.resultsPerPage = 5
 
 var getAvatarInfos = function (req, res, next){
 	var role = capitalizeFirstLetter(req.user.role);
@@ -28,6 +30,28 @@ var getAvatarInfos = function (req, res, next){
       	res.send(info).status(200).end();
       }
     });
+}
+
+var postSuggestion = function(req,res){
+	var search = req.query.text;
+	var links_ = [];
+
+	Post.find({ "link": { "$regex": search, "$options": "i" } },function(err,docs) {
+		for (var i = 0; i < docs.length; i++) {
+			links_.push(docs[i].link);
+		}
+		res.send(links_).status(200).end();
+    }).limit(5);
+}
+
+function uniq(a) {
+	if(a.length > 1){
+		return a.sort().filter(function(item, pos, ary) {
+        	return !pos || item != ary[pos - 1];
+    	})
+	}else{
+		return a;
+	}
 }
 
 var profile = function(req, res, next){
@@ -310,5 +334,6 @@ module.exports = {
 	allOffers : allOffers,
 	avatar : avatar,
 	uploadPostImage : uploadPostImage,
-	addCommentPost : addCommentPost
+	addCommentPost : addCommentPost,
+	postSuggestion : postSuggestion
 };
