@@ -1428,7 +1428,8 @@ input {
 /*FORMS*/
 
 .bigform {
-    width: 500px;
+    /*width: 500px;*/
+    width: 700px;
     margin: 0 auto;
 }
 
@@ -4316,7 +4317,70 @@ iframe{
     margin-top: 16px;
 }
 
+.oeffnungszeiten ul{
+    padding: 0;
+    margin: 0;
+}
 
+.oeffnungszeiten ul li{
+    float: left;
+    list-style: none;
+    width: 14.28%;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.oeffnungszeiten ul.chooser li{
+    background: #ccc;
+    border-right: 1px solid black;
+}
+
+.oeffnungszeiten ul.chooser li.active,
+.littlechooser span.active{
+    background: #ceab5e;
+    color: #fff;
+}
+
+.oeffnungszeiten ul.displayer li{
+    padding: 0 10px;
+}
+
+.littlechooser{
+    margin: 20px 0 40px;
+    float: left;
+    width: 100%;
+}
+
+.littlechooser span{
+    background: #ccc;
+    padding: 8px 5px;
+    margin-right: 20px;
+    width: 100px;
+    text-align: center;
+    float: left;
+}
+
+.littlechooser span:hover{
+    cursor: pointer;
+}
+
+
+
+.oeffnungszeiten{
+    margin-bottom: 50px;
+    float: left;
+}
+
+
+
+
+.oeffnungszeiten ul.chooser li:hover{
+    cursor: pointer;
+}
+
+.oeffnungszeiten ul.chooser li:last-child{
+    border-right: 0;
+}
 
 
 

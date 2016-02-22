@@ -1,12 +1,18 @@
+<style type="text/css" media="screen">
+   .cke{
+        margin : 10px 0 20px !important;
+        box-shadow: none;
+    }
+</style>
+
 <div class="bigform">
-    <h1 class="tac mb30">Angebot anlegen</h1>
+    <h2 class="mb30">Allgemeine Informationen</h2>
     <form ng-submit="uploadForm();" class="form-group">
         <input class="form-control mb10" ng-model="offer.title" placeholder="Titel des Angebotes" value="" type="text" required>
 
-        <textarea ng-model="offer.description" class="form-control mb10 wd100" placeholder="Beschreibung des Angebotes"></textarea>
+        <!-- <textarea ng-model="offer.description" class="form-control mb10 wd100" placeholder="Beschreibung des Angebotes"></textarea> -->
 
-        <textarea ng-model="offer.reqirements" class="form-control mb10 wd100" placeholder="Bedingungen des Angebotes"></textarea>
-
+        <textarea ckeditor="editorOptions" ng-model="offer.description"></textarea>
         <input class="form-control mb10" min="0" ng-model="offer.price" placeholder="Kosten in €" value="{{offer.price}}" type="number" required>
 
         <select ng-model="offer.per" class="mb10">
@@ -23,38 +29,36 @@
             <optgroup ng-repeat="cat in categories" label="{{cat.category}}">
                 <option ng-repeat="subcat in cat.subcategory" value="{{subcat}}">{{subcat}}</option>
             </optgroup>
-<!-- 
-          <optgroup label="Gemeinsames / Verabreden">
-            <option value="Kochen / Backen">Kochen / Backen</option>
-            <option value="Diskutieren">Diskutieren</option>
-            <option value="Aktivitäten">Aktivitäten</option>
-            <option value="Außerhaus Meeting">Außerhaus Meeting</option>
-          </optgroup>
-          <optgroup label="Schönes und Leckeres">
-            <option value="Aus der Region">Aus der Region</option>
-          </optgroup>
-          <optgroup label="Service">
-            <option value="Bügeln">Bügeln</option>
-            <option value="Lesen">Lesen</option>
-            <option value="Geschenke">Geschenke</option>
-            <option value="Energie und Versicherung">Energie & Versicherung</option>
-          </optgroup>
-          <optgroup label="Fortschritt Privat und Beruf">
-            <option value="Coaches">Coaches</option>
-            <option value="Berater">Berater</option>
-            <option value="Therapeuten">Therapeuten</option>
-            <option value="Trainer">Trainer</option>
-            <option value="Spezial">Spezial</option>
-          </optgroup>
-          <optgroup label="Kunst und Kultur">
-            <option value="Unterhaltung">Unterhaltung</option>
-            <option value="Künstler">Künstler</option>
-            <option value="Theater">Theater</option>
-          </optgroup> -->
         </select>
 
 
-        <span class="btn btn-primary wd100 fl fileinput_hide">Titelbild auswählen<input id="titleimage" onchange="angular.element(this).scope().checkTitleImage()" multiple="false" type="file" required accept="image/*"></span>
+
+        <h2 class="mt30 withchooser">Gibt es Öffnungszeiten? <div class="littlechooser"><span ng-class="{active : offer.business_hours}" ng-click="changeBusiness(true)">Ja</span><span ng-class="{active : !offer.business_hours}" ng-click="changeBusiness(false)">Nein</span></div></h2>
+
+        <div ng-show="offer.business_hours" class="oeffnungszeiten">
+
+            <ul class="chooser">
+                <li ng-click="changeOpening($index)" ng-repeat="time in offer.times" ng-class="{active : time.open}">{{time.day}}</li>
+            </ul>
+
+            <ul class="displayer">
+                <li ng-repeat="time in offer.times">
+                    <p ng-if="time.open">von<br> <input type="text" pick-a-time="time.from" placeholder="00:00 Uhr" pick-a-time-options="timepickeroptions" />
+                    bis<br> <input type="text" pick-a-time="time.to" placeholder="00:00 Uhr" pick-a-time-options="timepickeroptions" />
+                    </p>
+                    <p ng-if="!time.open">geschlossen!</p>
+                </li>
+            </ul>
+        </div>
+
+
+        <button ng-click="" class="btn btn-primary mt30">Bestellformular konfigurieren</button>
+        <button ng-click="" class="btn btn-primary mt30">Bereich hinzufügen</button>
+        <button ng-click="" class="btn btn-primary mt30 wd100">Zusammenfassung anzeigen und Angebot speichern</button>
+
+
+
+<!--         <span class="btn btn-primary wd100 fl fileinput_hide">Titelbild auswählen<input id="titleimage" onchange="angular.element(this).scope().checkTitleImage()" multiple="false" type="file" required accept="image/*"></span>
 
         <div class="images_preview_big">
             <img ng-src="{{titleImage}}" ng-class="{mt10: headerImageApplied}">
@@ -69,13 +73,13 @@
                 <img src="{{image.data}}">
                 <div class="icon-cross" ng-click="deleteImage(image.name)"></div>
             </div>
-            
+
         </div>
-        
+
         <span class="btn btn-primary wd100 fl mb10 fileinput_hide">Video auswählen <input id="video" onchange="angular.element(this).scope().checkVideo()" placeholder="Video auswählen" type="file" accept="video/mp4"></span>
 
-        <input class="btn btn-primary mt30" type="submit" value="Angebot speichern"></input>
-        
+        <input class="btn btn-primary mt30" type="submit" value="Angebot speichern"></input> -->
+
     </form>
 </div>
 
