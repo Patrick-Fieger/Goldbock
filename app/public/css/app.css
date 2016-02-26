@@ -1376,6 +1376,14 @@ input {
     width: 100% !important;
 }
 
+.wd33{
+    width: 33.33%;
+}
+
+.wd50{
+    width: 50%;
+}
+
 .btn, .tac {
     text-align: center;
 }
@@ -1566,11 +1574,10 @@ input {
 
 .progress_wrapper_inner {
     position: absolute;
-    width: 450px;
+    width: 100%;
     height: 100px;
-    top: 50%;
-    left: 50%;
-    margin: -150px 0 0 -225px;
+    bottom: 0;
+    left: 0;
 }
 
 .progress_wrapper p {
@@ -4381,6 +4388,26 @@ iframe{
 .oeffnungszeiten ul.chooser li:last-child{
     border-right: 0;
 }
+
+
+.order_form{
+    position: relative;
+}
+
+.order_form span{
+    position: absolute;
+    right: -25px;
+    top: 3px;
+}
+
+.order_form span:hover{
+    cursor: pointer;
+}
+
+
+
+
+
 
 
 

@@ -124,7 +124,7 @@ angular.module('app.offer', ['ngRoute']).config(['$routeProvider', function($rou
             }
         });
     }
-    initpicker();
+    // initpicker();
     $scope.callback = function(map) {
         var automessage;
 

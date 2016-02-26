@@ -4,6 +4,7 @@ var pass = require('../config/passport')
 	, admin = require('./controller/admin')
 	, all = require('./controller/all')
 	, chat = require('./controller/chat')
+	, offer = require('./controller/offer')
 
 module.exports = function(app){
 	app.post('/login', pass.login);
@@ -13,11 +14,29 @@ module.exports = function(app){
 	app.post('/verify/email', user.verifyEmail);
 	app.post('/update/forgot/password', pass.updatePassword);
 	app.post('/createprovider', pass.isAuthenticatedToMakeRequest , admin.createProvider);
-	app.post('/provider/upload/offer/title', pass.isAuthenticatedToMakeRequest , provider.uploadOfferTitleImage);
-	app.post('/provider/upload/offer/images', pass.isAuthenticatedToMakeRequest , provider.uploadOfferImages);
-	app.post('/provider/upload/offer/video', pass.isAuthenticatedToMakeRequest , provider.uploadOfferVideo);
-	app.post('/provider/upload/offer/data', pass.isAuthenticatedToMakeRequest , provider.uploadOfferData);
-	app.post('/provider/edit/offer/data', pass.isAuthenticatedToMakeRequest , provider.updateOfferData);
+
+
+	// app.post('/provider/upload/offer/title', pass.isAuthenticatedToMakeRequest , provider.uploadOfferTitleImage);
+	// app.post('/provider/upload/offer/images', pass.isAuthenticatedToMakeRequest , provider.uploadOfferImages);
+
+	// app.post('/provider/upload/offer/data', pass.isAuthenticatedToMakeRequest , provider.uploadOfferData);
+	// app.post('/provider/edit/offer/data', pass.isAuthenticatedToMakeRequest , provider.updateOfferData);
+
+
+	app.post('/upload/offer/images', pass.isAuthenticatedToMakeRequest , offer.uploadOfferImages);
+	app.post('/upload/offer/video', pass.isAuthenticatedToMakeRequest , offer.uploadOfferVideo);
+	app.post('/upload/offer/data', pass.isAuthenticatedToMakeRequest , offer.uploadOfferData);
+	app.get('/upload/progress', pass.isAuthenticatedToMakeRequest , offer.progress);
+
+
+
+
+
+
+
+
+
+
 
 	app.post('/add/advertising', pass.isAuthenticatedToMakeRequest , provider.addAdvertising);
 
@@ -45,7 +64,6 @@ module.exports = function(app){
 	app.post('/toggle/activate', pass.isAuthenticatedToMakeRequest , admin.toggleActivate);
 	app.post('/update/avatar', pass.isAuthenticatedToMakeRequest , all.avatar);
 	app.post('/update/password', pass.isAuthenticatedToMakeRequest , all.updatePassword);
-	app.get('/upload/progress', pass.isAuthenticatedToMakeRequest , provider.progress);
 	app.get('/profile', pass.isAuthenticatedToMakeRequest , all.profile);
 	app.get('/avatarinfos', pass.isAuthenticatedToMakeRequest ,pass.isNotAdmin, all.getAvatarInfos);
 	app.get('/authenticated',pass.isAuthenticatedToSeeContent);

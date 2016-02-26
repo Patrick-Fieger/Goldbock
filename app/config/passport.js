@@ -178,11 +178,16 @@ function isAuthenticatedToMakeRequest(req, res, next) {
 }
 
 function isAdmin(req, res, next){
-  if(req.user.role == "admin"){
-    res.send({admin: true}).status(200).end();
+  if(req.user){
+    if(req.user.role == "admin"){
+      res.send({admin: true}).status(200).end();
+    }else{
+      res.send({admin: false}).status(200).end();
+    }
   }else{
-    res.send({admin: false}).status(200).end();
-  }
+      res.send({admin: false}).status(200).end();
+    }
+
 }
 
 module.exports = {

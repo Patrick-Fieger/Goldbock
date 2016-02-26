@@ -1,6 +1,6 @@
 angular.module('app.uploadService', [])
 .service('UploadService', function($http){
-	
+
 	var uploadOfferTitleImage = function(file){
 		var formData = new FormData();
 		formData.append('files', file);
@@ -8,30 +8,33 @@ angular.module('app.uploadService', [])
 		return $http.post('/provider/upload/offer/title', formData, {
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined}
-        });	
+        });
 	}
 
-	var uploadOfferPhotos = function(files){
+	var uploadOfferPhotos = function(files,index){
 		var formData = new FormData();
 
 		for (var i = 0; i < files.length; i++) {
 			formData.append('files', files[i]);
 		};
-		
-		return $http.post('/provider/upload/offer/images', formData, {
+
+		formData.append('index', index);
+
+		return $http.post('/upload/offer/images', formData, {
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined}
-        });	
+        });
 	}
 
-	var uploadOfferVideo = function(file){
+	var uploadOfferVideo = function(file,index){
 		var formData = new FormData();
 		formData.append('files', file);
+		formData.append('index', index);
 
-		return $http.post('/provider/upload/offer/video', formData, {
+		return $http.post('/upload/offer/video', formData, {
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined}
-        });	
+        });
 	}
 
 	var clearProgress = function(){
@@ -39,11 +42,11 @@ angular.module('app.uploadService', [])
 	}
 
 	var uploadOfferData = function(data){
-		return $http.post('/provider/upload/offer/data',data)
+		return $http.post('/upload/offer/data',data)
 	}
 
 	var updateOfferData = function(data){
-		return $http.post('/provider/edit/offer/data',data)	
+		return $http.post('/provider/edit/offer/data',data)
 	}
 
 	var deletePrevData = function(data){
