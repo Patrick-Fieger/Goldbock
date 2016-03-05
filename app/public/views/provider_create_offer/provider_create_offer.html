@@ -13,50 +13,6 @@
             <input class="form-control mb10" ng-model="offer.title" placeholder="Titel des Angebotes" value="" type="text" required/>
             <textarea ckeditor="editorOptions" ng-model="offer.description">
             </textarea>
-            <input class="form-control mb10" min="0" ng-model="offer.price" placeholder="Kosten in €" value="{{offer.price}}" type="number" required/>
-            <select ng-model="offer.per" class="mb10">
-                <option value="pro Buchung">
-                    pro Buchung
-                </option>
-                <option value="pro Teilnehmer">
-                    pro Teilnehmer
-                </option>
-                <option value="pro Stück">
-                    pro Stück
-                </option>
-                <option value="pro Jahr">
-                    pro Jahr
-                </option>
-                <option value="pro Monat">
-                    pro Monat
-                </option>
-                <option value="pro Tag">
-                    pro Tag
-                </option>
-                <option value="pro Stunde">
-                    pro Stunde
-                </option>
-                <option value="pro Minute">
-                    pro Minute
-                </option>
-            </select>
-            <select ng-model="offer.category" class="mb10">
-                <optgroup ng-repeat="cat in categories" label="{{cat.category}}">
-                    <option ng-repeat="subcat in cat.subcategory" value="{{subcat}}">
-                        {{subcat}}
-                    </option>
-                </optgroup>
-            </select>
-
-
-            <div ng-if="offer.sections.length > 0">
-                <h2>Bereiche</h2>
-                <ul class="offer-list mt30">
-                    <li ng-repeat="section in offer.sections track by $index" class="ng-scope">
-                        <p style="margin: 5px 0 0 0;">{{section.title}} ({{section.type}})</p><!-- <span class="icon-pencil" ng-click="editSection($index)"></span> --><span ng-click="deleteSection($index)" class="icon-cup"></span></li>
-                </ul>
-            </div>
-
             <a ng-click="backTo('show_open_hours')" class="btn btn-primary mt30 fl wd33">
                 Öffnunszeiten bearbeiten
             </a>
@@ -117,7 +73,7 @@
             <h2 class="tac">Welche Art von Bereich möchten sie hinzufügen?</h2>
             <a ng-click="addNewSection('fotos')" href="" title="" class="btn btn-primary mt30 wd33 fl">Fotos</a>
             <a ng-click="addNewSection('video')" href="" title="" class="btn btn-primary mt30 wd33 fl">Video</a>
-            <a ng-click="addNewSection('text')" href="" title="" class="btn btn-primary mt30 wd33 fl">Text</a>
+            <a ng-click="addNewSection('text')" href="" title="" class="btn btn-primary mt30 wd33 fl">Text / Links</a>
 
         </div>
 
@@ -163,6 +119,51 @@
 
         <div ng-show="show_order_form">
             <h2>Bestellformular</h2>
+            <input class="form-control mb10" min="0" ng-model="offer.price" placeholder="Kosten in €" value="{{offer.price}}" type="number" required/>
+            <select ng-model="offer.per" class="mb10">
+                <option value="pro Buchung">
+                    pro Buchung
+                </option>
+                <option value="pro Teilnehmer">
+                    pro Teilnehmer
+                </option>
+                <option value="pro Stück">
+                    pro Stück
+                </option>
+                <option value="pro Jahr">
+                    pro Jahr
+                </option>
+                <option value="pro Monat">
+                    pro Monat
+                </option>
+                <option value="pro Tag">
+                    pro Tag
+                </option>
+                <option value="pro Stunde">
+                    pro Stunde
+                </option>
+                <option value="pro Minute">
+                    pro Minute
+                </option>
+            </select>
+            <select ng-model="offer.category" class="mb10">
+                <optgroup ng-repeat="cat in categories" label="{{cat.category}}">
+                    <option ng-repeat="subcat in cat.subcategory" value="{{subcat}}">
+                        {{subcat}}
+                    </option>
+                </optgroup>
+            </select>
+
+
+            <div ng-if="offer.sections.length > 0">
+                <h2>Bereiche</h2>
+                <ul class="offer-list mt30">
+                    <li ng-repeat="section in offer.sections track by $index" class="ng-scope">
+                        <p style="margin: 5px 0 0 0;">{{section.title}} ({{section.type}})</p><!-- <span class="icon-pencil" ng-click="editSection($index)"></span> --><span ng-click="deleteSection($index)" class="icon-cup"></span></li>
+                </ul>
+            </div>
+
+
             <p>Info: Hier können Sie zusätzliche Eingabefelder generieren die bei der Bestellung ausgefüllt werden müssen. Bitte fügen Sie nur "spezial" Felder hinzu, da die Standart-Eingabefelder automatisch von uns generiert werden.</p>
 
             <div class="form_prev">

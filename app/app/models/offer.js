@@ -19,6 +19,7 @@ var OfferSchema = mongoose.Schema({
   favs : {type : Number, default : 0},
   puchased : {type : Number, default : 0},
   comments : { type: Array, default : []},
+  activated : {type : Boolean, default : false}
 });
 
 OfferSchema.pre('create', idgenerator.generateId);
