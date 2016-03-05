@@ -1,6 +1,7 @@
 var Offer = require('../models/offer'),
 Provider = require('../models/provider'),
 User = require('../models/user'),
+User = require('../models/user'),
 uuid = require('uuid'),
 formidable = require('formidable'),
 newLocation = 'public/uploads/',
@@ -95,11 +96,8 @@ function uploadOfferVideo(req, res, next){
 function uploadOfferData(req, res, next){
 	var offer = req.body;
 	    offer.id = uuid.v4(),
-
 	    eval(capitalizeFirstLetter(req.user.role)).findOne({ email: req.user.email }, function(err, user_) {
 			offer.creatorId = user_.id;
-
-			console.log(offer)
 			Offer.create(offer,function(err){
         		if(err){
         	    	console.log(err);
@@ -107,17 +105,34 @@ function uploadOfferData(req, res, next){
         	    	res.status(200).end();
         		}
 			});
-
 		});
 }
 
 function getoffersuser(req,res){
 	var id = req.user.id__;
-
 	Offer.find({creatorId : id},function(err,offers){
 		if(!err) res.send(offers).status(200).end();
 	});
 }
+
+function getoffer(req,res) {
+	var id = req.query.id;
+	Offer.findOne({id:id},function(err,offer){
+		var offer_ = offer;
+		Login.findOne({id__ : offer_.creatorId},function(err,id_user){
+			eval(capitalizeFirstLetter(id_user.role)).findOne({id : id_user.id__},function(err,user){
+				var data = {
+					offer: offer_,
+					creator : user,
+					isown : offer_.creatorId == req.user.id__
+				};
+
+				res.send(data).status(200).end();
+			});
+		});
+	});
+}
+
 
 function progress(req, res, next){
 	var user = emailToFolder(checkAdmin(req))
@@ -179,6 +194,7 @@ function capitalizeFirstLetter(string) {
 
 module.exports = {
 	getoffersuser : getoffersuser,
+	getoffer : getoffer,
 	uploadOfferImages : uploadOfferImages,
 	uploadOfferVideo : uploadOfferVideo,
 	uploadOfferData : uploadOfferData,

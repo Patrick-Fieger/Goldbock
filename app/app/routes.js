@@ -23,7 +23,7 @@ module.exports = function(app){
 
 
 	app.get('/getoffersuser', pass.isAuthenticatedToMakeRequest , offer.getoffersuser);
-
+	app.get('/offer', pass.isLoggedInNext , offer.getoffer);
 
 
 
@@ -38,7 +38,7 @@ module.exports = function(app){
 	app.get('/offers', pass.isAuthenticatedToMakeRequest , provider.offers);
 	app.delete('/offer', pass.isAuthenticatedToMakeRequest , provider.deleteOffer);
 	app.delete('/edit/offer', pass.isAuthenticatedToMakeRequest , provider.deleteOfferData);
-	app.get('/offer', pass.isLoggedInNext , provider.offer);
+
 	app.post('/update/provider', pass.isAuthenticatedToMakeRequest , provider.update);
 	app.post('/update/user', pass.isAuthenticatedToMakeRequest , user.update);
 	app.get('/categories', pass.isAuthenticatedToMakeRequest , user.categories);

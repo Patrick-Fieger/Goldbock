@@ -311,7 +311,7 @@ angular.module('app.provider_create_offer', ['ngRoute'])
 	function checkImagesVideos(){
 		for (var i = 0; i < $scope.offer.sections.length; i++) {
 			if($scope.offer.sections[i].type == "fotos"){
-				fotos_index += $scope.offer.sections[i].fotos.length;
+				fotos_index++;
 			}else if($scope.offer.sections[i].type == "video"){
 				video_index++;
 			}

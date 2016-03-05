@@ -20,6 +20,7 @@ angular.module('app.provider_dashboard', ['ngRoute'])
 
 	function updateProfileView(data, status, headers, config){
 		$scope.offers = data;
+		console.log(data)
 	}
 
 	$scope.redirectEdit = function(id){

@@ -2061,7 +2061,8 @@ svg.checkmark.active {
 }
 
 #pricing {
-    margin-top:-61px;
+    /*margin-top:-61px;*/
+    margin-top: -21px;
     background-color: rgba(60, 63, 64, 0.9);
     border: 0;
     color: #fff;

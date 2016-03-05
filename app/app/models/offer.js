@@ -9,6 +9,7 @@ var OfferSchema = mongoose.Schema({
   date : {type : Date},
   business_hours : {type : Boolean},
   per : {type : String},
+  title : {type : String},
   price : {type : Number},
   category : {type : String},
   description : {type : String},
@@ -17,7 +18,8 @@ var OfferSchema = mongoose.Schema({
   times : { type: Array, default : []},
   likes : {type : Number, default : 0},
   favs : {type : Number, default : 0},
-  puchased : {type : Number, default : 0},
+  views : {type : Number, default : 0},
+  purchased : {type : Number, default : 0},
   comments : { type: Array, default : []},
   activated : {type : Boolean, default : false}
 });
