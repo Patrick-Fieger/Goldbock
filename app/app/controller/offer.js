@@ -6,6 +6,7 @@ uuid = require('uuid'),
 formidable = require('formidable'),
 newLocation = 'public/uploads/',
 options = require('../../config/uploads'),
+email = require('../emailtemplates/sender')
 progress_ = {};
 
 
@@ -103,6 +104,13 @@ function uploadOfferData(req, res, next){
         	    	console.log(err);
         		}else{
         	    	res.status(200).end();
+        	    	// HIER DATEN ÄNDERN LIVE!
+        	    	var emailData = {
+      					email: "patrickfieger90@gmail.com",
+      					link : 'http://localhost:3000//#/offer/' + offer.id
+    				}
+
+    				email.sendEmail(emailData,'check_offer');
         		}
 			});
 		});
@@ -131,6 +139,27 @@ function getoffer(req,res) {
 			});
 		});
 	});
+}
+
+function changeOfferState(req,res){
+	var b = req.body;
+
+	Offer.findOne({id : b.id},function(err,offer){
+		offer.activated = b.state;
+
+		offer.save(function(err){
+			if(!err){
+				var message = "Deaktivierung erfolgreich";
+				if(b.state){
+					message = "Aktivierung erfolgreich";
+				}
+
+				res.send(message).status(200).end();
+			}
+
+		});
+	});
+
 }
 
 
@@ -193,6 +222,7 @@ function capitalizeFirstLetter(string) {
 
 
 module.exports = {
+	changeOfferState : changeOfferState,
 	getoffersuser : getoffersuser,
 	getoffer : getoffer,
 	uploadOfferImages : uploadOfferImages,

@@ -16,10 +16,10 @@ angular.module('app.login', ['ngRoute'])
   $scope.showAbout = true;
 
   if (ua.indexOf('chrome') > -1) {
-    $scope.userData = {
-      "email":"patrickfieger90@gmail.com",
-      "password":"1234"
-    }
+    // $scope.userData = {
+    //   "email":"patrickfieger90@gmail.com",
+    //   "password":"1234"
+    // }
 
     // $scope.userData = {
     //   "email":"p@jpy.io",
@@ -28,10 +28,10 @@ angular.module('app.login', ['ngRoute'])
     //
 
 
-    // $scope.userData = {
-    //   "email":"admin@goldbock.de",
-    //   "password":"GoLdBoCk_2014_!"
-    // }
+    $scope.userData = {
+      "email":"admin@goldbock.de",
+      "password":"GoLdBoCk_2014_!"
+    }
 
 
 

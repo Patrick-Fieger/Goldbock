@@ -4,13 +4,13 @@ angular.module('app.offer', ['ngRoute']).config(['$routeProvider', function($rou
         templateUrl: 'views/offer/offer.html',
         controller: 'OfferCtrl'
     });
-}]).controller('OfferCtrl', ['$scope', '$routeParams', '$location', '$timeout', 'ProviderService', 'AllService', '$rootScope', 'PhotoService', 'MessageService', 'UserService', '$interval', function($scope, $routeParams, $location, $timeout, ProviderService, AllService, $rootScope, PhotoService, MessageService, UserService, $interval) {
+}]).controller('OfferCtrl', ['$scope', '$routeParams', '$location', '$timeout', 'ProviderService', 'AllService', '$rootScope', 'PhotoService', 'MessageService', 'UserService', '$interval','AuthService','AdminService', function($scope, $routeParams, $location, $timeout, ProviderService, AllService, $rootScope, PhotoService, MessageService, UserService, $interval,AuthService,AdminService) {
 
     $scope.notproved = false;
     $scope.notallowed = false;
 
     AllService.getOffer($routeParams.id).success(buildOfferView);
-
+    AuthService.isAdmin().success(loadAdminView);
     function buildOfferView(data, status, headers, config) {
         $scope.user = data.creator;
         $scope.offer = data.offer;
@@ -22,6 +22,25 @@ angular.module('app.offer', ['ngRoute']).config(['$routeProvider', function($rou
         }else if(data.isown && !data.offer.activated){
             $scope.notallowed = true;
         }
+    }
+
+    function loadAdminView(data, status, headers, config){
+        if(data.admin) initAdminFunctions();
+    }
+
+    function initAdminFunctions(){
+        $scope.adminPanel = true;
+        $scope.changeOffer = function(bool){
+            var data = {
+                state : bool,
+                id : $routeParams.id
+            }
+            AdminService.changeOffer(data).success(showMessage);
+        }
+    }
+
+    function showMessage(data, status, headers, config){
+        alert(data);
     }
 
 

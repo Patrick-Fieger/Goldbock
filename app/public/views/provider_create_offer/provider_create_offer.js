@@ -376,7 +376,6 @@ angular.module('app.provider_create_offer', ['ngRoute'])
 
 	function readyToSaveData(){
 		if(fotos_index == 0 && video_index == 0){
-			watchProgressStop();
 			$timeout(function(){
 				$('.progress-bar').width('75%');
 				$scope.progressMessage = "Daten werden gespeichert";
@@ -387,6 +386,7 @@ angular.module('app.provider_create_offer', ['ngRoute'])
 
 	function uploadFinish(){
 		$('.progress-bar').width('100%');
+		watchProgressStop();
 		$timeout(function(){
 			MessageService.info(4)
 			$location.path(path);
@@ -407,7 +407,7 @@ angular.module('app.provider_create_offer', ['ngRoute'])
 		})
 	}
 
-		function watchProgressStop() {
+	function watchProgressStop() {
 	    clearInterval(progressInterval);
 	}
 

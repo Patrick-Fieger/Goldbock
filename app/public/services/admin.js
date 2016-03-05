@@ -31,7 +31,15 @@ angular.module('app.adminService', [])
 		return $http.post('/toggle/activate' , data)
 	}
 
+	var changeOffer = function(data){
+		return $http.post('/change/offer/state' , data);
+	}
+
+
+
+
 	return{
+		changeOffer : changeOffer,
 		getAllUsers : getAllUsers,
 		getProviders : getProviders,
 		getUsers : getUsers,

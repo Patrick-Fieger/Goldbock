@@ -19,7 +19,7 @@ module.exports = function(app){
 	app.post('/upload/offer/data', pass.isAuthenticatedToMakeRequest , offer.uploadOfferData);
 	app.get('/upload/progress', pass.isAuthenticatedToMakeRequest , offer.progress);
 
-
+	app.post('/change/offer/state', pass.isAuthenticatedToMakeRequest , offer.changeOfferState);
 
 
 	app.get('/getoffersuser', pass.isAuthenticatedToMakeRequest , offer.getoffersuser);

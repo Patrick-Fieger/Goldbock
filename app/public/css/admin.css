@@ -7,6 +7,13 @@
 	margin: -158px 0 0 -200px;
 }
 
+.admin_check_buttons{
+	position: fixed;
+	background: rgba(255,255,255,0.8);
+	top: 0;
+	right: 20px;
+}
+
 .button_wrapper .btn{
 	margin-bottom: 10px;
 }
