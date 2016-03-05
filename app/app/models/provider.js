@@ -26,3 +26,12 @@ ProviderSchema.pre('save', geo.setGeo, salt.salt);
 ProviderSchema.pre('create', salt.salt , geo.setGeo ,idgenerator.generateId);
 var Provider = mongoose.model('Providers', ProviderSchema);
 module.exports = Provider;
+
+
+// CLEAR OFFER DATA!!!
+// Provider.find({},function(err,provs){
+//   for (var i = 0; i < provs.length; i++) {
+//     provs[i].offers = undefined;
+//     provs[i].save();
+//   }
+// });

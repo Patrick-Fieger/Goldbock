@@ -109,11 +109,14 @@ function uploadOfferData(req, res, next){
 			});
 
 		});
+}
 
+function getoffersuser(req,res){
+	var id = req.user.id__;
 
-
-
-
+	Offer.find({creatorId : id},function(err,offers){
+		if(!err) res.send(offers).status(200).end();
+	});
 }
 
 function progress(req, res, next){
@@ -175,6 +178,7 @@ function capitalizeFirstLetter(string) {
 
 
 module.exports = {
+	getoffersuser : getoffersuser,
 	uploadOfferImages : uploadOfferImages,
 	uploadOfferVideo : uploadOfferVideo,
 	uploadOfferData : uploadOfferData,

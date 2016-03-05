@@ -19,6 +19,7 @@ passport.deserializeUser(function(id, done) {
   Login.findById(id.id, function (err, user) {
     done(err, {
       id: user.id,
+      id__: user.id__,
       email: user.email,
       role : user.role
     });

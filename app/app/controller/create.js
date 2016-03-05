@@ -9,6 +9,7 @@ function createUser(res,data,emailtype,roletype){
 	var roleCap = roletype.charAt(0).toUpperCase() + roletype.slice(1);
 	var saveData = data;
 	var uuid_ = uuid.v4();
+	var universal_user_id = uuid.v4();
 	saveData.role = roletype;
 	var password = saveData.password;
 	if(password == undefined){
@@ -21,7 +22,8 @@ function createUser(res,data,emailtype,roletype){
 	var loginData = {
     	email : saveData.email,
 		password : password,
-		role : roletype
+		role : roletype,
+		id__ : universal_user_id
     }
     var emailData = {
 		email: saveData.email,
@@ -40,8 +42,8 @@ function createUser(res,data,emailtype,roletype){
 		emailData.name.token = 'http://goldbock.de/#/verify/email/' + uuid_;
 	}
 
-	saveData.id = uuid.v4();
-	
+	saveData.id = universal_user_id;
+
 	eval(roleCap).create(saveData,function(err, roletype){
 		if(err){
 			console.log(err)

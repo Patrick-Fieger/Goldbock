@@ -39,17 +39,8 @@ angular.module('app.providerService', [])
 		return $http.post('/add/advertising', data);
 	}
 
-	var updatePassword = function(oldpassword, newpassword){
-
-	};
-	var deleteAccount = function(user){
-
-	};
-
 	return{
 		register : register,
-		updatePassword : updatePassword,
-		deleteAccount : deleteAccount,
 		offers : offers,
 		offer : offer,
 		deleteOffer : deleteOffer,

@@ -5,6 +5,7 @@
   "main": "server.js",
   "author": "Patrick Fieger patrick.fieger@steinbock.info",
   "devDependencies": {
+    "async": "^1.5.2",
     "bcrypt": "^0.8.1",
     "body-parser": "^1.12.0",
     "chalk": "^1.1.1",

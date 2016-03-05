@@ -14,15 +14,6 @@ module.exports = function(app){
 	app.post('/verify/email', user.verifyEmail);
 	app.post('/update/forgot/password', pass.updatePassword);
 	app.post('/createprovider', pass.isAuthenticatedToMakeRequest , admin.createProvider);
-
-
-	// app.post('/provider/upload/offer/title', pass.isAuthenticatedToMakeRequest , provider.uploadOfferTitleImage);
-	// app.post('/provider/upload/offer/images', pass.isAuthenticatedToMakeRequest , provider.uploadOfferImages);
-
-	// app.post('/provider/upload/offer/data', pass.isAuthenticatedToMakeRequest , provider.uploadOfferData);
-	// app.post('/provider/edit/offer/data', pass.isAuthenticatedToMakeRequest , provider.updateOfferData);
-
-
 	app.post('/upload/offer/images', pass.isAuthenticatedToMakeRequest , offer.uploadOfferImages);
 	app.post('/upload/offer/video', pass.isAuthenticatedToMakeRequest , offer.uploadOfferVideo);
 	app.post('/upload/offer/data', pass.isAuthenticatedToMakeRequest , offer.uploadOfferData);
@@ -31,7 +22,7 @@ module.exports = function(app){
 
 
 
-
+	app.get('/getoffersuser', pass.isAuthenticatedToMakeRequest , offer.getoffersuser);
 
 
 

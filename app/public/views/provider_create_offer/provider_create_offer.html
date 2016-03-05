@@ -13,6 +13,14 @@
             <input class="form-control mb10" ng-model="offer.title" placeholder="Titel des Angebotes" value="" type="text" required/>
             <textarea ckeditor="editorOptions" ng-model="offer.description">
             </textarea>
+            <div ng-if="offer.sections.length > 0">
+                <h2>Bereiche</h2>
+                <ul class="offer-list mt30">
+                    <li ng-repeat="section in offer.sections track by $index" class="ng-scope">
+                        <p style="margin: 5px 0 0 0;">{{section.title}} ({{section.type}})</p><!-- <span class="icon-pencil" ng-click="editSection($index)"></span> --><span ng-click="deleteSection($index)" class="icon-cup"></span></li>
+                </ul>
+            </div>
+
             <a ng-click="backTo('show_open_hours')" class="btn btn-primary mt30 fl wd33">
                 Öffnunszeiten bearbeiten
             </a>
@@ -155,14 +163,6 @@
             </select>
 
 
-            <div ng-if="offer.sections.length > 0">
-                <h2>Bereiche</h2>
-                <ul class="offer-list mt30">
-                    <li ng-repeat="section in offer.sections track by $index" class="ng-scope">
-                        <p style="margin: 5px 0 0 0;">{{section.title}} ({{section.type}})</p><!-- <span class="icon-pencil" ng-click="editSection($index)"></span> --><span ng-click="deleteSection($index)" class="icon-cup"></span></li>
-                </ul>
-            </div>
-
 
             <p>Info: Hier können Sie zusätzliche Eingabefelder generieren die bei der Bestellung ausgefüllt werden müssen. Bitte fügen Sie nur "spezial" Felder hinzu, da die Standart-Eingabefelder automatisch von uns generiert werden.</p>
 
@@ -179,10 +179,6 @@
                 Speichern und zurück
             </a>
         </div>
-
-
-
-
 </form>
 </div>
 

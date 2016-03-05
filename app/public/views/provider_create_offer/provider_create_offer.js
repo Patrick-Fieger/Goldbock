@@ -30,6 +30,7 @@ angular.module('app.provider_create_offer', ['ngRoute'])
 	$scope.offer = {
 		description : "<p>Beschreibung des Angebotes</p>",
 		business_hours : false,
+		title : "",
 		order_form : [],
 		sections : [],
 		times : [

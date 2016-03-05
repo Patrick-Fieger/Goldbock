@@ -60,8 +60,13 @@ angular.module('app.allService', [])
 		return $http.get('/getallusers')
 	}
 
+	function getOfferFromUser(){
+		return $http.get('/getoffersuser');
+	}
+
 	return {
 		getAllUsers : getAllUsers,
+		getOfferFromUser : getOfferFromUser,
 		//checkAvatarInfos: checkAvatarInfos,
 		profile : profile,
 		updateName : updateName,
