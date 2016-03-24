@@ -56,42 +56,47 @@ function uniq(a) {
 
 var profile = function(req, res, next){
 	var role = capitalizeFirstLetter(req.user.role);
-	eval(role).findOne({ email: req.user.email }, function(err, user) {
-      if (err) { console.log(err) }
-      if (!user) {
-        res.status(404).end();
-      }else {
-      	if(role == "User"){
-      		if(user.liked.length !== 0){
-      			Provider.find({}, 'offers -_id lastname firstname', function(err, results){
-      				if(err) return next(err);
-      				var likedposts = [];
+
+	if(role !== "Admin"){
+		eval(role).findOne({ email: req.user.email }, function(err, user) {
+		  if (err) { console.log(err) }
+		  if (!user) {
+		    res.status(404).end();
+		  }else {
+		  	if(role == "User"){
+		  		if(user.liked.length !== 0){
+		  			Provider.find({}, 'offers -_id lastname firstname', function(err, results){
+		  				if(err) return next(err);
+		  				var likedposts = [];
 
 
-      				for (var i = 0; i < results.length; i++) {
-      					for (var k = 0; k < results[i].offers.length; k++) {
-      						if(user.liked.indexOf(results[i].offers[k].id) > -1){
-      							likedposts.push({
-      								id : results[i].offers[k].id,
-      								name : results[i].offers[k].firstname + ' ' +  results[i].offers[k].lastname,
-      								title : results[i].offers[k].title
-      							})
-      						}
-      					};
-      				};
+		  				for (var i = 0; i < results.length; i++) {
+		  					for (var k = 0; k < results[i].offers.length; k++) {
+		  						if(user.liked.indexOf(results[i].offers[k].id) > -1){
+		  							likedposts.push({
+		  								id : results[i].offers[k].id,
+		  								name : results[i].offers[k].firstname + ' ' +  results[i].offers[k].lastname,
+		  								title : results[i].offers[k].title
+		  							})
+		  						}
+		  					};
+		  				};
 
-      				var data = user;
-					    data.liked = likedposts;
-					    res.send(data).status(200).end();
-    			});
-      		}else{
-				res.send(user).status(200).end();
-      		}
-      	}else{
-      		res.send(user).status(200).end();
-      	}
-      }
-    });
+		  				var data = user;
+						    data.liked = likedposts;
+						    res.send(data).status(200).end();
+					});
+		  		}else{
+					res.send(user).status(200).end();
+		  		}
+		  	}else{
+		  		res.send(user).status(200).end();
+		  	}
+		  }
+		});
+	}else{
+		res.status(200).end();
+	}
 }
 
 

@@ -17,7 +17,7 @@ var path           = require('path')
     	['forgot_complete','Passwort erfolgreich zurückgesetzt'],
     	['register_verify','Verifizieren sie Ihre Email'],
     	['register_complete','Ihre Email wurde erfolgreich verifiziert'],
-    	['check_offer','Ihre Email wurde erfolgreich verifiziert']
+    	['check_offer','Angebot zur Prüfung eingereicht']
     ],
     sub_ = function(path_){
 		for (var i = 0; i < emailHeaders.length; i++) {
