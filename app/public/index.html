@@ -70,20 +70,20 @@
                         <ul>
                             <li><a ng-if="profile.role == 'user'" href="#/categories">Dashboard<span class="trenner"></span></a></li>
                             <li><a ng-if="profile.role == 'provider'" href="#/{{profile.role}}/dashboard">Dashboard<span class="trenner"></span></a></li>
-                            <li><a ng-click="editProfile()" href="" title="" class="pencil_icon">Profil bearbeiten<span class="trenner"></span></a></li>
+                            <li><a ng-click="editProfile()" href="" title="" class="">Profil bearbeiten<span class="trenner"></span></a></li>
                             <li><a href="" title="">Avatar ändern<span class="trenner"></span></a><input type="file" id="fileInput"></li>
                             <li><a ng-click="editPass()" href="" title="">Passwort ändern<span class="trenner"></span></a></li>
-                            <li ng-if="profile.role == 'provider'" ><a ng-click="addAdvertising()" href="" title="" class="megaphone_icon">Werbung schalten<span class="trenner"></span></a></li>
+                            <li ng-if="profile.role == 'provider'" ><a ng-click="addAdvertising()" href="" title="" class="">Werbung schalten<span class="trenner"></span></a></li>
 
                             <li><a ng-click="editPost()"  href="" title="">Post hinzufügen<span class="trenner"></span></a></li>
                             <li><a ng-if="profile.role == 'user'"  href="" title="">Angebot hinzufügen<span class="trenner"></span></a></li>
 
                             <li><a style="position:relative" ng-click="" href="#/chat" title="">Chat <span class="showcounter" ng-show="counter.length > 0"></span><span class="trenner"></span></a></li>
 
-                            <li ng-if="profile.role == 'user'"><a href="#/favorites" title="" class="heart_icon">Favoriten<span class="trenner"></span></a></li>
-                            <li><a href="#/circle" title="" class="notebook_icon">Kategorien<span class="trenner"></span></a></li>
-                            <li><a href="" title="" class="notebook_icon">Kontakte<span class="trenner"></span></a></li>
-                            <li><a href="" title="" class="telescope_icon">Beobachtung<span class="trenner"></span></a></li>
+                            <li ng-if="profile.role == 'user'"><a href="#/favorites" title="" class="">Favoriten<span class="trenner"></span></a></li>
+                            <li><a href="#/circle" title="" class="">Kategorien<span class="trenner"></span></a></li>
+                            <li><a href="" title="" class="">Kontakte<span class="trenner"></span></a></li>
+                            <li><a href="" title="" class="">Beobachtung<span class="trenner"></span></a></li>
                         </ul>
                         </div>
                         <div ng-repeat="category in categories">
