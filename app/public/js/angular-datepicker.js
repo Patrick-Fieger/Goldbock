@@ -37,7 +37,7 @@ angular.module('angular-datepicker', [])
             },
             link: function(scope, element, attrs) {
                 var options = scope.pickADateOptions || {};
-
+                console.log('wefpoiwfnpoin')
                 var userOnSet = options.onSet;
 
                 function onSet(e) {
@@ -48,7 +48,6 @@ angular.module('angular-datepicker', [])
                     if (scope.$$phase || scope.$root.$$phase) // we are coming from $watch or link setup
                                              return;                    
                     var select = element.pickadate('picker').get('select'); // selected date
-
                     if (select) {
                         scope.$apply(function() {                        
                             if (e.hasOwnProperty('clear')) {                            
@@ -86,6 +85,8 @@ angular.module('angular-datepicker', [])
                         cordova.plugins.Keyboard.close();
                         window.removeEventListener('native.keyboardshow', this);
                     };
+
+                    $(element).blur().focusout();
 
                     window.addEventListener('native.keyboardshow', keyboardShowCallback);
 
@@ -136,11 +137,7 @@ angular.module('angular-datepicker', [])
                                 scope.pickATime = null;                            
                                 return;                        
                             }                        
-                            if (!scope.pickATime || typeof scope.pickATime === 'string')                             scope.pickATime = new Date();
-                            scope.pickATime.setHours(select.hour);                        
-                            scope.pickATime.setMinutes(select.mins);                        
-                            scope.pickATime.setSeconds(0);                        
-                            scope.pickATime.setMilliseconds(0);                    
+                            scope.pickATime = select.hour + ':' + select.mins        
                         });
                     }
                 }

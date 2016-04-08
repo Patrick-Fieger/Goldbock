@@ -1,6 +1,7 @@
 var create = require('./create')
     , uuid = require('uuid')
     , Provider = require('../models/provider')
+    , Offer = require('../models/offer')
     , User = require('../models/user')
     , Company = require('../models/company')
     , Categories = require('../models/categories')
@@ -15,6 +16,14 @@ var getProviders = function(req, res, next){
     	if(!err){
     		res.send(provider).status(200).end();
     	}
+    });
+}
+
+var getOffers = function(req, res, next){
+    Offer.find({},function(err,offer){
+        if(!err){
+            res.send(offer).status(200).end();
+        }
     });
 }
 
@@ -35,11 +44,7 @@ var getCompanys = function(req, res, next){
 }
 
 var updateProfile = function(req, res, next){
-
     var role = capitalizeFirstLetter(req.body.role);
-
-    console.log(role)
-    console.log(req.body.email)
     eval(role).findOne({email: req.body.email},function(err,user){
         user.firstname = req.body.firstname
         user.lastname = req.body.lastname
@@ -119,6 +124,7 @@ module.exports = {
 	createProvider : createProvider,
 	getProviders : getProviders,
 	getUsers : getUsers,
+    getOffers : getOffers,
 	getCompanys : getCompanys,
     updateProfile : updateProfile,
     updateCategories : updateCategories,

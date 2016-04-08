@@ -2,7 +2,7 @@
 	<ul>
 
 
-		<li ng-repeat="ad in allAds_1 | limitTo:1" class="ad_post">
+<!-- 		<li ng-repeat="ad in allAds_1 | limitTo:1" class="ad_post">
 			<a href="#/offer/{{ad.id}}" title="" class="biglink">
 				<div class="columns large-12 post_profile_data">
 
@@ -10,9 +10,9 @@
 				</div>
 				<div class="teaser_photo" style="background-image:url({{ad.photos[0]}})"></div>
 				<h3 class="mt10"><b>{{ad.title}}</b><br>-<i>{{ad.category}}</i></h3>
-				<p>{{ad.description | cut:true:100:' ...'}}</p>
+				<p ng-bind-html="ad.description | cut:true:100:' ...'"></p>
 			</a>
-		</li>
+		</li> -->
 
 
 		<li ng-repeat="post in posts">
@@ -23,7 +23,7 @@
 					<p class="post_date">{{post.date}}</p>
 				</div>
 				<span class="link_wrapper">
-					<p>{{post.text}}</p>
+					<p ng-bind-html="post.text"></p>
 					<img ng-if="post.image !== ''" ng-src="{{post.image}}" alt="">
 					<a class="link_post" ng-if="post.link !== ''" ng-href="" title="">{{post.link}}</a>
 				</span>
@@ -40,7 +40,7 @@
 				<p>{{postToView.name}} <br><i>{{postToView.date}}</i></p>
 			</div>
 			<div class="columns large-12">
-				<p>{{postToView.text}}</p>
+				<p ng-bind-html="postToView.text"></p>
 				<img ng-if="postToView.image && postToView.image !== ''" ng-src="{{postToView.image}}" alt="">
 				<div ng-if="postToView.youtube">
 					<iframe type="text/html" allowfullscreen frameborder="0" ng-src="{{trustSrc(postToView.link)}}"></iframe>
@@ -85,26 +85,26 @@
 
 
 	<div ng-hide="postview">
-		<div class="columns large-4 ad_slider" slider="true">
+		<div class="columns large-12 ad_slider" slider="true">
 			<ul>
 				<li ng-class='{active:$first}' ng-repeat="ad in allAds_1">
 					<a href="#/offer/{{ad.id}}">
-					<h1>Kategorie:<br> <b>{{ad.category}}</b></h1>
-					<div class="teaser_photo" style="background-image:url({{ad.photos[0]}})"></div>
+					<h1>Kategorie: <i>{{ad.category}}</i></h1>
+					<!-- <div class="teaser_photo" style="background-image:url({{ad.photos[0]}})"></div> -->
 					<h1 class="mt10"><b>{{ad.title}}</b></h1>
-					<p>{{ad.description | cut:true:100:' ...'}}</p>
+					<p ng-bind-html="ad.description | cut:true:100:' ...'"></p>
 					</a>
 				</li>
 			</ul>
 		</div>
-		<div class="columns large-4 ad_slider" slider="true">
+<!-- 		<div class="columns large-4 ad_slider" slider="true">
 			<ul>
 				<li ng-class='{active:$first}' ng-repeat="ad in allAds_2">
 					<a href="#/offer/{{ad.id}}">
 					<h1>Kategorie:<br> <b>{{ad.category}}</b></h1>
 					<div class="teaser_photo" style="background-image:url({{ad.photos[0]}})"></div>
 					<h1 class="mt10"><b>{{ad.title}}</b></h1>
-					<p>{{ad.description | cut:true:100:' ...'}}</p>
+					<p ng-bind-html="ad.description | cut:true:100:' ...'"></p>
 					</a>
 				</li>
 			</ul>
@@ -116,7 +116,7 @@
 					<h1>Kategorie:<br> <b>{{ad.category}}</b></h1>
 					<div class="teaser_photo" style="background-image:url({{ad.photos[0]}})"></div>
 					<h1 class="mt10"><b>{{ad.title}}</b></h1>
-					<p>{{ad.description | cut:true:100:' ...'}}</p>
+					<p ng-bind-html="ad.description | cut:true:100:' ...'"></p>
 					</a>
 				</li>
 			</ul>
@@ -128,37 +128,37 @@
 					<h1>Kategorie:<br> <b>{{ad.category}}</b></h1>
 					<div class="teaser_photo" style="background-image:url({{ad.photos[0]}})"></div>
 					<h1 class="mt10"><b>{{ad.title}}</b></h1>
-					<p>{{ad.description | cut:true:100:' ...'}}</p>
+					<p ng-bind-html="ad.description | cut:true:100:' ...'"></p>
 					</a>
 				</li>
 			</ul>
-		</div>
+		</div> -->
 		<!-- BIG STREAM! -->
-		<div class="columns large-4 ad_slider">
+<!-- 		<div class="columns large-4 ad_slider">
 			<ul class="mt20">
 				<li ng-class='{active:$first}' ng-repeat="ad in ads">
 					<a href="#/offer/{{ad.id}}">
 					<h1>Kategorie:<br> <b>{{ad.category}}</b></h1>
 					<div class="teaser_photo" style="background-image:url({{ad.photos[0]}})"></div>
 					<h1 class="mt10"><b>{{ad.title}}</b></h1>
-					<p>{{ad.description | cut:true:100:' ...'}}</p>
+					<p ng-bind-html="ad.description | cut:true:100:' ...'"></p>
 					</a>
 
 					<hr>
 				</li>
 			</ul>
-		</div>
-		<div class="columns large-4 ad_slider" slider="true">
+		</div> -->
+<!-- 		<div class="columns large-4 ad_slider" slider="true">
 			<ul>
 				<li ng-class='{active:$first}' ng-repeat="ad in allAds_5">
 					<a href="#/offer/{{ad.id}}">
 					<h1>Kategorie:<br> <b>{{ad.category}}</b></h1>
 					<div class="teaser_photo" style="background-image:url({{ad.photos[0]}})"></div>
 					<h1 class="mt10"><b>{{ad.title}}</b></h1>
-					<p>{{ad.description | cut:true:100:' ...'}}</p>
+					<p ng-bind-html="ad.description | cut:true:100:' ...'"></p>
 					</a>
 				</li>
 			</ul>
-		</div>
+		</div> -->
 	</div>
 </div>

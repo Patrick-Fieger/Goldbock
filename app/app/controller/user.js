@@ -2,6 +2,7 @@ var User = require('../models/user'),
 Login = require('../models/onlylogin'),
 Categories = require('../models/categories'),
 Provider = require('../models/provider'),
+Offer = require('../models/offer'),
 Ad = require('../models/ad'),
 create = require('./create'),
 Email = require('../emailtemplates/sender')
@@ -76,25 +77,22 @@ var categories = function(req, res, next){
 var getAds = function(req,res){
       var return_ads = [];
       var all_ads = [];
-      Provider.find({},function(err,prov){
-         for (var i = 0; i < prov.length; i++) {
-            for (var k = 0; k < prov[i].offers.length; k++) {
-               all_ads.push(prov[i].offers[k])
-            };
-         };
+      Offer.find({},function(err,offers){
+         all_ads = offers
+         // for (var i = 0; i < prov.length; i++) {
+         //    for (var k = 0; k < prov[i].offers.length; k++) {
+         //       .push(prov[i].offers[k])
+         //    };
+         // };
          Ad.find({},function(err,ads){
-               for (var i = 0; i < 10; i++) {
-                     if(ads[0].ads[i]){
-                           return_ads.push(ads[0].ads[i]);
-                     }
-               };
+               return_ads = ads
 
                res.send({
                      ads : return_ads,
                      all_ads : all_ads
                }).status(200).end();
 
-         });
+         }).limit(10);
       })
 }
 

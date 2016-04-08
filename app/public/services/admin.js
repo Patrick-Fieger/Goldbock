@@ -11,6 +11,10 @@ angular.module('app.adminService', [])
 		return $http.get('/getProviders')
 	}
 
+	var getOffers = function(){
+		return $http.get('/getOffers')
+	}
+
 	var	getUsers = function(){
 		return $http.get('/getUsers')
 	}
@@ -42,6 +46,7 @@ angular.module('app.adminService', [])
 		changeOffer : changeOffer,
 		getAllUsers : getAllUsers,
 		getProviders : getProviders,
+		getOffers : getOffers,
 		getUsers : getUsers,
 		updateProfile : updateProfile,
 		saveCategories : saveCategories,

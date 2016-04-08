@@ -1,6 +1,8 @@
 <div ng-if="adminPanel" class="admin_check_buttons">
     <button ng-click="changeOffer(true)" class="btn btn-block btn-lg btn-primary mt30">Aktivieren</button>
     <button ng-click="changeOffer(false)" class="btn btn-block btn-lg btn-danger mt30">Deaktiveren</button>
+
+    <a class="btn btn-block btn-lg btn-danger mt30" href="mailto:{{user.email}}?subject=Bemerkung zu Angebot '{{offer.title}}'">Email an Anbieter</a>
 </div>
 
 
@@ -98,7 +100,7 @@
                                     Summe :
                                 </span>
                                 <span>
-                                    {{offer.price / 100 * offer.companyAmount}} €
+                                    {{offer.price - (offer.price / 100 * offer.companyAmount)}} €
                                 </span>
                             </li>
                         </ul>
@@ -106,6 +108,10 @@
                             <div class="o_picker">
                                 <p>
                                 </p>
+                                <!-- <div ng-if="dateSeted">
+                                    <input type="text"  pick-a-date="date.day" placeholder="Datum" pick-a-date-options="dateOptions" />
+                                </div> -->
+
                                 <input required class="datepicker form-control mb10" placeholder="Datum"/>
                             </div>
                             <input required class="timepicker form-control mb10" placeholder="Uhrzeit"/>
@@ -124,27 +130,87 @@
     </div>
 </div>
 <div class="row">
-    <div class="columns large-12">
-        <h1>
-            Über dieses Angebot
-        </h1>
-        <div ng-bind-html="offer.description">
+    <div class="columns large-8">
+        <div class="columns large-12">
+            <h1>
+                Über dieses Angebot
+            </h1>
+            <div ng-bind-html="offer.description">
+            </div>
         </div>
-    </div>
-    <div class="columns large-12">
-        <h1>
-            Bereiche
-        </h1>
-        <div class="sections">
-            <div class="section_item" ng-repeat="section in offer.sections">
-                <p>
-                    {{section.title}}
-                </p>
+        <div class="columns large-12" ng-if="offer.sections.length">
+            <h1>
+                Bereiche
+            </h1>
+            <div class="sections">
+                <div class="section_headings" ng-repeat="section in offer.sections">
+                    <ul>
+                        <li ng-class='{active:$first}' data-item="{{section.id}}" ng-click="showSection(section.id)" style="width : {{(100 / offer.sections.length) - 2}}%">{{section.title}}</li>
+                    </ul>
+                </div>
+
+                <div class="section_item column large-12" ng-class="{active : $first}" id="{{section.id}}" ng-repeat="section in offer.sections">
+                    <div ng-if="section.type == 'fotos'">
+                        <div class="offer_pictures" itemscope itemtype="http://schema.org/ImageGallery">
+                            <figure style="background-image:url({{p}})" on-finish-render="initPhotos()" ng-repeat="p in section.fotos" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+                                <a ng-href="{{p}}" itemprop="contentUrl" data-size="600x400">
+                                <img style="display:none" ng-src="{{p}}" itemprop="thumbnail" alt="Image description" />
+                                </a>
+                            </figure>
+                        </div>
+                    </div>
+
+                    <div ng-if="section.type == 'video'">
+                        <div class="offer_video_wrapper" ng-show="offerVideo">
+                            <video class="wd100" ng-src="{{offer.offer.video}}" controls></video>
+                        </div>
+                    </div>
+
+                    <div ng-if="section.type == 'text'">
+                        <div ng-bind-html="section.text"></div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
 </div>
 <mapbox callback="callback">
 </mapbox>
+
+<div class="row">
+    <div class="columns large-8">
+        <div class="columns large-12">
+            <h1>Feedback <div star-rating rating="starRating3" click="click3(param)" mouse-hover="mouseHover3(param)" mouse-leave="mouseLeave3(param)"></div>
+                </div></h1>
+
+
+                <label ng-repeat="op in opinion" class="opinionlabel">
+                <input
+                    type="checkbox"
+                    value="{{op}}"
+                    ng-checked="selection.indexOf(op) > -1"
+                    ng-click="toggleSelection(op)">
+                    <p>{{op}}</p>
+                </label>
+                <textarea style="height:100px;margin-top:40px" maxlength="140" ng-maxlength="140" ng-trim="5" class="form-control mb10 wd100" ng-model="$parent.postToViewComment" value="$parent.postToViewComment" placeholder="Schreibe ein Kommentar... (Maximal 140 Zeichen)" required>{{$parent.postToViewComment}}</textarea>
+                <a class="btn btn-primary wd100 fl mb10" href="" ng-click="addCommentPost(postToView.id,opinion_)">Kommentar abgeben</a>
+
+                <ul id="comment_section">
+                    <li ng-repeat="comment in postToView.messages">
+                        <div class="columns large-12 post_profile_data">
+                            <p class="mt0">{{comment.user.firstname}} {{comment.user.lastname}} - <i>{{comment.date}}</i></p>
+                        </div>
+                        <div class="columns large-12">
+                            <p class="mt0">{{comment.text}}</p>
+                            <ul ng-if="comment.opinion">
+                                <li style="border-bottom:0" ng-repeat="op in comment.opinion">- {{op}}</li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+        </div>
+    </div>
+</div>
 </div>
 </div>

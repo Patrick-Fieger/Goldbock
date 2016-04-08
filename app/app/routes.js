@@ -36,8 +36,8 @@ module.exports = function(app){
 	app.post('/favorites', pass.isAuthenticatedToMakeRequest , provider.favorites);
 	app.post('/clear/upload', provider.clearProgress);
 	app.get('/offers', pass.isAuthenticatedToMakeRequest , provider.offers);
-	app.delete('/offer', pass.isAuthenticatedToMakeRequest , provider.deleteOffer);
-	app.delete('/edit/offer', pass.isAuthenticatedToMakeRequest , provider.deleteOfferData);
+	app.delete('/offer', pass.isAuthenticatedToMakeRequest , offer.deleteOffer);
+	//app.delete('/edit/offer', pass.isAuthenticatedToMakeRequest , provider.deleteOfferData);
 
 	app.post('/update/provider', pass.isAuthenticatedToMakeRequest , provider.update);
 	app.post('/update/user', pass.isAuthenticatedToMakeRequest , user.update);
@@ -48,6 +48,7 @@ module.exports = function(app){
 
 	app.get('/post/links',pass.isAuthenticatedToMakeRequest, all.postSuggestion)
 	app.get('/getProviders', pass.isAuthenticatedToMakeRequest , admin.getProviders)
+	app.get('/getOffers', pass.isAuthenticatedToMakeRequest , admin.getOffers)
 	app.get('/getUsers', pass.isAuthenticatedToMakeRequest , admin.getUsers)
 	app.get('/getCompanys', pass.isAuthenticatedToMakeRequest , admin.getCompanys)
 	app.post('/admin/update/profile', pass.isAuthenticatedToMakeRequest , admin.updateProfile);

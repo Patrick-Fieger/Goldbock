@@ -1900,6 +1900,37 @@ input {
     clear: both;
 }
 
+
+.section_headings ul{
+    margin: 0;
+    padding: 0;
+}
+
+.section_headings li{
+    float: left;
+    margin: 1% 1% 30px 1%;
+    list-style: none;
+    text-align: center;
+    background: #ccc;
+}
+
+.section_headings li.active{
+    background: #cf9e34;
+    color: #000;90ui
+}
+
+.section_headings li:hover{
+    cursor: pointer;
+}
+
+.section_item{
+    display: none;
+}
+
+.section_item.active{
+    display: block;
+}
+
 .bookoverlay {
     width: 100%;
     height: 100%;
@@ -4079,9 +4110,9 @@ img-crop canvas {
     width: 100%;
 }
 
-.ad_slider{
+/*.ad_slider{
     text-align: center;
-}
+}*/
 
 .ad_slider h1{
     font-size: 18px;
@@ -4103,7 +4134,7 @@ img-crop canvas {
 }
 
 .ad_slider[slider]{
-    text-align: center;
+    /*text-align: center;*/
     float: left;
 }
 
@@ -4117,7 +4148,7 @@ img-crop canvas {
 }
 
 .ad_slider[slider] li p{
-    text-align: center;
+    /*text-align: center;*/
 }
 
 .user_advertising.block_ li p{
@@ -4146,10 +4177,10 @@ img-crop canvas {
     margin-right: 20px;
     width: 33%;
 }
-
+/*
 .ad_slider[slider]{
     height:380px
-}
+}*/
 
 .ad_slider ul{
     margin: 0;
@@ -4158,15 +4189,22 @@ img-crop canvas {
 
 .ad_slider li{
     list-style: none;
+    float: left;
+    width: 46%;
+    margin: 1%;
+    background: rgba(244, 244, 244,0.85);
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    padding: 15px;
 }
 
-.ad_slider[slider] li{
+/*.ad_slider[slider] li{
     position: absolute;
     opacity: 0;
     visibility: hidden;
     width: 100%;
     padding: 0 10%;
-}
+}*/
 
 .ad_slider[slider] li.active{
     opacity: 1;
@@ -4317,7 +4355,8 @@ iframe{
 }
 
 .opinionlabel{
-    width: 100%
+    width: 100%;
+    margin-left: 15px;
 }
 
 .opinionlabel input{

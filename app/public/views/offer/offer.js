@@ -8,21 +8,110 @@ angular.module('app.offer', ['ngRoute']).config(['$routeProvider', function($rou
 
     $scope.notproved = false;
     $scope.notallowed = false;
+    $scope.dateSeted = false;
+    $scope.starRating3 = 3;
+    var closeddays = [];
 
     AllService.getOffer($routeParams.id).success(buildOfferView);
     AuthService.isAdmin().success(loadAdminView);
+
+
+    function makeid(howlong){
+            var text = "";
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+            for( var i=0; i < howlong; i++ )
+                text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+            return text;
+    }
+
+    $scope.click3 = function (param) {
+        console.log('Click');
+    };
+
+    $scope.mouseHover3 = function (param) {
+        console.log('mouseHover(' + param + ')');
+        $scope.hoverRating3 = param;
+    };
+
+    $scope.mouseLeave3 = function (param) {
+        console.log('mouseLeave(' + param + ')');
+        $scope.hoverRating3 = param + '*';
+    };
+
+
+
     function buildOfferView(data, status, headers, config) {
+        $scope.date = {
+            day : "",
+            hour : ""
+        };
         $scope.user = data.creator;
         $scope.offer = data.offer;
         $scope.offer.companyAmount = 10;
         $scope.user.avatar = AllService.removePublicInLink($scope.user.avatar.small);
+
+        if($scope.offer.sections){
+            for (var i = 0; i < $scope.offer.sections.length; i++) {
+                $scope.offer.sections[i].id = makeid(10)
+            }
+        }
 
         if(data.isown && !data.offer.activated){
             $scope.notproved = true;
         }else if(data.isown && !data.offer.activated){
             $scope.notallowed = true;
         }
+
+        for (var i = 0; i < $scope.offer.times.length; i++) {
+            if(!$scope.offer.times[i].open){
+                var close = i + 1;
+
+                closeddays.push(close);
+            }
+        }
+
+        initPicker();
     }
+
+
+    var $input
+    var picker
+
+    function initPicker(){
+        $('.datepicker').pickadate({
+            today: '',
+            clear: '',
+            close: '',
+            disable: closeddays,
+            min: true,
+            onSet: function(context) {
+                setTimePicker(this.component.item.select.day)
+            }
+        });
+
+        $input = $('.timepicker').pickatime({
+            format: 'HH:i U!hr',
+            clear: '',
+            hiddenName: true
+        });
+        picker = $input.pickatime('picker');
+    }
+
+    function setTimePicker(day){
+        var min_split = $scope.offer.times[day-1].from.split(':');
+        var min = [parseInt(min_split[0]),parseInt(min_split[1])]
+
+        var max_split = $scope.offer.times[day-1].to.split(':');
+        var max = [parseInt(max_split[0]),parseInt(max_split[1])]
+
+        picker.set({
+            min: min,
+            max : max
+        });
+    }
+
 
     function loadAdminView(data, status, headers, config){
         if(data.admin) initAdminFunctions();
@@ -41,6 +130,22 @@ angular.module('app.offer', ['ngRoute']).config(['$routeProvider', function($rou
 
     function showMessage(data, status, headers, config){
         alert(data);
+    }
+
+    $scope.initPhotos = function() {
+        $timeout(function() {
+            $('.offer_pictures img').each(function(index, el) {
+                $(this).attr('data-size', $(this).get(0).naturalHeight + 'x' + $(this).get(0).naturalWidth);
+                $(this).parent('a').attr('data-size', $(this).get(0).naturalWidth + 'x' + $(this).get(0).naturalHeight);
+            }).promise().done(function() {
+                PhotoService.init('.offer_pictures');
+            });
+        }, 1000)
+    }
+
+    $scope.showSection = function(id){
+        $('.section_item,.section_headings li').removeClass('active');
+        $('.section_item#' + id + ',.section_headings li[data-item="' + id + '"]').addClass('active');
     }
 
 
@@ -64,7 +169,6 @@ angular.module('app.offer', ['ngRoute']).config(['$routeProvider', function($rou
             marker.openPopup();
         },1000)
     };
-
 }]);
 //     ProviderService.offer($routeParams.id).success(buildOfferView);
 //     $scope.innerover = false;
@@ -170,20 +274,7 @@ angular.module('app.offer', ['ngRoute']).config(['$routeProvider', function($rou
 //             min: [8, 0],
 //             max: [18, 0]
 //         });
-//         $('.datepicker').pickadate({
-//             format: 'dd.mm.yyyy',
-//             today: '',
-//             clear: '',
-//             close: '',
-//             hiddenName: true,
-//             disable: [
-//                 6, 7
-//             ],
-//             min: true,
-//             onSet: function(context) {
-//                 console.log(this)
-//             }
-//         });
+//
 //     }
 //     // initpicker();
 

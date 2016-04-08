@@ -193,6 +193,41 @@ function calculatePercentage(user){
 	return percentage
 }
 
+
+
+
+
+// delete Offer
+function deleteOffer(req, res, next){
+	var id = req.query.id;
+	Offer.findOne({ id : id }, function(err, offer) {
+      if (err) console.log(err)
+      	deleteOfferFiles(offer);
+      	offer.remove();
+      	res.send(id).status(200).end();
+    });
+}
+
+function deleteOfferFiles(offer){
+	var base = __dirname.split('app/controller')[0];
+	if(offer.sections){
+		for (var i = 0; i < offer.sections.length; i++) {
+			var type = offer.sections[i].type
+			if(type == "fotos"){
+				for (var k = 0; k < offer.sections[i].fotos.length; k++) {
+					var link =  base + 'public/' + offer.sections[i].fotos[k];
+					fs.unlink(link)
+				}
+			}else if(type == "video"){
+				var link =  base + 'public/' + offer.sections[i].video;
+				fs.unlink(link)
+			}
+		}
+	}
+}
+
+
+
 function toPercentage(p1,p2){
 	return p1 / p2 * 100 / 4;
 }
@@ -228,5 +263,6 @@ module.exports = {
 	uploadOfferImages : uploadOfferImages,
 	uploadOfferVideo : uploadOfferVideo,
 	uploadOfferData : uploadOfferData,
-	progress : progress
+	progress : progress,
+	deleteOffer : deleteOffer
 }

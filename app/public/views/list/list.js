@@ -18,10 +18,9 @@ angular.module('app.list', ['ngRoute'])
 
 
 
+
   function buildProviderView(data, status, headers, config){
     $scope.list.provider = data
-    console.log(data)
-
 
     for (var i = 0; i < $scope.list.provider.length; i++) {
     	$scope.list.provider[i].countoffer = $scope.list.provider[i].offers.length
@@ -33,8 +32,18 @@ angular.module('app.list', ['ngRoute'])
         $scope.list.provider[i].avatar.small = '/img/avatar/avatar.png'
       }
     };
-
+    AdminService.getOffers().success(checkOffers);
   };
+
+  function checkOffers(data, status, headers, config){
+    for (var i = 0; i < data.length; i++) {
+      for (var k = 0; k < $scope.list.provider.length; k++) {
+        if(data[i].creatorId == $scope.list.provider[k].id){
+          $scope.list.provider[k].offers.push(data[i])
+        }
+      }
+    }
+  }
 
   function buildUserView(data, status, headers, config){
     $scope.list.user = data

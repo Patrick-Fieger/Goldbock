@@ -81,10 +81,7 @@ angular.module('app.provider_create_offer', ['ngRoute'])
 
 	$scope.timepickeroptions = {
   		format: 'HH:i U!hr',
-  		formatSubmit: 'HH:i',
-  		onSet: function(context) {
-    		console.log('Just set stuff:', context)
-  		}
+  		formatSubmit: 'HH:i'
 	}
 
 	var path;
