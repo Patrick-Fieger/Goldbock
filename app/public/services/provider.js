@@ -35,11 +35,16 @@ angular.module('app.providerService', [])
 		return $http.delete('/offer',{params: { id : id}})
 	};
 
+	var addComment = function(data){
+		return $http.post('/add/comment', data);
+	}
+
 	var addAdvertising = function(data){
 		return $http.post('/add/advertising', data);
 	}
 
 	return{
+		addComment : addComment,
 		register : register,
 		offers : offers,
 		offer : offer,

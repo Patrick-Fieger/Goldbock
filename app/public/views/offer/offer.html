@@ -181,31 +181,22 @@
 <div class="row">
     <div class="columns large-8">
         <div class="columns large-12">
-            <h1>Feedback <div star-rating rating="starRating3" click="click3(param)" mouse-hover="mouseHover3(param)" mouse-leave="mouseLeave3(param)"></div>
+            <h1>Feedback <div star-rating rating="comments.rating" click="click3(param)" mouse-hover="mouseHover3(param)" mouse-leave="mouseLeave3(param)"></div>
                 </div></h1>
 
-
-                <label ng-repeat="op in opinion" class="opinionlabel">
-                <input
-                    type="checkbox"
-                    value="{{op}}"
-                    ng-checked="selection.indexOf(op) > -1"
-                    ng-click="toggleSelection(op)">
-                    <p>{{op}}</p>
-                </label>
-                <textarea style="height:100px;margin-top:40px" maxlength="140" ng-maxlength="140" ng-trim="5" class="form-control mb10 wd100" ng-model="$parent.postToViewComment" value="$parent.postToViewComment" placeholder="Schreibe ein Kommentar... (Maximal 140 Zeichen)" required>{{$parent.postToViewComment}}</textarea>
-                <a class="btn btn-primary wd100 fl mb10" href="" ng-click="addCommentPost(postToView.id,opinion_)">Kommentar abgeben</a>
+                <textarea style="height:100px;margin-top:40px" maxlength="140" ng-maxlength="140" ng-trim="5" class="form-control mb10 wd100" ng-model="comments.text" value="comments.text" placeholder="Schreibe ein Kommentar... (Maximal 140 Zeichen)" required>{{comments.text}}</textarea>
+                <a class="btn btn-primary wd100 fl mb10" href="" ng-click="addCommentPost(offer.id)">Kommentar abgeben</a>
 
                 <ul id="comment_section">
-                    <li ng-repeat="comment in postToView.messages">
+                    <li ng-repeat="comment in offer.comments">
                         <div class="columns large-12 post_profile_data">
-                            <p class="mt0">{{comment.user.firstname}} {{comment.user.lastname}} - <i>{{comment.date}}</i></p>
+                            <p class="mt0">{{comment.name}} -
+                                <i am-time-ago="comment.date | amUtc"></i> <i> / </i>
+                                <i>{{comment.date | amUtc | amLocal | amDateFormat:'MM.DD.YYYY'}}</i>
+                            </p>
                         </div>
                         <div class="columns large-12">
                             <p class="mt0">{{comment.text}}</p>
-                            <ul ng-if="comment.opinion">
-                                <li style="border-bottom:0" ng-repeat="op in comment.opinion">- {{op}}</li>
-                            </ul>
                         </div>
                     </li>
                 </ul>

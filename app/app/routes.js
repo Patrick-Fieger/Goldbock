@@ -5,12 +5,16 @@ var pass = require('../config/passport')
 	, all = require('./controller/all')
 	, chat = require('./controller/chat')
 	, offer = require('./controller/offer')
+	, request = require('./controller/request')
 
 module.exports = function(app){
 	app.post('/login', pass.login);
 	app.post('/logout', pass.logout);
 	app.post('/forgot', pass.forgot);
 	app.post('/register', user.register);
+	app.post('/request', request.request);
+
+
 	app.post('/verify/email', user.verifyEmail);
 	app.post('/update/forgot/password', pass.updatePassword);
 	app.post('/createprovider', pass.isAuthenticatedToMakeRequest , admin.createProvider);
@@ -24,6 +28,7 @@ module.exports = function(app){
 
 	app.get('/getoffersuser', pass.isAuthenticatedToMakeRequest , offer.getoffersuser);
 	app.get('/offer', pass.isLoggedInNext , offer.getoffer);
+	app.post('/add/comment', pass.isAuthenticatedToMakeRequest , offer.addComment);
 
 
 

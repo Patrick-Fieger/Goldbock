@@ -9,12 +9,15 @@ angular.module('app.offer', ['ngRoute']).config(['$routeProvider', function($rou
     $scope.notproved = false;
     $scope.notallowed = false;
     $scope.dateSeted = false;
-    $scope.starRating3 = 3;
     var closeddays = [];
 
     AllService.getOffer($routeParams.id).success(buildOfferView);
     AuthService.isAdmin().success(loadAdminView);
 
+     $scope.comments = {
+            text : "",
+            rating : 3
+    }
 
     function makeid(howlong){
             var text = "";
@@ -52,6 +55,12 @@ angular.module('app.offer', ['ngRoute']).config(['$routeProvider', function($rou
         $scope.offer.companyAmount = 10;
         $scope.user.avatar = AllService.removePublicInLink($scope.user.avatar.small);
 
+        console.log($scope.offer)
+
+        if(!$scope.offer.comments){
+            $scope.offer.comments = [];
+        }
+
         if($scope.offer.sections){
             for (var i = 0; i < $scope.offer.sections.length; i++) {
                 $scope.offer.sections[i].id = makeid(10)
@@ -73,6 +82,20 @@ angular.module('app.offer', ['ngRoute']).config(['$routeProvider', function($rou
         }
 
         initPicker();
+    }
+
+
+    $scope.addCommentPost = function(){
+        $scope.comments.date = new Date();
+
+        ProviderService.addComment({
+            data : $scope.comments,
+            id : $scope.offer.id
+        }).success(addCommentToPost)
+    }
+
+    function addCommentToPost(data, status, headers, config){
+        $scope.offer.comments.push(data);
     }
 
 
@@ -169,6 +192,11 @@ angular.module('app.offer', ['ngRoute']).config(['$routeProvider', function($rou
             marker.openPopup();
         },1000)
     };
+
+    $scope.sendRequest = function() {
+        alert('Buchungen sind zu diesem Zwitpunkt leider noch nicht möglich!');
+    }
+
 }]);
 //     ProviderService.offer($routeParams.id).success(buildOfferView);
 //     $scope.innerover = false;

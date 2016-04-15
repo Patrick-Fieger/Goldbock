@@ -1,7 +1,6 @@
 var Offer = require('../models/offer'),
 Provider = require('../models/provider'),
 User = require('../models/user'),
-User = require('../models/user'),
 uuid = require('uuid'),
 formidable = require('formidable'),
 newLocation = 'public/uploads/',
@@ -107,7 +106,7 @@ function uploadOfferData(req, res, next){
         	    	// HIER DATEN ÄNDERN LIVE!
         	    	var emailData = {
       					email: "patrickfieger90@gmail.com",
-      					link : 'http://localhost:3000//#/offer/' + offer.id
+      					link : 'http://localhost:3000/#/offer/' + offer.id
     				}
 
     				email.sendEmail(emailData,'check_offer');
@@ -194,7 +193,33 @@ function calculatePercentage(user){
 }
 
 
+function addComment(req,res){
+	var d = req.body;
+	eval(capitalizeFirstLetter(req.user.role)).findOne({ email: req.user.email }, function(err, user) {
+		d.data.name = user.firstname + " " + user.lastname;
 
+		Offer.update({id: d.id}, {$push: {comments: d.data}}, {upsert:true}, function(err){
+        	if(!err) res.send(d.data).status(200).end();
+		});
+
+		// Offer.findOne({id : d.id},function(err,offer){
+		// 	if(err) console.log(err)
+
+		// 	if(!offer.comments){
+		// 		offer.comments = [];
+		// 	}else{
+		// 		offer.comments.push(d.data);
+		// 	}
+
+		// 	console.log(offer)
+
+		// 	offer.save(function(err){
+		// 		if(!err) res.send(d.data).status(200).end();
+		// 	});
+		// })
+
+	});
+}
 
 
 // delete Offer
@@ -257,6 +282,7 @@ function capitalizeFirstLetter(string) {
 
 
 module.exports = {
+	addComment : addComment,
 	changeOfferState : changeOfferState,
 	getoffersuser : getoffersuser,
 	getoffer : getoffer,

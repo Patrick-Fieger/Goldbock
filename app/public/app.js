@@ -114,6 +114,11 @@ config(['$locationProvider','$routeProvider', function($locationProvider,$routeP
             link: function (scope, element, attributes) {
                 L.mapbox.accessToken = 'pk.eyJ1IjoiZ29sZGJvY2siLCJhIjoiNzIyZjZhMmQyMWU4M2RlY2I4NDQzNWY1ZWYwMTRhOTAifQ.MlC67JdU6PFNJHKKQhRp4w';
                 var map = L.mapbox.map(element[0], 'goldbock.meoi9afp');
+                map.dragging.disable();
+                map.touchZoom.disable();
+                map.doubleClickZoom.disable();
+                map.scrollWheelZoom.disable();
+                map.keyboard.disable();
                 scope.callback(map);
             }
         };
