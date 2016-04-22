@@ -9,6 +9,17 @@
     /**/
 }
 
+.back-button:before{
+    position: absolute;
+    margin-left: -30px;
+    margin-top: 0px;
+    font-size: 27px;
+}
+
+.back-button:hover{
+    cursor: pointer;
+}
+
 #postviewbig p{
     word-break : break-all;
 }

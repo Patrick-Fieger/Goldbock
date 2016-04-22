@@ -76,7 +76,7 @@
 
 
         <div ng-show="show_section_chooser">
-            <div class="icon icon-arrow-left back-button" ng-click="backTo('show_allgemein')">Zurück zu Allgemeinen Informationen</div>
+            <div class="icon icon-arrow-left back-button" ng-click="backTo('show_allgemein')"><p>Zurück zu Allgemeinen Informationen</p></div>
 
             <h2 class="tac">Welche Art von Bereich möchten sie hinzufügen?</h2>
             <a ng-click="addNewSection('fotos')" href="" title="" class="btn btn-primary mt30 wd33 fl">Fotos</a>
@@ -88,7 +88,7 @@
 
 
         <div ng-show="show_section">
-            <div class="icon icon-arrow-left back-button" ng-click="backTo('show_section_chooser',true)">Zurück zur Bereichsauswahl</div>
+            <div class="icon icon-arrow-left back-button" ng-click="backTo('show_section_chooser',true)"><p>Zurück zur Bereichsauswahl</p></div>
 
             <input class="form-control mb10 mt30" ng-model="section_holder.title" placeholder="Titel">
             <div ng-if="section_holder.type == 'fotos'">
@@ -160,6 +160,83 @@
                         {{subcat}}
                     </option>
                 </optgroup>
+            </select>
+
+            <p>Wie viele Stunden geht eine Einheit?</p>
+
+            <select ng-model="offer.hours" class="mb10">
+                <option value="1">
+                    1
+                </option>
+                <option value="2">
+                    2
+                </option>
+                <option value="3">
+                    3
+                </option>
+                <option value="4">
+                    4
+                </option>
+                <option value="5">
+                    5
+                </option>
+                <option value="6">
+                    6
+                </option>
+                <option value="7">
+                    7
+                </option>
+                <option value="8">
+                    8
+                </option>
+                <option value="9">
+                    9
+                </option>
+                <option value="10">
+                    10
+                </option>
+                <option value="11">
+                    11
+                </option>
+                <option value="12">
+                    12
+                </option>
+                <option value="13">
+                    13
+                </option>
+                <option value="14">
+                    14
+                </option>
+                <option value="15">
+                    15
+                </option>
+                <option value="16">
+                    16
+                </option>
+                <option value="17">
+                    17
+                </option>
+                <option value="18">
+                    18
+                </option>
+                <option value="19">
+                    19
+                </option>
+                <option value="20">
+                    20
+                </option>
+                <option value="21">
+                    21
+                </option>
+                <option value="22">
+                    22
+                </option>
+                <option value="23">
+                    23
+                </option>
+                <option value="24">
+                    24
+                </option>
             </select>
 
 

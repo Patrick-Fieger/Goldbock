@@ -14,6 +14,7 @@ angular.module('myApp', [
   'app.forgot_enter',
   'app.admin',
   'app.admin_provider',
+  'app.admin_check_offer',
   'app.admin_edit_categories',
   'app.provider_create_offer',
   'app.provider_dashboard',

@@ -9,26 +9,51 @@ angular.module('app.provider_edit_offer', ['ngRoute'])
   });
 }])
 
-.controller('ProviderEditOfferCtrl', ['$scope','$routeParams','$location','$timeout','ProviderService','AllService','AuthService','UploadService','$rootScope','MessageService',function($scope,$routeParams,$location,$timeout,ProviderService,AllService,AuthService,UploadService,$rootScope,MessageService) {
+.controller('ProviderEditOfferCtrl', ['$parse','$scope','$routeParams','$location','$timeout','ProviderService','AllService','AuthService','UploadService','$rootScope','MessageService',function($parse,$scope,$routeParams,$location,$timeout,ProviderService,AllService,AuthService,UploadService,$rootScope,MessageService) {
+
+	var imagecopy = '<span class="btn btn-primary wd100 fl mt10 mb10 fileinput_hide">    Bild auswählen    <input class="images" onchange="angular.element(this).scope().checkImages(this)" placeholder="Bild auswählen" type="file" accept="image/*"/></span>';
+	var video_prev;
+	var images;
+	var progressInterval;
+	$scope.images = [];
+	$scope.offer = {};
+	// HIDE SHOW SECTIONS
+	$scope.show_allgemein = true;
+	$scope.show_section_chooser = false;
+	$scope.show_section = false;
+	$scope.show_open_hours = false;
+	$scope.show_order_form = false;
+	$scope.showProgress = false;
+	$scope.progressMessage = "";
+
 	ProviderService.offer($routeParams.id).success(buildOfferView);
 
-	var progressInterval;
-	$scope.toggleTitleImage = false;
-	$scope.togglePhotos = false;
-	$scope.toggleVideo = false;
-	$scope.images = [];
+
+	function buildOfferView(data, status, headers, config){
+		$scope.offer = data.offer;
+		$scope.categories = data.categories;
+
+		ProviderService.categories().success(buildCategories);
+		$.cookie('email',data.email);
+		$timeout(function(){
+			$('#catt_ option').each(function(){
+				var text = $(this).text();
+				var trimm = text.trim()
+
+				if(trimm == data.offer.category){
+					$(this).attr('selected','selected');
+				}
+			})
+		},1000)
+	}
 
 
-	var changed = -2;
-	var anydelete = -2;
-	var max;
-	var title;
-	var photos;
-	var images = [];
-	var imagecopy = $('.copyimage').html();
+	$scope.timepickeroptions = {
+  		format: 'HH:i U!hr',
+  		formatSubmit: 'HH:i'
+	}
+
 	var path;
-
-
 	AuthService.isAdmin().success(function(data, status, headers, config){
 		if(data.admin){
 			path = "/list"
@@ -37,193 +62,141 @@ angular.module('app.provider_edit_offer', ['ngRoute'])
 		}
 	});
 
-	$scope.delete = {
-		id: "",
-		titleimage : {
-			normal : "",
-			black : ""
-		},
-		photos : [""],
+	function buildCategories(data, status, headers, config){
+		$scope.categories = data
+		//$scope.offer.category = data[0].subcategory[0];
+		// $scope.offer.per = "pro Buchung";
+	}
+
+	$scope.changeBusiness = function(bool){
+		$scope.offer.business_hours = bool;
+	}
+
+	$scope.changeOpening = function(index){
+		$scope.offer.times[index].open = !$scope.offer.times[index].open;
+	}
+
+	function hideAllAreas(){
+		$scope.show_allgemein = false;
+		$scope.show_section_chooser = false;
+		$scope.show_section = false;
+		$scope.show_open_hours = false;
+		$scope.show_order_form = false;
+	}
+
+
+	$scope.backTo = function(section,show_alert){
+		if(show_alert){
+			if(confirm('Sind sie sicher das Sie den Vorgang abbrechen wollen?')){
+				hideAllAreas();
+				$parse(section).assign($scope, true);
+			}
+		}else{
+			hideAllAreas();
+			$parse(section).assign($scope, true);
+		}
+	}
+
+
+	var fotos = {
+		title : "",
+		type : "fotos",
+		fotos : []
+	}
+
+	var video = {
+		title : "",
+		type : "video",
 		video : ""
-	};
-	$scope.uploadForm = function(){
-		if(anydelete > 0){
-			console.log($scope.delete)
-			UploadService.deletePrevData($scope.delete).success(uploadNewFiles);
-		}else{
-			uploadNewFiles();
-		}
+	}
+
+	var text = {
+		title : "",
+		type : "text",
+		text : ""
 	}
 
 
+	$scope.section_holder;
+	$scope.addNewSection = function(section){
+		hideAllAreas();
+		$scope.show_section = true;
+		var s = section;
+		if(s == "fotos"){
+			$scope.section_holder = fotos;
+		}else if(s == "video"){
+			$scope.section_holder = video;
+		}else{
+			$scope.section_holder = text;
+		}
+	}
 
-
-	function uploadNewFiles(){
-		if($scope.images.length !== 0){
-			$scope.watchProgress();
-			if($("#titleimage")[0].files[0] !== undefined ){
-				UploadService.uploadOfferTitleImage($("#titleimage")[0].files[0]).success(pushTitleFilenameAndUploadImages);
+	$scope.saveSection = function(type){
+		if($scope.section_holder.title !== ""){
+			if(type == "fotos"){
+				if(images.length !== 0){
+					$scope.section_holder.fotos = images;
+					addSection();
+				}else{
+					alert('Bitte fügen Sie Bilder hinzu!');
+				}
+			}else if(type == "video"){
+				if(video_prev){
+					$scope.section_holder.video = video_prev;
+					addSection();
+				}else{
+					alert('Bitte fügen sie ein Video hinzu');
+				}
 			}else{
-				pushTitleFilenameAndUploadImages("", "", "", "");
+				if($scope.section_holder.text !== ""){
+					addSection();
+				}else{
+					alert('Bitte fügen sie einen Text hinzu');
+				}
 			}
 		}else{
-			alert('Bitte wählen sie mindestens ein Bild aus!')
-		}
-
-	}
-
-
-	function pushTitleFilenameAndUploadImages(data, status, headers, config){
-		title = data;
-		if(images !== 0){
-			UploadService.uploadOfferPhotos(images).success(pushImageFilenamesAndUploadVideo);
-		}else{
-			pushImageFilenamesAndUploadVideo("", "", "", "");
+			alert('Bitte füllen Sie den Titel des Bereichs aus!');
 		}
 	}
 
+	function addSection(){
+		$scope.offer.sections.push($scope.section_holder);
+		$scope.backTo('show_allgemein');
+		clearSection();
+	}
 
-	function pushImageFilenamesAndUploadVideo(data, status, headers, config){
-		photos = data;
-		if($("#video")[0].files[0] !== undefined){
-			UploadService.uploadOfferVideo($("#video")[0].files[0]).success(pushVideoFilenameAndUploadOfferData);
-		}else{
-			pushVideoFilenameAndUploadOfferData("","","","");
-		}
+	function clearSection(){
+		video_prev = null;
+		images = null;
+		$scope.section_holder = {};
+		$scope.images = [];
+		fotos = {title : "",type : "fotos",fotos : []}
+		video = {title : "",type : "video",video : ""}
+		text = {title : "",type : "text",text : ""}
+	}
+
+	$scope.deleteSection = function(index){
+		$scope.offer.sections.splice(index, 1);
+	}
+
+	$scope.deleteInputOderForm = function(index){
+		$scope.offer.order_form.splice(index, 1);
+	}
+
+	$scope.editSection = function(index){
+		hideAllAreas();
+		$scope.show_section = true;
+		$scope.section_holder = $scope.offer.sections[index];
 	}
 
 
-	function pushVideoFilenameAndUploadOfferData(data, status, headers, config){
-		watchProgressStop();
-		$scope.new = {};
-		$scope.new.id = $scope.offer.id;
-		$scope.new.video = data;
-		$scope.new.photos = photos;
-		$scope.new.titleimage = title;
-		$scope.new.category = $scope.offer.category;
-		$scope.new.per = $scope.offer.per;
-		$scope.new.reqirements = $scope.offer.reqirements;
-		$scope.new.description = $scope.offer.description;
-		$scope.new.title = $scope.offer.title;
-		$scope.new.price = $scope.offer.price;
-
-		console.log($scope.offer.category)
-
-		if($scope.new.video !== "" || $scope.new.photos !== "" || $scope.new.titleimage !== "" || changed > 0){
-			$scope.progressMessage = "Daten werden gespeichert";
-			$timeout(function(){
-				$('.progress-bar').width('75%');
-				$scope.progressMessage = "Daten werden gespeichert";
-				UploadService.updateOfferData($scope.new).success(uploadFinish)
-			},1000)
-		}else{
-			uploadFinish();
+	$scope.cancelSection = function(){
+		if(confirm('Sind sie sicher das Sie den Vorgang abbrechen wollen?')){
+			$scope.backTo('show_allgemein');
+			clearSection();
 		}
 	}
 
-	function uploadFinish(data, status, headers, config){
-		$('.progress-bar').width('100%');
-		watchProgressStop();
-		$timeout(function(){
-			MessageService.info(5)
-			$location.path(path);
-		},1000);
-	}
-
-	$scope.cancelEdit = function(){
-		if(confirm('Wollen sie die Bearbeitung von ' + $scope.offer.title +' abbrechen?')){
-			$location.path(path);
-		}
-	}
-
-	function updateProgress(){
-		UploadService.progress().success(function(data, status, headers, config){
-			$('.progress-bar').width(data.progress + '%');
-			$scope.progressMessage = data.message;
-		}).error(function() {
-			$scope.progressMessage = "Daten werden gespeichert";
-		});
-	}
-
-
-	function buildOfferView(data, status, headers, config){
-		$scope.offer = data.offer;
-		$scope.categories = data.categories
-		$scope.delete.id = data.offer.id;
-		$.cookie('email',data.email);
-		if(data.offer.category == undefined){
-			$scope.offer.category = $scope.categories[0].subcategory[0]
-		}else{
-			$timeout(function(){
-				$('body').find('select').eq(1).val(data.offer.category)
-			},100)
-		}
-
-		$scope.images = data.offer.photos
-
-		if(data.offer.photos.length < 3){
-			$scope.togglePhotos = true;
-			max = 3 - data.offer.photos.length
-		}
-		if(data.offer.video == undefined || data.offer.video == ""){
-			$scope.toggleVideo = true;
-			$('.video_preview_delete').remove();
-		}
-
-		if(!data.isown){
-			$location.path('/')
-		}
-	}
-
-
-	$scope.checkVideo = function(){
-		var video = $("#video")[0].files[0];
-		if (video) {
-			var reader = new FileReader();
-			reader.onload = function (e) {
-				$('.video_preview').remove();
-				$('#video').closest('span').after('<div class="video_preview wd100 fl mb10"><video class="wd100" src="'+ e.target.result +'" controls></video></div>');
-			}
-			reader.readAsDataURL(video);
-		}
-	}
-
-
-	$scope.toggleDelete = function(id,type){
-		if(confirm('Wollen sie wirklich dieses Element löschen?')){
-			if(type=="photos"){
-				$scope.delete.photos.push(id)
-			}else if(type=="titleimage"){
-				$scope.delete[type].normal = $scope.offer.titleimage.normal;
-				$scope.delete[type].black = $scope.offer.titleimage.black;
-			}else{
-				$scope.delete[type] = id;
-			}
-			updateUploadView(id,type);
-		}
-	}
-
-	function updateUploadView(id,type){
-		if(type=="titleimage"){
-			$('.images_preview_big_delete').remove();
-			$('#titleimage').attr('required','true')
-			$scope.toggleTitleImage = true;
-		}else if(type == "photos"){
-			for (var i = 0; i < $scope.offer.photos.length; i++) {
-			    if ($scope.offer.photos[i] === id) {
-			        $scope.offer.photos.splice(i, 1);
-			        $scope.togglePhotos = true;
-			        max = 3 - $scope.offer.photos.length;
-			        if(max == 3){
-			        	$('#images').attr('required','true')
-			        }
-			    }
-			}
-		}else{
-			$('.video_preview_delete').remove();
-			$scope.toggleVideo = true;
-		}
-	}
 
 	$scope.checkImages = function(that){
 		$scope.images = [];
@@ -242,12 +215,10 @@ angular.module('app.provider_edit_offer', ['ngRoute'])
 							data : e.target.result,
 							name : ""
 						});
-						$scope.photosApplied = true;
 						$timeout(function(){
 							for (var i = 0; i < images.length; i++) {
 								$scope.images[i].name = images[i].name
 							};
-							console.log($scope.images)
 						},400)
 					});
 				}
@@ -269,41 +240,159 @@ angular.module('app.provider_edit_offer', ['ngRoute'])
 	}
 
 
-	$scope.checkTitleImage = function(){
-		var image = $("#titleimage")[0].files[0];
-		if (image) {
+	$scope.checkVideo = function(){
+		video_prev = $("#video")[0].files[0];
+		if (video_prev) {
 			var reader = new FileReader();
 			reader.onload = function (e) {
-				$scope.$apply(function() {
-					$scope.titleImageNew = e.target.result;
-					$scope.headerImageApplied = true;
-				});
+				$('.video_preview').remove();
+				$('#video').closest('span').after('<div class="video_preview wd100 fl mb10"><video class="wd100" src="'+ e.target.result +'" controls></video></div>');
 			}
-			reader.readAsDataURL(image);
+			reader.readAsDataURL(video_prev);
 		}
 	}
+
+
+	$scope.input_form = "";
+	$scope.addInputToForm = function(){
+		if($scope.input_form !== ""){
+			$scope.offer.order_form.push($scope.input_form);
+			$scope.input_form = "";
+		}
+	}
+
+
+	var fotos_index = 0;
+	var video_index = 0;
+	function checkImagesVideos(){
+		for (var i = 0; i < $scope.offer.sections.length; i++) {
+			if($scope.offer.sections[i].type == "fotos"){
+				for (var k = 0; k < $scope.offer.sections[i].fotos.length; k++) {
+					if(typeof $scope.offer.sections[i].fotos[k] !== "string"){
+						fotos_index++;
+					}
+				}
+			}else if($scope.offer.sections[i].type == "video" && typeof $scope.offer.sections[i].video !== "string"){
+				video_index++;
+			}
+		}
+	}
+
+	$scope.uploadForm = function(){
+		checkImagesVideos();
+		$timeout(function(){
+			if(fotos_index !== 0){
+				uploadImages();
+			}else if(video_index !== 0){
+				uploadVideos();
+			}else{
+				readyToSaveData();
+			}
+
+			$scope.watchProgress();
+		},300);
+	}
+
+	function uploadImages(){
+		for (var i = 0; i < $scope.offer.sections.length; i++) {
+			if($scope.offer.sections[i].type == "fotos"){
+				for (var k = 0; k < $scope.offer.sections[i].fotos.length; k++) {
+					if(typeof $scope.offer.sections[i].fotos[k] !== "string"){
+						UploadService.uploadOfferPhotos($scope.offer.sections[i].fotos,k).success(pushImageFilenamesAndUploadVideo);
+					}
+				}
+			}
+		}
+	}
+
+
+	function pushImageFilenamesAndUploadVideo(data, status, headers, config){
+		var d = data;
+		fotos_index--;
+		$scope.offer.sections[parseInt(d.index)].fotos = d.images;
+
+		if(video_index == 0 && fotos_index == 0){
+			readyToSaveData();
+		}else if(fotos_index == 0){
+			uploadVideos();
+		}
+	}
+
+	function uploadVideos(){
+		for (var i = 0; i < $scope.offer.sections.length; i++) {
+			if($scope.offer.sections[i].type == "video" && $scope.offer.sections[i].video !== "string"){
+				UploadService.uploadOfferVideo($scope.offer.sections[i].video,i).success(pushVideoFilenamesAndUploadVideo);
+			}
+		}
+	}
+
+	function pushVideoFilenamesAndUploadVideo(data, status, headers, config){
+		var d = data;
+		video_index--;
+		$scope.offer.sections[parseInt(d.index)].video = d.new;
+
+		if(video_index == 0){
+			readyToSaveData();
+		}
+	}
+
+
+	function readyToSaveData(){
+		if(fotos_index == 0 && video_index == 0){
+			$timeout(function(){
+				$('.progress-bar').width('75%');
+				$scope.progressMessage = "Daten werden gespeichert";
+				var data = {
+					data : $scope.offer,
+					isEdited : true
+				}
+				UploadService.uploadOfferData(data).success(uploadFinish)
+			},1000)
+		}
+	}
+
+	function uploadFinish(){
+		$('.progress-bar').width('100%');
+		watchProgressStop();
+		$timeout(function(){
+			MessageService.info(5)
+			$location.path(path);
+		},1000);
+	}
+
+	// PROGRESS
 
 	$scope.watchProgress = function() {
 		$scope.showProgress = true;
 		progressInterval = setInterval(function(){updateProgress()}, 10);
 	}
 
+	function updateProgress(){
+		UploadService.progress().success(function(data, status, headers, config){
+			$('.progress-bar').width(data.progress + '%');
+			$scope.progressMessage = data.message;
+		})
+	}
+
 	function watchProgressStop() {
-		UploadService.clearProgress();
 	    clearInterval(progressInterval);
 	}
 
 
-	$scope.$watchGroup(['offer.description', 'offer.title','offer.price','offer.category','offer.per','offer.reqirements'], function(newValues, oldValues, scope) {
-		changed++;
-	});
-
-	$scope.$watchGroup(['delete.titleimage.normal','delete.titleimage.black','delete.video'] ,function(newValues, oldValues, scope) {
-		anydelete++;
-	},true);
-
-	$scope.$watch('delete.photos' ,function(newValues, oldValues, scope) {
-		anydelete++;
-	},true)
-
+	$scope.editorOptions = {
+    	language: 'de',
+    	toolbar :[
+			{ name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Templates' ] },
+			{ name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
+			{ name: 'editing', groups: [ 'find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', '-', 'SelectAll', '-', 'Scayt' ] },
+			{ name: 'forms', items: [ 'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField' ] },
+			'/',
+			{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic'] },
+			{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: ['BulletedList', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language' ] },
+			{ name: 'links', items: [ 'Link', 'Unlink'] },
+			{ name: 'insert', items: ['Table'] },
+			'/',
+			{ name: 'styles', items: ['Format', 'Font', 'FontSize' ] }
+		]
+	};
 }]);

@@ -109,3 +109,16 @@
 	cursor: pointer;
 }
 
+#offer_links li{
+	list-style: none;
+}
+
+#offer_links li a{
+	margin: 10px 0;
+	float: left;
+	width: 100%;
+	border: 1px solid #ccc;
+	border-radius: 2px;
+	padding: 10px 5px
+}
+

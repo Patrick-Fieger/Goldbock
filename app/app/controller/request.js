@@ -9,7 +9,7 @@ function request(req,res){
 		b.type = "Anbieter"
 	}
 
-	b.email = "patrickfieger90@gmail.com";
+	b.email = "oliver.bock@goldbock.com";
 
 	email.sendEmail(b,'request');
 	res.status(200).end();

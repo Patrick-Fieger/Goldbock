@@ -31,6 +31,7 @@ angular.module('app.provider_create_offer', ['ngRoute'])
 		description : "<p>Beschreibung des Angebotes</p>",
 		business_hours : false,
 		title : "",
+		hours : 1,
 		order_form : [],
 		sections : [],
 		times : [
@@ -133,7 +134,6 @@ angular.module('app.provider_create_offer', ['ngRoute'])
 			hideAllAreas();
 			$parse(section).assign($scope, true);
 		}
-
 	}
 
 
@@ -169,8 +169,6 @@ angular.module('app.provider_create_offer', ['ngRoute'])
 			$scope.section_holder = text;
 		}
 	}
-
-
 
 	$scope.saveSection = function(type){
 		if($scope.section_holder.title !== ""){

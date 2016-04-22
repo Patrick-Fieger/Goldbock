@@ -94,7 +94,9 @@ function uploadOfferVideo(req, res, next){
 
 
 function uploadOfferData(req, res, next){
-	var offer = req.body;
+
+	if(!req.body.isEdited){
+		var offer = req.body;
 	    offer.id = uuid.v4(),
 	    eval(capitalizeFirstLetter(req.user.role)).findOne({ email: req.user.email }, function(err, user_) {
 			offer.creatorId = user_.id;
@@ -103,16 +105,76 @@ function uploadOfferData(req, res, next){
         	    	console.log(err);
         		}else{
         	    	res.status(200).end();
-        	    	// HIER DATEN ÄNDERN LIVE!
-        	    	var emailData = {
-      					email: "patrickfieger90@gmail.com",
-      					link : 'http://localhost:3000/#/offer/' + offer.id
-    				}
-
-    				email.sendEmail(emailData,'check_offer');
+        	    	sendMail(offer.id);
         		}
 			});
 		});
+	}else{
+		var offer = req.body.data;
+		Offer.findOne({id: offer.id},function(err,o){
+			checkDeletions(offer,o);
+			Offer.update({id: offer.id}, offer, {upsert:true}, function(err){
+				if(!err){
+					res.status(200).end();
+					sendMail(offer.id);
+				}else{
+					console.log(err);
+				}
+			});
+		});
+	}
+}
+
+function checkDeletions(new_,old){
+	var oldSections = old.sections;
+	var newSections = new_.sections;
+
+	var files = [];
+
+	if(newSections.length !== 0){
+		for (var i = 0; i < newSections.length; i++) {
+			var n = newSections[i];
+
+			if(n.type == "fotos"){
+				for (var k = 0; k < n.fotos.length; k++) {
+					files.push(n.fotos[k])
+				}
+			}else if(n.type == "video"){
+				files.push(n.video)
+			}
+		}
+	}
+
+	if(oldSections.length !== 0){
+		for (var x = 0; x < oldSections.length; x++) {
+			var o = oldSections[x];
+
+			if(o.type == "fotos"){
+				for (var y = 0; y < o.fotos.length; y++) {
+					if(files.indexOf(o.fotos[y]) == -1){
+						deleteOfferFile(o.fotos[y]);
+					}
+				}
+			}else if(o.type == "video"){
+				if(files.indexOf(o.video) == -1){
+					deleteOfferFile(o.video);
+				}
+			}
+		}
+	}
+}
+
+function sendMail (id){
+	// Ändern Wenn LIVE!!!  "oliver.bock@goldbock.com",
+	var emails = ["patrick.fieger@steinbock.info"];
+	var host = "http://localhost:3000";
+
+	for (var i = 0; i < emails.length; i++) {
+		email.sendEmail({
+    		email: emails[i],
+    		link : host + '/#/offer/' + id
+    	},'check_offer');
+	}
 }
 
 function getoffersuser(req,res){
@@ -201,23 +263,6 @@ function addComment(req,res){
 		Offer.update({id: d.id}, {$push: {comments: d.data}}, {upsert:true}, function(err){
         	if(!err) res.send(d.data).status(200).end();
 		});
-
-		// Offer.findOne({id : d.id},function(err,offer){
-		// 	if(err) console.log(err)
-
-		// 	if(!offer.comments){
-		// 		offer.comments = [];
-		// 	}else{
-		// 		offer.comments.push(d.data);
-		// 	}
-
-		// 	console.log(offer)
-
-		// 	offer.save(function(err){
-		// 		if(!err) res.send(d.data).status(200).end();
-		// 	});
-		// })
-
 	});
 }
 
@@ -234,21 +279,25 @@ function deleteOffer(req, res, next){
 }
 
 function deleteOfferFiles(offer){
-	var base = __dirname.split('app/controller')[0];
 	if(offer.sections){
 		for (var i = 0; i < offer.sections.length; i++) {
 			var type = offer.sections[i].type
 			if(type == "fotos"){
 				for (var k = 0; k < offer.sections[i].fotos.length; k++) {
-					var link =  base + 'public/' + offer.sections[i].fotos[k];
-					fs.unlink(link)
+					deleteOfferFile(offer.sections[i].fotos[k])
 				}
 			}else if(type == "video"){
-				var link =  base + 'public/' + offer.sections[i].video;
-				fs.unlink(link)
+				deleteOfferFile(offer.sections[i].video)
 			}
 		}
 	}
+}
+
+
+function deleteOfferFile(file){
+	var base = __dirname.split('app/controller')[0];
+	var link =  base + 'public/' + file;
+	fs.unlink(link)
 }
 
 

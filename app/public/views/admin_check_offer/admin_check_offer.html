@@ -1,0 +1,8 @@
+<div class="row">
+	<h1 class="tac mt30">Angebote zur Prüfung</h1>
+	<ul id="offer_links">
+		<li ng-repeat="o in offers" ng-if="!o.activated">
+			<a href="#/offer/{{o.id}}" title="">{{o.title}}</a>
+		</li>
+	</ul>
+</div>

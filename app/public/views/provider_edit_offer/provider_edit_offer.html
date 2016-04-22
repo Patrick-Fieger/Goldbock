@@ -1,111 +1,278 @@
+<style type="text/css" media="screen">
+    .cke{
+        margin : 10px 0 20px !important;
+        box-shadow: none;
+    }
+</style>
 <div class="bigform">
-    <h1 class="tac mb30">Angebot anlegen</h1>
-    <form ng-submit="uploadForm();" class="form-group">
-        <input class="form-control mb10" ng-model="offer.title" placeholder="Titel des Angebotes" value="" type="text" required>
-
-        <textarea ng-model="offer.description" class="form-control mb10 wd100" placeholder="Beschreibung des Angebotes"></textarea>
-
-        <textarea ng-model="offer.reqirements" class="form-control mb10 wd100" placeholder="Bedingungen des Angebotes"></textarea>
-
-        <input class="form-control mb10" min="0" ng-model="offer.price" placeholder="Kosten in €" value="{{offer.price}}" type="number" required>
-
-        <select ng-model="offer.per" class="mb10">
-            <option value="pro Buchung">pro Buchung</option>
-            <option value="pro Teilnehmer">pro Teilnehmer</option>
-            <option value="pro Jahr">pro Jahr</option>
-            <option value="pro Monat">pro Monat</option>
-            <option value="pro Tag">pro Tag</option>
-            <option value="pro Stunde">pro Stunde</option>
-            <option value="pro Minute">pro Minute</option>
-        </select>
-
-        <select ng-model="offer.category" class="mb10">
-            <optgroup ng-repeat="cat in categories" label="{{cat.category}}">
-                <option ng-repeat="subcat in cat.subcategory" value="{{subcat}}">{{subcat}}</option>
-            </optgroup>
-          <!-- <optgroup label="Gemeinsames / Verabreden">
-            <option value="Kochen / Backen">Kochen / Backen</option>
-            <option value="Diskutieren">Diskutieren</option>
-            <option value="Aktivitäten">Aktivitäten</option>
-            <option value="Außerhaus Meeting">Außerhaus Meeting</option>
-          </optgroup>
-          <optgroup label="Schönes und Leckeres">
-            <option value="Aus der Region">Aus der Region</option>
-          </optgroup>
-          <optgroup label="Service">
-            <option value="Bügeln">Bügeln</option>
-            <option value="Lesen">Lesen</option>
-            <option value="Geschenke">Geschenke</option>
-            <option value="Energie und Versicherung">Energie & Versicherung</option>
-          </optgroup>
-          <optgroup label="Fortschritt Privat und Beruf">
-            <option value="Coaches">Coaches</option>
-            <option value="Berater">Berater</option>
-            <option value="Therapeuten">Therapeuten</option>
-            <option value="Trainer">Trainer</option>
-            <option value="Spezial">Spezial</option>
-          </optgroup>
-          <optgroup label="Kunst und Kultur">
-            <option value="Unterhaltung">Unterhaltung</option>
-            <option value="Künstler">Künstler</option>
-            <option value="Theater">Theater</option>
-          </optgroup> -->
-        </select>
-
-
-        <span ng-show="toggleTitleImage" class="btn btn-primary wd100 fl fileinput_hide">Titelbild auswählen<input id="titleimage" onchange="angular.element(this).scope().checkTitleImage()" placeholder="Bilder auswählen" type="file" accept="image/*"></span>
-
-        <div class="images_preview_big mt10 images_preview_big_delete" style="float: left;">
-            <div class="delete_wrapper">
-                <div class="icon-cross delete_ hpo" ng-click="toggleDelete(offer.titleimage.normal,'titleimage')"></div>
-                <img ng-src="{{offer.titleimage.normal}}">
+    <div ng-show="show_allgemein">
+        <h2 class="mb30">
+            Allgemeine Informationen
+        </h2>
+        <form ng-submit="uploadForm()" class="form-group">
+            <input class="form-control mb10" ng-model="offer.title" placeholder="Titel des Angebotes" value="" type="text" required/>
+            <textarea ckeditor="editorOptions" ng-model="offer.description">
+            </textarea>
+            <div ng-if="offer.sections.length > 0">
+                <h2>Bereiche</h2>
+                <ul class="offer-list mt30">
+                    <li ng-repeat="section in offer.sections track by $index" class="ng-scope">
+                        <p style="margin: 5px 0 0 0;">{{section.title}} ({{section.type}})</p><!-- <span class="icon-pencil" ng-click="editSection($index)"></span> --><span ng-click="deleteSection($index)" class="icon-cup"></span></li>
+                </ul>
             </div>
+
+            <a ng-click="backTo('show_open_hours')" class="btn btn-primary mt30 fl wd33">
+                Öffnunszeiten bearbeiten
+            </a>
+            <a ng-click="backTo('show_section_chooser')" class="btn btn-primary mt30 fl wd33">
+                Bereich hinzufügen
+            </a>
+            <a ng-click="backTo('show_order_form')" class="btn btn-primary mt30 fl wd33">
+                Bestellformular konfigurieren
+            </a>
+            <button ng-click="" class="btn btn-primary mt30 wd100">
+                Angebot speichern
+            </button>
+
+            <a href="javascript:history.back()" class="btn btn-danger mt30 wd100 fl">
+                Abbrechen
+            </a>
         </div>
 
-        <div ng-show="headerImageApplied" class="images_preview_big">
-            <img ng-src="{{titleImageNew}}" class="mt10">
-        </div>
-        <div class="copyimage">
-        <!-- <span ng-show="togglePhotos" class="btn btn-primary wd100 fl mt10 mb10 fileinput_hide">Bilder auswählen <input id="images" onchange="angular.element(this).scope().checkImages()" placeholder="Bilder auswählen" multiple="true" type="file" accept="image/*"></span> -->
-            <span class="btn btn-primary wd100 fl mt10 mb10 fileinput_hide">Bild auswählen <input class="images" onchange="angular.element(this).scope().checkImages(this)" placeholder="Bild auswählen" type="file" accept="image/*"></span>
-
-        </div>
-
-
-        <div ng-show="photosApplied" class="images_preview mb10">
-            <!-- <img ng-repeat="image in images" src="{{image}}"> -->
-
-            <div class="images_preview_wrapper" ng-repeat="image in images">
-                <img src="{{image.data}}">
-                <div class="icon-cross" ng-click="deleteImage(image.name)"></div>
+        <div ng-show="show_open_hours">
+            <h2 class="mt30 withchooser">
+                Gibt es Öffnungszeiten?
+                <div class="littlechooser">
+                    <span ng-class="{active : offer.business_hours}" ng-click="changeBusiness(true)">
+                        Ja
+                    </span>
+                    <span ng-class="{active : !offer.business_hours}" ng-click="changeBusiness(false)">
+                        Nein
+                    </span>
+                </div>
+            </h2>
+            <div ng-show="offer.business_hours" class="oeffnungszeiten">
+                <ul class="chooser">
+                    <li ng-click="changeOpening($index)" ng-repeat="time in offer.times" ng-class="{active : time.open}">
+                        {{time.day}}
+                    </li>
+                </ul>
+                <ul class="displayer">
+                    <li ng-repeat="time in offer.times">
+                        <p ng-if="time.open">
+                            von
+                            <br/>
+                            <input type="text" pick-a-time="time.from" placeholder="00:00 Uhr" pick-a-time-options="timepickeroptions" />
+                            bis
+                            <br/>
+                            <input type="text" pick-a-time="time.to" placeholder="00:00 Uhr" pick-a-time-options="timepickeroptions" />
+                        </p>
+                        <p ng-if="!time.open">
+                            geschlossen!
+                        </p>
+                    </li>
+                </ul>
             </div>
+            <a ng-click="backTo('show_allgemein')" class="btn btn-primary mt30">
+                Speichern und zurück
+            </a>
         </div>
 
-        <div class="images_preview edit_ mb10 mt10 wd100" style="float: left;">
-            <div class="delete_wrapper" ng-repeat="image in offer.photos">
-                <div class="icon-cross delete_ hpo" ng-click="toggleDelete(image,'photos')"></div>
-                <img ng-src="{{image}}">
+
+        <div ng-show="show_section_chooser">
+            <div class="icon icon-arrow-left back-button" ng-click="backTo('show_allgemein')"><p>Zurück zu Allgemeinen Informationen</p></div>
+
+            <h2 class="tac">Welche Art von Bereich möchten sie hinzufügen?</h2>
+            <a ng-click="addNewSection('fotos')" href="" title="" class="btn btn-primary mt30 wd33 fl">Fotos</a>
+            <a ng-click="addNewSection('video')" href="" title="" class="btn btn-primary mt30 wd33 fl">Video</a>
+            <a ng-click="addNewSection('text')" href="" title="" class="btn btn-primary mt30 wd33 fl">Text / Links</a>
+
+        </div>
+
+
+
+        <div ng-show="show_section">
+            <div class="icon icon-arrow-left back-button" ng-click="backTo('show_section_chooser',true)"><p>Zurück zur Bereichsauswahl</p></div>
+
+            <input class="form-control mb10 mt30" ng-model="section_holder.title" placeholder="Titel">
+            <div ng-if="section_holder.type == 'fotos'">
+                <div class="copyimage">
+                    <span class="btn btn-primary wd100 fl mt10 mb10 fileinput_hide">
+                        Bild auswählen
+                        <input class="images" onchange="angular.element(this).scope().checkImages(this)" placeholder="Bild auswählen" type="file" accept="image/*"/>
+                    </span>
+                </div>
+                <div class="images_preview">
+                    <div class="images_preview_wrapper" ng-repeat="image in images">
+                        <img src="{{image.data}}"/>
+                        <div class="icon-cross" ng-click="deleteImage(image.name)">
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        
-        <span ng-show="toggleVideo" class="btn btn-primary wd100 fl mb10 fileinput_hide">Video auswählen <input id="video" onchange="angular.element(this).scope().checkVideo()" placeholder="Video auswählen" type="file" accept="video/mp4"></span>
+
+            <div ng-if="section_holder.type == 'video'">
+                <span class="btn btn-primary wd100 fl mb10 fileinput_hide">
+                Video auswählen
+                    <input id="video" onchange="angular.element(this).scope().checkVideo()" placeholder="Video auswählen" type="file" accept="video/mp4"/>
+                </span>
+            </div>
+
+            <div ng-if="section_holder.type == 'text'">
+                <textarea ckeditor="editorOptions" ng-model="section_holder.text">
+                </textarea>
+            </div>
 
 
-        <div ng-hide="toggleVideo" class="delete_wrapper video_preview_delete">
-                <div class="icon-cross delete_ hpo" ng-click="toggleDelete(offer.video,'video')"></div>
-        <div class="video_preview wd100 fl mb10"><video class="wd100" ng-src="{{offer.video}}" controls></video></div>
+            <a ng-click="saveSection(section_holder.type)" href="" title="" class="btn btn-primary mt30 wd50 fl">Speichern</a>
+            <a ng-click="cancelSection()" href="" title="" class="btn btn-primary mt30 wd50 fl">Abbrechen</a>
         </div>
-        <input class="btn btn-primary mt30" type="submit" value="Änderungen speichern"></input>
-    </form>
-    <button class="btn btn-danger mb30 hpo wd100"  ng-click="cancelEdit()">Abbrechen</button>
+
+
+        <div ng-show="show_order_form">
+            <h2>Bestellformular</h2>
+            <input class="form-control mb10" min="0" ng-model="offer.price" placeholder="Kosten in €" value="{{offer.price}}" type="number" required/>
+            <select ng-model="offer.per" class="mb10">
+                <option value="pro Buchung">
+                    pro Buchung
+                </option>
+                <option value="pro Teilnehmer">
+                    pro Teilnehmer
+                </option>
+                <option value="pro Stück">
+                    pro Stück
+                </option>
+                <option value="pro Jahr">
+                    pro Jahr
+                </option>
+                <option value="pro Monat">
+                    pro Monat
+                </option>
+                <option value="pro Tag">
+                    pro Tag
+                </option>
+                <option value="pro Stunde">
+                    pro Stunde
+                </option>
+                <option value="pro Minute">
+                    pro Minute
+                </option>
+            </select>
+            <select ng-model="offer.category" class="mb10" id="catt_">
+                <optgroup ng-repeat="cat in categories" label="{{cat.category}}">
+                    <!-- ng-selected="'{{subcat}}' == '{{offer.category}}'" -->
+                    <option ng-repeat="subcat in cat.subcategory" value="{{subcat}}">
+                        {{subcat}}
+                    </option>
+                </optgroup>
+            </select>
+
+            <p>Wie viele Stunden geht eine Einheit?</p>
+
+            <select ng-model="offer.hours" class="mb10">
+                <option value="1">
+                    1
+                </option>
+                <option value="2">
+                    2
+                </option>
+                <option value="3">
+                    3
+                </option>
+                <option value="4">
+                    4
+                </option>
+                <option value="5">
+                    5
+                </option>
+                <option value="6">
+                    6
+                </option>
+                <option value="7">
+                    7
+                </option>
+                <option value="8">
+                    8
+                </option>
+                <option value="9">
+                    9
+                </option>
+                <option value="10">
+                    10
+                </option>
+                <option value="11">
+                    11
+                </option>
+                <option value="12">
+                    12
+                </option>
+                <option value="13">
+                    13
+                </option>
+                <option value="14">
+                    14
+                </option>
+                <option value="15">
+                    15
+                </option>
+                <option value="16">
+                    16
+                </option>
+                <option value="17">
+                    17
+                </option>
+                <option value="18">
+                    18
+                </option>
+                <option value="19">
+                    19
+                </option>
+                <option value="20">
+                    20
+                </option>
+                <option value="21">
+                    21
+                </option>
+                <option value="22">
+                    22
+                </option>
+                <option value="23">
+                    23
+                </option>
+                <option value="24">
+                    24
+                </option>
+            </select>
+
+
+
+            <p>Info: Hier können Sie zusätzliche Eingabefelder generieren die bei der Bestellung ausgefüllt werden müssen. Bitte fügen Sie nur "spezial" Felder hinzu, da die Standart-Eingabefelder automatisch von uns generiert werden.</p>
+
+            <div class="form_prev">
+                <div class="order_form" ng-repeat="input in offer.order_form track by $index">
+                    <input type="text" placeholder="{{input}}">
+                    <span ng-click="deleteInputOderForm($index)" class="icon-cup"></span>
+                </div>
+            </div>
+            <hr>
+
+            <input type="text" ng-model="input_form" ng-enter="addInputToForm()" placeholder="Geben sie den Namen des Eingabefeldes ein und bestätigen sie mit Enter">
+            <a ng-click="backTo('show_allgemein')" class="btn btn-primary mt30 fl">
+                Speichern und zurück
+            </a>
+        </div>
+</form>
 </div>
-
 
 <div class="progress_wrapper" ng-class="{'active': showProgress}">
     <div class="progress_wrapper_inner">
-        <p class="tac">{{progressMessage}}</p>
+        <p class="tac">
+            {{progressMessage}}
+        </p>
         <div class="progress">
-            <div class="progress-bar" style="width: 0%;"></div>
+            <div class="progress-bar" style="width: 0%;">
+            </div>
         </div>
     </div>
 </div>
+

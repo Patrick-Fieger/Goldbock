@@ -39,7 +39,7 @@ angular.module('app.messageService', [])
 	}
 
 	var hideMessage = function (){
-		$rootScope.showNotify = false;	
+		$rootScope.showNotify = false;
 	}
 
 	function showMessage(){

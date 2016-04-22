@@ -11,6 +11,7 @@ var OfferSchema = mongoose.Schema({
   per : {type : String},
   title : {type : String},
   price : {type : Number},
+  hours : {type : Number},
   category : {type : String},
   description : {type : String},
   order_form : { type: Array, default : []},
