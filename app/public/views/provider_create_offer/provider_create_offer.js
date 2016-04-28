@@ -215,7 +215,9 @@ angular.module('app.provider_create_offer', ['ngRoute'])
 	}
 
 	$scope.deleteSection = function(index){
-		$scope.offer.sections.splice(index, 1);
+		if(confirm("Wollen Sie diesen Bereich wirklich löschen? Die Daten gehen verloren!")){
+			$scope.offer.sections.splice(index, 1);
+		}
 	}
 
 	$scope.deleteInputOderForm = function(index){

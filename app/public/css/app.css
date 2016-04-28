@@ -1743,6 +1743,9 @@ input {
     outline: 0;
 }
 
+a:hover{
+    cursor: pointer !important;
+}
 
 .inhide{
     opacity: 0
@@ -1750,6 +1753,24 @@ input {
 
 .changeavatar input:hover {
     cursor: pointer;
+}
+
+.big_offer_wrapper{
+    float: left;
+    width: 100%;
+    padding-left: 200px;
+}
+
+.section_holder{
+    position: fixed;
+    top: 0;
+    left: 16.66667%;
+    width: 200px;
+    height: 100%;
+    overflow: scroll;
+    background: rgba(244, 244, 244,0.85);
+    border-right: 1px solid #dce0e0;
+    padding: 10px;
 }
 
 .createoffer_link {
@@ -1770,6 +1791,27 @@ input {
     height: 36px;
     padding-left: 10px;
     margin-bottom: 15px;
+}
+
+.offer-list.spezial li{
+    height: 120px;
+    display: flex;
+    align-items: center;
+    transition: all .3s;
+}
+
+.offer-list.spezial li.active{
+    font-weight: bolder;
+    border-width: 3px;
+    background: #ccc;
+}
+
+.offer-list.spezial li:hover{
+    background: #ccc;
+}
+
+.offer-list.spezial li:hover{
+    cursor: pointer;
 }
 
 .offer-list li span {

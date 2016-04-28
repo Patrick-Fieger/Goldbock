@@ -4,6 +4,21 @@
     box-shadow: none;
     }
 </style>
+
+<div class="section_holder">
+    <div ng-if="offer.sections.length > 0">
+        <!-- <h2>Bereiche</h2> -->
+        <ul ng-class="offer.sections.length > 1 : mt30" class="offer-list spezial">
+            <li ng-repeat="section in offer.sections track by $index" class="ng-scope">
+                <p style="margin: 5px 0 0 0;">{{section.title}} ({{section.type}})</p><span ng-click="deleteSection($index)" class="icon-cup"></span></li>
+        </ul>
+    </div>
+    <a ng-click="backTo('show_section_chooser')" ng-class="offer.sections.length > 0 : mt30" class="btn btn-primary fl wd100">
+        Bereich hinzufügen
+    </a>
+</div>
+
+
 <div class="bigform">
     <div ng-show="show_allgemein">
         <h2 class="mb30">
@@ -13,21 +28,11 @@
             <input class="form-control mb10" ng-model="offer.title" placeholder="Titel des Angebotes" value="" type="text" required/>
             <textarea ckeditor="editorOptions" ng-model="offer.description">
             </textarea>
-            <div ng-if="offer.sections.length > 0">
-                <h2>Bereiche</h2>
-                <ul class="offer-list mt30">
-                    <li ng-repeat="section in offer.sections track by $index" class="ng-scope">
-                        <p style="margin: 5px 0 0 0;">{{section.title}} ({{section.type}})</p><!-- <span class="icon-pencil" ng-click="editSection($index)"></span> --><span ng-click="deleteSection($index)" class="icon-cup"></span></li>
-                </ul>
-            </div>
 
-            <a ng-click="backTo('show_open_hours')" class="btn btn-primary mt30 fl wd33">
+            <a ng-click="backTo('show_open_hours')" class="btn btn-primary mt30 fl wd50">
                 Öffnunszeiten bearbeiten
             </a>
-            <a ng-click="backTo('show_section_chooser')" class="btn btn-primary mt30 fl wd33">
-                Bereich hinzufügen
-            </a>
-            <a ng-click="backTo('show_order_form')" class="btn btn-primary mt30 fl wd33">
+            <a ng-click="backTo('show_order_form')" class="btn btn-primary mt30 fl wd50">
                 Bestellformular konfigurieren
             </a>
             <button ng-click="" class="btn btn-primary mt30 wd100">

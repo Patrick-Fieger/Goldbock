@@ -31,7 +31,8 @@
 					<iframe type="text/html" allowfullscreen frameborder="0" ng-src="{{trustSrc(postToView.link)}}"></iframe>
 				</div>
 				<div ng-if="!postToView.youtube && postToView.link !== ''">
-					<a ng-href="{{postToView.link}}" target="_blank" title="">{{postToView.link}}</a>
+					<iframe frameborder="0" style="height:600px !important;width:100%" ng-src="{{trustSrc(postToView.link)}}"></iframe>
+					<!-- <a ng-href="{{postToView.link}}" target="_blank" title=""></a> -->
 				</div>
 			</div>
 			<div class="columns large-12">

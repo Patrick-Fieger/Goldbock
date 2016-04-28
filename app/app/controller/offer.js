@@ -113,6 +113,7 @@ function uploadOfferData(req, res, next){
 		var offer = req.body.data;
 		Offer.findOne({id: offer.id},function(err,o){
 			checkDeletions(offer,o);
+			offer.activated = false;
 			Offer.update({id: offer.id}, offer, {upsert:true}, function(err){
 				if(!err){
 					res.status(200).end();

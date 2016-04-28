@@ -2,7 +2,7 @@
 
 angular.module('app.profile', ['ngRoute'])
 
-.controller('ProfileCtrl', ['$scope','$location','$timeout','ProviderService','AllService','AuthService','UploadService','$rootScope','MessageService','socket','UserService',function($scope,$location,$timeout,ProviderService,AllService,AuthService,UploadService,$rootScope,MessageService,socket,UserService) {
+.controller('ProfileCtrl', ['$scope','$location','$timeout','ProviderService','AllService','AuthService','UploadService','$rootScope','MessageService','socket','UserService','$sce',function($scope,$location,$timeout,ProviderService,AllService,AuthService,UploadService,$rootScope,MessageService,socket,UserService,$sce) {
 	$scope.profile = {};
 	$scope.post = {
 		text : "",
@@ -38,6 +38,10 @@ angular.module('app.profile', ['ngRoute'])
 	function buildView(data, status, headers, config){
 		$scope.categories = data;
 	}
+
+	$rootScope.trustSrc = function(src) {
+    	return $sce.trustAsResourceUrl(src);
+  	}
 
 
 	var timeout = undefined;

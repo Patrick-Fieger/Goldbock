@@ -6,26 +6,44 @@
 </div>
 
 
-<div ng-show="notproved">
-    <h2 class="danger tac error">
-        Ihr Angebot liegt derzeit bei uns zur Prüfung vor und ist noch nicht für die Öffentlichkeit freigegeben!
-    </h2>
+<div class="section_holder spezial">
+    <div ng-if="offer.sections.length > 0">
+        <ul class="offer-list spezial">
+            <!-- ng-class='{active:$first}' -->
+
+            <li class="active" ng-click="changeView('about')">Über dieses Angebot</li>
+
+            <li ng-repeat="section in offer.sections track by $index"  data-item="{{section.id}}" ng-click="showSection(section.id)">{{section.title}}
+            </li>
+
+            <li ng-click="changeView('card')">Karte</li>
+            <li ng-click="changeView('feed')">Feedback</li>
+            <li ng-click="changeView('check')">Bestellen / Kaufen</li>
+        </ul>
+    </div>
 </div>
-<div ng-show="notallowed">
-    <h2 class="danger tac error">
-        Dieses Angebot ist zur Zeit in Prüfung und ist für sie noch nicht freigeschalten!
-    </h2>
-</div>
-<div ng-if="!notallowed">
+
+<div class="big_offer_wrapper">
+    <div ng-show="notproved">
+        <h2 class="danger tac error">
+            Ihr Angebot liegt derzeit bei uns zur Prüfung vor und ist noch nicht für die Öffentlichkeit freigegeben!
+        </h2>
+    </div>
+    <div ng-show="notallowed">
+        <h2 class="danger tac error">
+            Dieses Angebot ist zur Zeit in Prüfung und ist für sie noch nicht freigeschalten!
+        </h2>
+    </div>
+    <div ng-if="!notallowed">
     <div class="offer">
         <div class="row">
-            <div class="columns large-8">
+            <div class="columns large-12">
                 <div class="columns large-3">
                     <img class="o_avatar" ng-src="{{user.avatar}}"/>
                     <p class="o_name tac">
                         {{user.name}}
                     </p>
-                    <p>
+                    <p class="tac">
                         <a href="?email={{user.email}}#/chat" title="">
                             Nachricht senden
                         </a>
@@ -34,7 +52,7 @@
                 <div class="columns large-9">
                     <div class="columns large-12">
                         <h1 class="o_title">
-                            {{offer.title}}
+                            {{offer.title}} - <i>{{offer.price}} € {{offer.per}}</i>
                         </h1>
                         <p class="o_place">
                             <strong>
@@ -66,17 +84,73 @@
                     </div>
                 </div>
             </div>
-            <div class="columns large-4" ng-class="{sticky:sticky}">
-                <div id="pricing">
-                    <p class="fl">
-                        {{offer.price}} €
-                    </p>
-                    <p class="fr">
-                        {{offer.per}}
-                    </p>
+            </div>
+    </div>
+    <div class="row">
+    <div class="columns large-8">
+        <div class="columns large-12" ng-show="isAbout">
+            <div ng-bind-html="offer.description">
+            </div>
+        </div>
+        <div class="columns large-12" ng-if="offer.sections.length" ng-show="isSection">
+            <div class="sections">
+                <div class="section_item column large-12" ng-class="{active : $first}" id="{{section.id}}" ng-repeat="section in offer.sections">
+                    <div ng-if="section.type == 'fotos'">
+                        <div class="offer_pictures" itemscope itemtype="http://schema.org/ImageGallery">
+                            <figure style="background-image:url({{p}})" on-finish-render="initPhotos()" ng-repeat="p in section.fotos" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+                                <a ng-href="{{p}}" itemprop="contentUrl" data-size="600x400">
+                                <img style="display:none" ng-src="{{p}}" itemprop="thumbnail" alt="Image description" />
+                                </a>
+                            </figure>
+                        </div>
+                    </div>
+
+                    <div ng-if="section.type == 'video'">
+                        <div class="offer_video_wrapper" ng-show="offerVideo">
+                            <video class="wd100" ng-src="{{offer.offer.video}}" controls></video>
+                        </div>
+                    </div>
+
+                    <div ng-if="section.type == 'text'">
+                        <div ng-bind-html="section.text"></div>
+                    </div>
+
                 </div>
-                <div id="book_it">
-                    <form class="form-group mb0" ng-submit="sendRequest()">
+            </div>
+        </div>
+    </div>
+    </div>
+    <mapbox ng-if="isCard" callback="callback" ng-show="isCard">
+    </mapbox>
+
+    <div class="row" ng-show="isFeedback">
+    <div class="columns large-8">
+        <div class="columns large-12">
+            <h1>Feedback <div star-rating rating="comments.rating" click="click3(param)" mouse-hover="mouseHover3(param)" mouse-leave="mouseLeave3(param)"></div>
+                </div></h1>
+
+                <textarea style="height:100px;margin-top:40px" maxlength="140" ng-maxlength="140" ng-trim="5" class="form-control mb10 wd100" ng-model="comments.text" value="comments.text" placeholder="Schreibe ein Kommentar... (Maximal 140 Zeichen)" required>{{comments.text}}</textarea>
+                <a class="btn btn-primary wd100 fl mb10" href="" ng-click="addCommentPost(offer.id)">Kommentar abgeben</a>
+
+                <ul id="comment_section">
+                    <li ng-repeat="comment in offer.comments">
+                        <div class="columns large-12 post_profile_data">
+                            <p class="mt0">{{comment.name}} -
+                                <i am-time-ago="comment.date | amUtc"></i> <i> / </i>
+                                <i>{{comment.date | amUtc | amLocal | amDateFormat:'MM.DD.YYYY'}}</i>
+                            </p>
+                        </div>
+                        <div class="columns large-12">
+                            <p class="mt0">{{comment.text}}</p>
+                        </div>
+                    </li>
+                </ul>
+        </div>
+    </div>
+    </div>
+
+    <div class="row" ng-show="isCheckout">
+        <form class="form-group mb0" ng-submit="sendRequest()">
                         <ul>
                             <li>
                                 <span>
@@ -125,83 +199,9 @@
                         <input class="btn btn-block btn-lg btn-primary mt30"  type="submit" value="Buchung anfragen"/>
                     </input>
                 </form>
-            </div>
-        </div>
+
     </div>
-</div>
-<div class="row">
-    <div class="columns large-8">
-        <div class="columns large-12">
-            <h1>
-                Über dieses Angebot
-            </h1>
-            <div ng-bind-html="offer.description">
-            </div>
-        </div>
-        <div class="columns large-12" ng-if="offer.sections.length">
-            <h1>
-                Bereiche
-            </h1>
-            <div class="sections">
-                <div class="section_headings" ng-repeat="section in offer.sections">
-                    <ul>
-                        <li ng-class='{active:$first}' data-item="{{section.id}}" ng-click="showSection(section.id)" style="width : {{(100 / offer.sections.length) - 2}}%">{{section.title}}</li>
-                    </ul>
-                </div>
 
-                <div class="section_item column large-12" ng-class="{active : $first}" id="{{section.id}}" ng-repeat="section in offer.sections">
-                    <div ng-if="section.type == 'fotos'">
-                        <div class="offer_pictures" itemscope itemtype="http://schema.org/ImageGallery">
-                            <figure style="background-image:url({{p}})" on-finish-render="initPhotos()" ng-repeat="p in section.fotos" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                                <a ng-href="{{p}}" itemprop="contentUrl" data-size="600x400">
-                                <img style="display:none" ng-src="{{p}}" itemprop="thumbnail" alt="Image description" />
-                                </a>
-                            </figure>
-                        </div>
-                    </div>
-
-                    <div ng-if="section.type == 'video'">
-                        <div class="offer_video_wrapper" ng-show="offerVideo">
-                            <video class="wd100" ng-src="{{offer.offer.video}}" controls></video>
-                        </div>
-                    </div>
-
-                    <div ng-if="section.type == 'text'">
-                        <div ng-bind-html="section.text"></div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<mapbox callback="callback">
-</mapbox>
-
-<div class="row">
-    <div class="columns large-8">
-        <div class="columns large-12">
-            <h1>Feedback <div star-rating rating="comments.rating" click="click3(param)" mouse-hover="mouseHover3(param)" mouse-leave="mouseLeave3(param)"></div>
-                </div></h1>
-
-                <textarea style="height:100px;margin-top:40px" maxlength="140" ng-maxlength="140" ng-trim="5" class="form-control mb10 wd100" ng-model="comments.text" value="comments.text" placeholder="Schreibe ein Kommentar... (Maximal 140 Zeichen)" required>{{comments.text}}</textarea>
-                <a class="btn btn-primary wd100 fl mb10" href="" ng-click="addCommentPost(offer.id)">Kommentar abgeben</a>
-
-                <ul id="comment_section">
-                    <li ng-repeat="comment in offer.comments">
-                        <div class="columns large-12 post_profile_data">
-                            <p class="mt0">{{comment.name}} -
-                                <i am-time-ago="comment.date | amUtc"></i> <i> / </i>
-                                <i>{{comment.date | amUtc | amLocal | amDateFormat:'MM.DD.YYYY'}}</i>
-                            </p>
-                        </div>
-                        <div class="columns large-12">
-                            <p class="mt0">{{comment.text}}</p>
-                        </div>
-                    </li>
-                </ul>
-        </div>
-    </div>
 </div>
 </div>
 </div>
