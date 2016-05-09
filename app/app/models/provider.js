@@ -18,6 +18,7 @@ var ProviderSchema = mongoose.Schema({
   about : { type: String},
   avatar : { type: Object},
   offers : { type: Array},
+  liked : { type: Array},
   geo : { type: Object},
   deactivated : false
 });

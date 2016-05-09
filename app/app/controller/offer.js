@@ -194,11 +194,43 @@ function getoffer(req,res) {
 				var data = {
 					offer: offer_,
 					creator : user,
-					isown : offer_.creatorId == req.user.id__
+					isown : offer_.creatorId == req.user.id__,
+
 				};
+
+				if(user.likes){
+					data.isfavorite = user.likes.indexOf(offer_.id) > -1
+				}else{
+					data.isfavorite = false;
+				}
 
 				res.send(data).status(200).end();
 			});
+		});
+	});
+}
+
+function favorites(req,res){
+	var d = req.body;
+
+	Offer.findOne({id : d.id},function(err,offer){
+		if(d.addOrRemove){
+			offer.likes--;
+		}else{
+			offer.likes++;
+		}
+
+		offer.save();
+	});
+
+	eval(capitalizeFirstLetter(req.user.role)).findOne({ email: req.user.email }, function(err, user) {
+		if(user.likes.indexOf(d.id) > -1){
+			user.likes.splice(user.likes.indexOf(d.id) , 0);
+		}else{
+			user.likes.push(user.likes.indexOf(d.id));
+		}
+		user.save(function(){
+			res.send(200).end();
 		});
 	});
 }
@@ -331,7 +363,10 @@ function capitalizeFirstLetter(string) {
 
 
 
+
+
 module.exports = {
+	favorites : favorites,
 	addComment : addComment,
 	changeOfferState : changeOfferState,
 	getoffersuser : getoffersuser,

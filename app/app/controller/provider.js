@@ -314,46 +314,46 @@ function offer(req, res, next){
 }
 
 
-function favorites(req, res, next){
-	var fav = req.body;
+// function favorites(req, res, next){
+// 	var fav = req.body;
 
 
-	User.findOne({email : req.user.email},function(err,user){
-		if(user.liked.indexOf(fav.id) == -1 && !fav.addOrRemove){
-			user.liked.push(fav.id);
-		}else if(user.liked.indexOf(fav.id) > -1 && fav.addOrRemove){
-			user.liked.splice(user.liked.indexOf(fav.id),1);
-		}
+// 	User.findOne({email : req.user.email},function(err,user){
+// 		if(user.liked.indexOf(fav.id) == -1 && !fav.addOrRemove){
+// 			user.liked.push(fav.id);
+// 		}else if(user.liked.indexOf(fav.id) > -1 && fav.addOrRemove){
+// 			user.liked.splice(user.liked.indexOf(fav.id),1);
+// 		}
 
-		user.save();
+// 		user.save();
 
-		Provider.findOne({offers: {$elemMatch: {id : fav.id}}}, function (err, offer) {
-		    if (err){
-		        console.log(err)
-		    }else{
-				var alloffer = offer.offers;
+// 		Provider.findOne({offers: {$elemMatch: {id : fav.id}}}, function (err, offer) {
+// 		    if (err){
+// 		        console.log(err)
+// 		    }else{
+// 				var alloffer = offer.offers;
 
-		        for(var i = 0; i < alloffer.length; i++) {
-			    	if( fav.id == alloffer[i].id) {
-			    		if(!fav.addOrRemove){
-			    			alloffer[i].likes++;
-			    		}else{
-			    			alloffer[i].likes--;
-			    		}
+// 		        for(var i = 0; i < alloffer.length; i++) {
+// 			    	if( fav.id == alloffer[i].id) {
+// 			    		if(!fav.addOrRemove){
+// 			    			alloffer[i].likes++;
+// 			    		}else{
+// 			    			alloffer[i].likes--;
+// 			    		}
 
-			    		Provider.update({email: offer.email}, {$set: { offers: alloffer }}, {upsert: true}, function(err){if(!err){res.status(200).end();}})
+// 			    		Provider.update({email: offer.email}, {$set: { offers: alloffer }}, {upsert: true}, function(err){if(!err){res.status(200).end();}})
 
-			    		// offer.save(function(err){
-			    		// 	if(!err){
-			    		// 		res.status(200).end();
-			    		// 	}
-			    		// });
-			    	}
-				}
-		    }
-		});
-	});
-}
+// 			    		// offer.save(function(err){
+// 			    		// 	if(!err){
+// 			    		// 		res.status(200).end();
+// 			    		// 	}
+// 			    		// });
+// 			    	}
+// 				}
+// 		    }
+// 		});
+// 	});
+// }
 
 
 function clearProgress(req, res, next){
@@ -453,6 +453,6 @@ module.exports = {
 	// updateOfferData : updateOfferData,
 	progress : progress,
 	update : update,
-	favorites : favorites,
+	// favorites : favorites,
 	addAdvertising : addAdvertising
 }

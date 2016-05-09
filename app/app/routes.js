@@ -38,7 +38,7 @@ module.exports = function(app){
 
 
 
-	app.post('/favorites', pass.isAuthenticatedToMakeRequest , provider.favorites);
+	app.post('/favorites', pass.isAuthenticatedToMakeRequest , offer.favorites);
 	app.post('/clear/upload', provider.clearProgress);
 	app.get('/offers', pass.isAuthenticatedToMakeRequest , provider.offers);
 	app.delete('/offer', pass.isAuthenticatedToMakeRequest , offer.deleteOffer);

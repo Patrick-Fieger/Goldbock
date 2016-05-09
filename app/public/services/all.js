@@ -16,6 +16,10 @@ angular.module('app.allService', [])
 		return $http.get('/isloggedin')
 	}
 
+	var favorites = function(data){
+		return $http.post('/favorites', data);
+	}
+
 	var getAvatarInfos = function(){
 		return $http.get('/avatarinfos');
 	}
@@ -69,6 +73,7 @@ angular.module('app.allService', [])
 	}
 
 	return {
+		favorites : favorites,
 		getAllUsers : getAllUsers,
 		getOffer : getOffer,
 		getOfferFromUser : getOfferFromUser,

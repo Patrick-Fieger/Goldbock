@@ -53,6 +53,8 @@ angular.module('app.offer', ['ngRoute']).config(['$routeProvider', function($rou
         $scope.user = data.creator;
         $scope.offer = data.offer;
         $scope.offer.companyAmount = 10;
+        $scope.isown = data.isown;
+        $scope.isfav = data.isfavorite;
         $scope.user.avatar = AllService.removePublicInLink($scope.user.avatar.small);
 
         console.log($scope.offer)
@@ -230,6 +232,31 @@ angular.module('app.offer', ['ngRoute']).config(['$routeProvider', function($rou
             marker.openPopup();
         },1000)
     };
+
+
+    $scope.addRemoveFromFavorites = function() {
+        // if($scope.isown){
+        //     alert("Sie können keine Angebot von sich selbst liken!")
+        // }
+        //
+
+        var fav = {
+            id: $scope.offer.id
+        }
+
+        if ($scope.isfav) {
+            $scope.offer.likes--;
+            fav.addOrRemove = true;
+        } else {
+            $scope.offer.likes++;
+            fav.addOrRemove = false;
+        }
+
+        $scope.isfav = !$scope.isfav;
+        AllService.favorites(fav);
+    }
+
+
 
     $scope.sendRequest = function() {
         alert('Buchungen sind zu diesem Zwitpunkt leider noch nicht möglich!');
